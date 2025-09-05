@@ -1,0 +1,7 @@
+/* Thêm một số tiện ích nhỏ ngoài Tailwind */
+.card { @apply bg-white rounded-2xl shadow p-6 border border-gray-100 hover:shadow-md transition; }
+.card-title { @apply text-lg font-semibold mb-1; }
+.card-desc { @apply text-sm text-gray-600; }
+.btn { @apply px-3 py-1.5 rounded-lg border bg-white hover:bg-gray-50 text-sm; }
+.nav-link { @apply px-2 py-1 rounded-md hover:bg-gray-100; }
+.nav-active { @apply bg-gray-900 text-white hover:bg-gray-900; }

@@ -4,60 +4,211 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Curriculum Matrices | Trang chủ</title>
-  <!-- Tailwind CDN cho nhanh gọn (không cần build) -->
+
+  <!-- SEO cơ bản -->
+  <meta name="description" content="Cổng ma trận chuẩn đầu ra chương trình (PLO), học phần (Course), chỉ số thực thi (PI) và phân bổ khung của Khoa Y học cổ truyền - ĐH Y Dược TP.HCM." />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./css/styles.css" />
+
+  <style>
+    /* Tinh chỉnh nhỏ cho card/btn nếu cần (có thể đã có trong styles.css của bạn) */
+    .btn { @apply inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-sky-600 text-white text-sm font-medium hover:bg-sky-700 transition; }
+    .card { @apply rounded-2xl border bg-white shadow-sm hover:shadow-md transition; }
+    .card-body { @apply p-5; }
+    .card-title { @apply text-lg font-semibold; }
+    .card-desc { @apply text-sm text-gray-600; }
+
+    /* Hero background pattern */
+    .hero-bg {
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(56,189,248,0.25), transparent 60%),
+        radial-gradient(1000px 500px at 90% -20%, rgba(167,139,250,0.25), transparent 60%),
+        linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .glass {
+      background: rgba(255,255,255,.7);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    /* Logo sizing */
+    .logo-wrap img { height: 64px; width: auto; }
+    @media (min-width: 768px) {
+      .logo-wrap img { height: 72px; }
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-  <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-3 font-bold text-lg">
+        <img src="./assets/logo-ump.png" alt="Logo ĐH Y Dược TP.HCM" class="h-8 w-auto hidden sm:block">
+        <span>Curriculum Matrices</span>
+      </a>
       <ul class="flex gap-4 text-sm" id="topnav">
-        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">Ma trận PLO-PI</a></li>
-        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">Ma trận PLO-Course</a></li>
-        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">Ma trận CLO-PLO</a></li>
+        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
+        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
+        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">CLO-PLO</a></li>
         <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link">Phân bổ khung</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-10">
-    <section class="mb-10">
-      <h1 class="text-2xl font-semibold mb-3">Trang chủ</h1>
-      <p class="text-gray-700">
-        Đây là cổng điều hướng đến các ma trận và trang “Phân bổ khung”. Bạn có thể mở từng trang bằng thanh điều hướng phía trên.
-      </p>
+  <!-- Hero -->
+  <section class="hero-bg border-b">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-14">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div class="space-y-5">
+          <div class="logo-wrap flex items-center gap-5">
+            <img src="./assets/logo-ump.png" alt="ĐH Y Dược TP.HCM" />
+            <img src="./assets/logo-yhct.png" alt="Khoa Y học cổ truyền" />
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold leading-tight">
+            Khoa Y học cổ truyền<br/>
+            <span class="text-sky-600">Đại học Y Dược TP.HCM</span>
+          </h1>
+          <p class="text-gray-700 text-base md:text-lg">
+            Nền tảng quản trị ma trận chương trình đào tạo: liên kết PLO, CLO, học phần và chỉ số thực thi; hỗ trợ phân tích, trực quan hóa và xuất/nhập dữ liệu.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="./plo-course.html" class="btn">Bắt đầu với PLO–Course</a>
+            <a href="./plo-pi.html" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium hover:bg-gray-50 transition">Xem PLO–PI</a>
+          </div>
+          <div class="flex items-center gap-6 text-xs text-gray-500">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              CSV/JSON Import & Export
+            </div>
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h18M3 12h18M3 17h18"/></svg>
+              Ma trận động
+            </div>
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L12 14.347l-2.385 1.924c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L5.98 8.72c-.783-.57-.38-1.81.588-1.81H10.03a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+              Phân tích & trực quan
+            </div>
+          </div>
+        </div>
+
+        <!-- Thẻ thông tin Sứ mạng / Tầm nhìn / Giá trị / Triết lý -->
+        <div class="glass rounded-2xl p-6 md:p-7 shadow-sm">
+          <div class="space-y-5">
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wide text-sky-700">Sứ mạng</div>
+              <p class="mt-1 text-sm text-gray-700">
+                Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.
+              </p>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wide text-sky-700">Tầm nhìn</div>
+              <p class="mt-1 text-sm text-gray-700">
+                Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam, với chương trình giảng dạy và nghiên cứu khoa học về Y học cổ truyền kết hợp Y học hiện đại ngang tầm các đại học trong khu vực Châu Á - Thái Bình Dương.
+              </p>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="rounded-xl border p-4">
+                <div class="text-xs font-semibold uppercase tracking-wide text-sky-700">Giá trị cốt lõi</div>
+                <p class="mt-1 text-sm text-gray-700">Chuyên nghiệp — Chất lượng — Năng động — Sáng tạo</p>
+              </div>
+              <div class="rounded-xl border p-4">
+                <div class="text-xs font-semibold uppercase tracking-wide text-sky-700">Triết lý giáo dục</div>
+                <p class="mt-1 text-sm text-gray-700">
+                  “Phát huy nội lực và tăng cường hợp tác quốc tế nhằm tối ưu môi trường dạy và học, lấy người học làm trung tâm, xây dựng đội ngũ cán bộ y tế toàn diện, có đức có tài, có trách nhiệm, sẵn sàng thích ứng và hội nhập”
+                </p>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500">* Nội dung do Khoa Y học cổ truyền cung cấp.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick links -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-10">
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Đi tới ma trận & công cụ</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="./plo-pi.html" class="card group">
+          <div class="card-body">
+            <div class="flex items-center justify-between">
+              <h3 class="card-title">PLO-PI</h3>
+              <span class="rounded-full bg-sky-50 text-sky-700 text-xs px-2 py-1 border">Phân tích</span>
+            </div>
+            <p class="card-desc mt-1">Liên kết chuẩn đầu ra chương trình (PLO) với chỉ số thực thi (PI).</p>
+            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+          </div>
+        </a>
+
+        <a href="./plo-course.html" class="card group">
+          <div class="card-body">
+            <div class="flex items-center justify-between">
+              <h3 class="card-title">PLO-Course</h3>
+              <span class="rounded-full bg-emerald-50 text-emerald-700 text-xs px-2 py-1 border">CSV/JSON</span>
+            </div>
+            <p class="card-desc mt-1">Mapping học phần với PLO, xuất/nhập kết nối, ma trận & tóm tắt I/R/M/A.</p>
+            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+          </div>
+        </a>
+
+        <a href="./clo-plo.html" class="card group">
+          <div class="card-body">
+            <div class="flex items-center justify-between">
+              <h3 class="card-title">CLO-PLO</h3>
+              <span class="rounded-full bg-purple-50 text-purple-700 text-xs px-2 py-1 border">Mở rộng</span>
+            </div>
+            <p class="card-desc mt-1">Liên kết CLO → PLO; hỗ trợ trực quan và xuất/nhập kết nối.</p>
+            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+          </div>
+        </a>
+
+        <a href="./phan-bo-khung.html" class="card group">
+          <div class="card-body">
+            <div class="flex items-center justify-between">
+              <h3 class="card-title">Phân bổ khung</h3>
+              <span class="rounded-full bg-amber-50 text-amber-700 text-xs px-2 py-1 border">Kế hoạch</span>
+            </div>
+            <p class="card-desc mt-1">Phân bổ học phần, tín chỉ, giai đoạn đào tạo theo nhóm khối kiến thức.</p>
+            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+          </div>
+        </a>
+      </div>
     </section>
 
-    <section class="grid sm:grid-cols-2 gap-4">
-      <a href="./plo-pi.html" class="card">
-        <h2 class="card-title">Ma trận PLO-PI</h2>
-        <p class="card-desc">Liên kết chuẩn đầu ra chương trình (PLO) với chỉ số thực thi (PI).</p>
-      </a>
-      <a href="./plo-course.html" class="card">
-        <h2 class="card-title">Ma trận PLO-Course</h2>
-        <p class="card-desc">Mapping học phần với PLO — bạn đã có sẵn chức năng, chỉ cần gắn vào.</p>
-      </a>
-      <a href="./clo-plo.html" class="card">
-        <h2 class="card-title">Ma trận CLO-PLO</h2>
-        <p class="card-desc">Liên kết CLO → PLO — bạn đã có sẵn, dán code vào file JS tương ứng.</p>
-      </a>
-      <a href="./phan-bo-khung.html" class="card">
-        <h2 class="card-title">Phân bổ khung</h2>
-        <p class="card-desc">Phân bổ khung chương trình (môn học, tín chỉ, cụm…).</p>
-      </a>
+    <!-- Thông tin liên hệ / brand -->
+    <section class="rounded-2xl border p-6 bg-white">
+      <div class="grid md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2">
+          <h3 class="text-lg font-semibold mb-1">Khoa Y học cổ truyền — Đại học Y Dược TP.HCM</h3>
+          <p class="text-sm text-gray-600">
+            Địa chỉ, thông tin liên hệ và kênh chính thức có thể được đặt tại đây (nếu bạn muốn).
+          </p>
+        </div>
+        <div class="flex md:justify-end gap-4">
+          <img src="./assets/logo-ump.png" alt="ĐH Y Dược TP.HCM" class="h-10 w-auto">
+          <img src="./assets/logo-yhct.png" alt="Khoa Y học cổ truyền" class="h-10 w-auto">
+        </div>
+      </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-gray-500">
-      © 2025 — Curriculum Matrices
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500 flex items-center justify-between">
+      <div>© 2025 — Curriculum Matrices</div>
+      <div class="flex items-center gap-3">
+        <a class="hover:text-gray-700" href="./plo-course.html">Bắt đầu ngay</a>
+      </div>
     </div>
   </footer>
 
   <script src="./js/common.js"></script>
   <script>
-    // đặt active cho nav ở trang chủ (không có data-nav riêng)
+    // Active nav cho trang chủ (không có data-nav riêng)
     window.__setActive && window.__setActive("");
   </script>
 </body>

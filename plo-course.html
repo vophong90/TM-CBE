@@ -6,6 +6,9 @@
   <title>Ma trận PLO-Course</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./css/styles.css" />
+  <!-- Thư viện cần dùng -->
+  <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
@@ -26,15 +29,107 @@
       <div class="text-sm text-gray-500">/plo-course.html</div>
     </div>
 
-    <!-- Khu vực bạn “cắm” chức năng đã có -->
-    <div id="app-plo-course" class="card p-4">
-      <!-- Gợi ý: nếu logic của bạn tạo bảng, hãy mount vào đây -->
-      <div id="toolbar" class="flex gap-2 mb-3">
-        <button id="btn-load" class="btn">Nạp dữ liệu</button>
-        <button id="btn-export" class="btn">Xuất CSV</button>
+    <div id="app-plo-course" class="card p-4 space-y-6">
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Panel trái: nạp CSV + thao tác kết nối -->
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <h3 class="font-semibold">Nạp dữ liệu CSV</h3>
+            <label class="block text-sm">PLO.csv (label,content)
+              <input type="file" id="ploCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+            </label>
+            <label class="block text-sm">COURSE.csv (id,label,fullname,group)
+              <input type="file" id="courseCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+            </label>
+            <button id="btnBuild" class="btn">Xây đồ thị</button>
+            <div id="buildStatus" class="text-xs text-gray-500"></div>
+          </div>
+
+          <hr>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">Thêm kết nối PLO → Course</h3>
+            <div class="grid grid-cols-1 gap-2 text-sm">
+              <label>PLO (label)
+                <select id="plo-add" class="mt-1 w-full border rounded p-1"></select>
+              </label>
+              <label>Course (id — label/fullname)
+                <select id="hp-add" class="mt-1 w-full border rounded p-1"></select>
+              </label>
+              <label>Mức độ (I/R/M/A)
+                <select id="level-add" class="mt-1 w-full border rounded p-1">
+                  <option>I</option><option>R</option><option>M</option><option>A</option>
+                </select>
+              </label>
+              <button id="btnAdd" class="btn">Thêm kết nối</button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">Chỉnh sửa kết nối đang chọn</h3>
+            <div class="grid grid-cols-1 gap-2 text-sm">
+              <label>Mức độ
+                <select id="level-select" class="mt-1 w-full border rounded p-1">
+                  <option>I</option><option>R</option><option>M</option><option>A</option>
+                </select>
+              </label>
+              <div class="flex gap-2">
+                <button id="btnUpdateLevel" class="btn">Cập nhật mức độ</button>
+                <button id="btnDelete" class="btn">Xoá kết nối</button>
+                <button id="btnUndo" class="btn">Hoàn tác xoá</button>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">Nhập/Xuất kết nối</h3>
+            <div class="flex flex-col gap-2 text-sm">
+              <button id="btnExportCSV" class="btn">Xuất CSV (plo_label,course_id,level)</button>
+              <label>Nhập CSV kết nối
+                <input type="file" id="connCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel phải (span 2 cột): Graph + Tooltip -->
+        <div class="md:col-span-2">
+          <div id="cy" class="w-full rounded-xl border" style="height: 520px;"></div>
+          <div id="tooltip"
+               style="position:absolute; display:none; background:#fff; border:1px solid #ddd; padding:6px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); font-size:12px; max-width:420px; z-index:50;"></div>
+          <p class="text-xs text-gray-500 mt-2">
+            Gợi ý: bấm vào cạnh để chọn (điều chỉnh mức độ/xoá). Bấm vào nền để bỏ chọn.
+          </p>
+        </div>
       </div>
-      <div id="matrix-container" class="overflow-auto">
-        <!-- JS sẽ render ma trận vào đây -->
+
+      <!-- Bảng ma trận & tóm tắt -->
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card">
+          <h3 class="font-semibold mb-2">Ma trận PLO × Course</h3>
+          <div class="overflow-auto">
+            <table id="matrixTable" class="min-w-full text-sm border border-gray-200">
+              <thead class="bg-gray-100 sticky top-0"><tr><th>Course</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold mb-2">Tổng hợp số lượng I/R/M/A theo Course</h3>
+          <div class="overflow-auto">
+            <table id="summaryTable" class="min-w-full text-sm border border-gray-200">
+              <thead class="bg-gray-100 sticky top-0">
+                <tr><th>Course (fullname)</th><th>TC</th><th>I</th><th>R</th><th>M</th><th>A</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">“TC” là số tín chỉ (nếu bạn muốn hiển thị, hiện mặc định để trống).</p>
+        </div>
       </div>
     </div>
   </main>

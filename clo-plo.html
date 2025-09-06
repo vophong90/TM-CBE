@@ -44,8 +44,6 @@
     .btn-outline:hover{background:#f8fafc}
     .btn-soft{background:rgba(14,123,208,.08);color:#0B66AA}
     .btn-soft:hover{background:rgba(14,123,208,.12)}
-    .btn-ghost{background:transparent;border:1px dashed #d1d5db}
-    .btn-ghost:hover{background:#f8fafc}
 
     /* Inputs */
     .input{border:1px solid #d1d5db;border-radius:.75rem;padding:.55rem .9rem}
@@ -117,25 +115,21 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               Xây đồ thị
             </button>
-            <div id="buildStatus" class="text-xs text-gray-500">—</div>
+            <div id="buildStatus" class="text-xs text-gray-500"></div>
           </div>
 
           <!-- B. COURSE–CLO -->
           <div class="rounded-xl border p-4 bg-white space-y-3">
             <div class="font-semibold text-sm">B. COURSE–CLO.csv</div>
             <input id="csvCourseCLO" type="file" accept=".csv" class="input w-full">
-            <div class="flex flex-wrap gap-2">
-              <button id="btnLoadCourseCLO" class="btn btn-soft">Nạp COURSE–CLO</button>
-              <button id="btnExportCLO" class="btn btn-outline">Xuất CSV</button>
-            </div>
-            <div id="cloStatus" class="text-xs text-gray-500">—</div>
+            <div id="cloStatus" class="text-xs text-gray-500"></div>
           </div>
 
           <!-- C. Bloom verbs -->
           <div class="rounded-xl border p-4 bg-white space-y-3">
             <div class="font-semibold text-sm">C. Bloom verbs.csv</div>
             <input id="csvBloom" type="file" accept=".csv" class="input w-full">
-            <div id="bloomStatus" class="text-xs text-gray-500">—</div>
+            <div id="bloomStatus" class="text-xs text-gray-500"></div>
           </div>
         </div>
       </section>
@@ -281,7 +275,7 @@
   <script src="./js/common.js"></script>
   <script src="./js/clo-plo.js"></script>
   <script>
-    // Phím tắt tiện dụng (tuỳ chọn, gọi hàm trong clo-plo.js nếu cần)
+    // Tiện ích xem đồ thị
     document.getElementById('btnFit')?.addEventListener('click', () => {
       if (window.cy) window.cy.fit();
     });
@@ -291,6 +285,7 @@
         const a = document.createElement('a'); a.href = png64; a.download = 'CLO-PLO-graph.png'; a.click();
       }
     });
+
     // Đánh dấu active nav
     window.__setActive && window.__setActive("clo-plo");
   </script>

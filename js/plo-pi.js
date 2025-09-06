@@ -5,10 +5,11 @@
 //
 // Features:
 //   - Vẽ mạng lưới PLO ↔ PI (Cytoscape)
-//   - Thêm / Xoá / Hoàn tác xóa kết nối
+//   - Thêm / Xoá / Hoàn tác xoá kết nối
 //   - Tooltip hiển thị content khi rê chuột vào node
 //   - Bảng kết quả có bộ lọc (PLO/PI) và HIỂN THỊ CẢ label + content
 //   - Nhập / Xuất CSV các kết nối (2 cột: plo, pi)
+//   - Robust CSV: tự bỏ BOM ở header, case-insensitive, trim
 //
 // Libs: Cytoscape 3.x, PapaParse 5.x
 
@@ -23,14 +24,6 @@ let PLO_KEYS = [];
 let PI_KEYS = [];
 
 // --------- Helpers ---------
-function parseCsvFromInput(file) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(file, {
-      header: true, skipEmptyLines: true,
-      complete: res => resolve(res.data), error: reject
-    });
-  });
-}
 function esc(s) {
   return String(s ?? '')
     .replace(/&/g,'&amp;')
@@ -44,6 +37,32 @@ function csvQuote(v) {
   const s = String(v).replace(/"/g,'""');
   return /[",\n]/.test(s) ? `"${s}"` : s;
 }
+
+// Chuẩn hoá 1 hàng CSV: bỏ BOM ở khoá, lower-case, trim value
+function normalizeRow(row) {
+  const out = {};
+  Object.keys(row).forEach(k => {
+    const nk = k.replace(/^\ufeff/, '').trim().toLowerCase(); // header
+    let v = row[k];
+    if (typeof v === 'string') v = v.replace(/^\ufeff/, '').trim();
+    out[nk] = v;
+  });
+  return out;
+}
+
+// Parse CSV từ input file và trả về mảng hàng đã chuẩn hoá
+function parseCsvFromInput(file) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: false,
+      complete: res => resolve(res.data.map(normalizeRow)),
+      error: reject
+    });
+  });
+}
+
 function buildElements() {
   const ploNodes = PLO_KEYS.map(l => ({ data: { id: `PLO::${l}`, type: 'PLO', label: l } }));
   const piNodes  = PI_KEYS.map(l => ({ data: { id: `PI::${l}`,  type: 'PI',  label: l } }));
@@ -146,20 +165,20 @@ async function bootFromCsvInputs() {
 
   PLO = {}; PLO_KEYS = [];
   ploRows.forEach(r => {
-    const label = (r.label || r.LABEL || '').trim();
-    const content = (r.content || r.CONTENT || '').trim();
+    const label = (r['label'] ?? '').trim();
+    const content = (r['content'] ?? '').trim();
     if (label) { PLO[label] = content; PLO_KEYS.push(label); }
   });
 
   PIs = {}; PI_KEYS = [];
   piRows.forEach(r => {
-    const label = (r.label || r.LABEL || '').trim();
-    const content = (r.content || r.CONTENT || '').trim();
+    const label = (r['label'] ?? '').trim();
+    const content = (r['content'] ?? '').trim();
     if (label) { PIs[label] = content; PI_KEYS.push(label); }
   });
 
   createCy(buildElements());
-  document.getElementById('buildStatus').textContent = 'Đã dựng đồ thị từ CSV.';
+  setStatus('Đã dựng đồ thị từ CSV (PLO & PI).');
 }
 
 // --------- UI (dropdowns + table) ---------
@@ -231,14 +250,23 @@ function refreshUI() {
   updateTable();
 }
 
+function setStatus(msg) {
+  const el = document.getElementById('buildStatus');
+  if (!el) return;
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  el.textContent = `[${hh}:${mm}] ${msg}`;
+}
+
 // --------- Connection ops ---------
 function addConnection() {
   if (!cy) return;
-  const s = document.getElementById('plo-add').value; // PLO label
-  const t = document.getElementById('pi-add').value;  // PI label
+  const s = (document.getElementById('plo-add').value || '').trim(); // PLO label
+  const t = (document.getElementById('pi-add').value  || '').trim(); // PI label
   if (!s || !t) { alert('Chọn PLO và PI trước.'); return; }
-  if (!PLO[s])  { alert('PLO không tồn tại.'); return; }
-  if (!PIs[t])  { alert('PI không tồn tại.'); return; }
+  if (!PLO[s])  { alert(`PLO "${s}" không tồn tại.`); return; }
+  if (!PIs[t])  { alert(`PI "${t}" không tồn tại.`); return; }
 
   const sid = `PLO::${s}`, tid = `PI::${t}`;
   const id  = `e_${s}__${t}`;
@@ -283,26 +311,28 @@ function exportConnectionsCSV() {
 }
 
 async function importConnectionsCSV(file) {
-  if (!cy) { alert('Hãy dựng đồ thị từ CSV trước.'); return; }
-  const data = await new Promise((resolve, reject) => {
-    Papa.parse(file, { header: true, skipEmptyLines: true, complete: res => resolve(res.data), error: reject });
-  });
+  if (!cy) { alert('Hãy dựng đồ thị từ CSV trước (nạp PLO & PI).'); return; }
+  const rows = await parseCsvFromInput(file); // đã normalize header & trim
 
-  // Xóa các cạnh hiện tại
+  let added = 0, skipped = 0, missing = 0;
+
+  // Xoá các cạnh hiện tại để đồng bộ theo file nhập
   cy.edges().remove();
 
-  data.forEach(r => {
-    const plo = (r.plo || r.PLO || r.Plo || '').trim();
-    const pi  = (r.pi  || r.PI  || r.Pi  || '').trim();
-    if (!plo || !pi) return;
-    if (!PLO[plo] || !PIs[pi]) return; // bỏ nếu node chưa tồn tại
+  rows.forEach(r => {
+    const plo = (r['plo'] ?? '').trim();
+    const pi  = (r['pi']  ?? '').trim();
+    if (!plo || !pi) { skipped++; return; }
+    if (!PLO[plo] || !PIs[pi]) { missing++; return; } // node chưa có → bỏ qua
     const id = `e_${plo}__${pi}`;
     if (!cy.getElementById(id).length) {
       cy.add({ data: { id, source: `PLO::${plo}`, target: `PI::${pi}` } });
+      added++;
     }
   });
 
   cy.layout({ name: 'cose', animate: true }).run();
+  setStatus(`Nhập kết nối: thêm ${added}, thiếu node ${missing}, bỏ qua ${skipped}.`);
 }
 
 // --------- Wire DOM ---------
@@ -324,12 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTable();
   });
 
-  // Import/Export CSV connections (support 2 id variants)
-  const exportBtn = document.getElementById('btnExportConnCSV') || document.getElementById('btnExportCSV');
-  exportBtn?.addEventListener('click', exportConnectionsCSV);
-
-  const connInput = document.getElementById('connCsvInput') || document.getElementById('piConnCsvInput');
-  connInput?.addEventListener('change', (e) => {
+  // Import/Export CSV connections
+  document.getElementById('btnExportConnCSV')?.addEventListener('click', exportConnectionsCSV);
+  document.getElementById('connCsvInput')?.addEventListener('change', (e) => {
     const f = e.target.files?.[0]; if (!f) return;
     importConnectionsCSV(f).catch(err => alert('Không đọc được CSV kết nối: ' + err));
   });

@@ -4,86 +4,93 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Curriculum Matrices | Trang chủ</title>
-  <!-- App icons / favicon -->
-  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/assets/brand/favicon.ico">
-  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
-  <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
-  <link rel="manifest" href="/assets/brand/site.webmanifest">
+
+  <!-- App icons / favicon (DÙNG ĐƯỜNG DẪN TƯƠNG ĐỐI CHO PROJECT SITE) -->
+  <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="./assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="./assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="./assets/brand/site.webmanifest">
   <meta name="theme-color" content="#0E7BD0">
-  
+
   <!-- Social sharing -->
   <meta property="og:title" content="Curriculum Matrices">
   <meta property="og:description" content="Nền tảng quản trị ma trận PLO, Course, CLO và PI – Khoa Y học cổ truyền, ĐH Y Dược TP.HCM.">
-  <meta property="og:image" content="/assets/brand/og-image.png">
+  <meta property="og:image" content="./assets/brand/og-image.png">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://<username>.github.io/<repo>/">
+  <meta property="og:url" content="https://vophong90.github.io/TM-CBE/">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Font & Tailwind (CDN, không cần build) -->
+  <!-- Font & Tailwind (CDN) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script>
-  // UMP brand blue
-  const brand = {
-    50:'#EEF7FF', 100:'#D8ECFF', 200:'#BADBFF', 300:'#8EC4FF', 400:'#5AA9F7',
-    500:'#2D8FE8', 600:'#0E7BD0', 700:'#0B66AA', 800:'#0D5186', 900:'#0E436F'
-  };
-  // YHCT green (alias 'herb' để tương thích class cũ)
-  const yhct = {
-    50:'#EFFAF3', 100:'#D7F2E2', 200:'#B5E6C9', 300:'#86D6AA', 400:'#53C48B',
-    500:'#2BAE72', 600:'#228C5C', 700:'#1C734C', 800:'#165B3D', 900:'#124B33'
-  };
-  // Gold accent (điểm nhấn theo viền/chữ logo)
-  const accent = {
-    50:'#FFFAE8', 100:'#FFF3C4', 200:'#FFE58A', 300:'#FFD34D', 400:'#FFC21E',
-    500:'#FFB000', 600:'#F59F00', 700:'#D97706', 800:'#B45309', 900:'#92400E'
-  };
-
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: { brand, yhct, herb: yhct, accent },
-        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] }
+    // Brand palette
+    const brand = {
+      50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+      500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'
+    };
+    const yhct = {
+      50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+      500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
+    };
+    const accent = {
+      50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+      500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'
+    };
+    tailwind.config = {
+      theme: {
+        extend: { colors: { brand, yhct, herb: yhct, accent },
+                  fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] } }
       }
-    }
-  };
-</script>
+    };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="stylesheet" href="./css/styles.css" />
 
-<style>
-  :root { --brand-600:#0E7BD0; }
-  /* Hero: dùng ảnh + lớp phủ gradient, tự tối ưu mobile */
-  .hero {
-    position: relative;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.92) 100%),
-      url('/assets/brand/hero.jpg') center/cover no-repeat;
-  }
-  @media (max-width: 480px) {
-    .logo-badge { width: 72px; height: 72px; }
-    .hero h1 { font-size: 1.75rem; line-height: 1.25; }
-  }
-  /* Logo badge giữ nguyên từ bản trước */
-  .logo-badge { width: 84px; height: 84px; border-radius:9999px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06); display:grid; place-items:center; overflow:hidden;}
-  .logo-badge img { width:88%; height:88%; object-fit:contain; }
-</style>
-  
+  <style>
+    /* Hero: gradient + (tùy chọn) ảnh */
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(1000px 500px at -10% -10%, rgba(14,123,208,.10), transparent 60%),
+        radial-gradient(900px 450px at 110% -20%, rgba(43,174,114,.10), transparent 60%),
+        linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+    }
+    /* Nếu bạn có ./assets/brand/hero.jpg, bật ảnh bằng dòng dưới:
+       .hero { background-image:
+         linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(248,250,252,.92) 100%),
+         url('./assets/brand/hero.jpg'); background-size:cover; background-position:center; } */
+
+    .logo-badge{ width:84px;height:84px;border-radius:9999px;background:#fff;
+      box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06);
+      display:grid;place-items:center;overflow:hidden}
+    .logo-badge img{ width:88%;height:88%;object-fit:contain }
+    @media (max-width:480px){
+      .logo-badge{ width:72px;height:72px }
+      .hero h1{ font-size:1.75rem;line-height:1.25 }
+    }
+    /* Card & button polish (nếu styles.css chưa có) */
+    .card{ border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:.2s }
+    .card:hover{ box-shadow:0 8px 24px rgba(0,0,0,.08) }
+    .card-body{ padding:1.25rem }
+    .btn{ display:inline-flex;align-items:center;justify-content:center;border-radius:0.75rem;padding:.5rem 1rem;font-weight:600 }
+  </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-white text-gray-900 font-sans">
   <!-- NAV -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
     <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 font-bold">
-        <span class="inline-block w-2 h-2 rounded-full bg-sky-600"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
         <span>Curriculum Matrices</span>
       </a>
       <ul class="flex gap-4 text-sm" id="topnav">
-        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
-        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
-        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">CLO-PLO</a></li>
-        <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link">Phân bổ khung</a></li>
+        <li><a href="./plo-pi.html" class="hover:text-brand-700">PLO-PI</a></li>
+        <li><a href="./plo-course.html" class="hover:text-brand-700">PLO-Course</a></li>
+        <li><a href="./clo-plo.html" class="hover:text-brand-700">CLO-PLO</a></li>
+        <li><a href="./phan-bo-khung.html" class="hover:text-brand-700">Phân bổ khung</a></li>
       </ul>
     </nav>
   </header>
@@ -94,8 +101,8 @@
       <div class="grid lg:grid-cols-[1.3fr_.9fr] gap-10 items-center">
         <div class="space-y-6">
           <div class="flex items-center gap-4">
-            <div class="logo-badge"><img src="./logo-ump.png" alt="ĐH Y Dược TP.HCM"></div>
-            <div class="logo-badge"><img src="./logo-yhct.png" alt="Khoa Y học cổ truyền"></div>
+            <div class="logo-badge"><img src="./assets/logo-ump.png" alt="ĐH Y Dược TP.HCM"></div>
+            <div class="logo-badge"><img src="./assets/logo-yhct.png" alt="Khoa Y học cổ truyền"></div>
           </div>
 
           <h1 class="text-3xl md:text-4xl font-bold leading-tight">
@@ -108,41 +115,35 @@
           </p>
 
           <div class="flex flex-wrap gap-3">
-            <a class="btn bg-brand-600 hover:bg-brand-700 text-white" href="./plo-course.html">Bắt đầu với PLO–Course</a>
-            <a class="btn btn-ghost" href="./plo-pi.html">Xem PLO–PI</a>
+            <a class="btn bg-brand-600 hover:bg-brand-700 text-white shadow-sm" href="./plo-course.html">Bắt đầu với PLO–Course</a>
+            <a class="btn border border-gray-300 hover:bg-gray-50" href="./plo-pi.html">Xem PLO–PI</a>
           </div>
         </div>
 
-        <!-- Khối giới thiệu gọn – có thể mở rộng -->
+        <!-- Giới thiệu (gọn) -->
         <div class="rounded-2xl border p-5 bg-white shadow-sm">
           <details>
-            <summary class="flex items-center justify-between">
+            <summary class="flex items-center justify-between cursor-pointer">
               <span class="text-sm font-semibold">Giới thiệu (Sứ mạng • Tầm nhìn • Giá trị • Triết lý)</span>
-              <span class="twist transition inline-block text-gray-400">➤</span>
+              <span class="transition inline-block text-gray-400">➤</span>
             </summary>
             <div class="mt-4 space-y-4 text-sm leading-relaxed text-gray-700">
               <div>
-                <div class="text-[11px] font-semibold uppercase tracking-wide text-sky-700">Sứ mạng</div>
-                <p class="mt-1">
-                  Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.
-                </p>
+                <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Sứ mạng</div>
+                <p class="mt-1">Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao…</p>
               </div>
               <div>
-                <div class="text-[11px] font-semibold uppercase tracking-wide text-sky-700">Tầm nhìn</div>
-                <p class="mt-1">
-                  Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam, với chương trình giảng dạy và nghiên cứu khoa học về Y học cổ truyền kết hợp Y học hiện đại ngang tầm các đại học trong khu vực Châu Á - Thái Bình Dương.
-                </p>
+                <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Tầm nhìn</div>
+                <p class="mt-1">Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam…</p>
               </div>
               <div class="grid sm:grid-cols-2 gap-3">
                 <div class="rounded-xl border p-3">
-                  <div class="text-[11px] font-semibold uppercase tracking-wide text-sky-700">Giá trị cốt lõi</div>
+                  <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Giá trị cốt lõi</div>
                   <p class="mt-1">Chuyên nghiệp • Chất lượng • Năng động • Sáng tạo</p>
                 </div>
                 <div class="rounded-xl border p-3">
-                  <div class="text-[11px] font-semibold uppercase tracking-wide text-sky-700">Triết lý giáo dục</div>
-                  <p class="mt-1">
-                    “Phát huy nội lực và tăng cường hợp tác quốc tế nhằm tối ưu môi trường dạy và học, lấy người học làm trung tâm, xây dựng đội ngũ cán bộ y tế toàn diện, có đức có tài, có trách nhiệm, sẵn sàng thích ứng và hội nhập”
-                  </p>
+                  <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Triết lý giáo dục</div>
+                  <p class="mt-1">“Phát huy nội lực và tăng cường hợp tác quốc tế… hội nhập”</p>
                 </div>
               </div>
             </div>
@@ -162,44 +163,44 @@
         <a href="./plo-pi.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
-              <h3 class="card-title">PLO–PI</h3>
-              <span class="rounded-full bg-sky-50 text-sky-700 text-xs px-2 py-1 border">Phân tích</span>
+              <h3 class="font-semibold">PLO–PI</h3>
+              <span class="rounded-full bg-brand-50 text-brand-700 text-xs px-2 py-1 border">Phân tích</span>
             </div>
-            <p class="card-desc mt-1">Liên kết PLO với PI.</p>
-            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+            <p class="text-sm text-gray-600 mt-1">Liên kết PLO với PI.</p>
+            <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
 
         <a href="./plo-course.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
-              <h3 class="card-title">PLO–Course</h3>
-              <span class="rounded-full bg-emerald-50 text-emerald-700 text-xs px-2 py-1 border">CSV/JSON</span>
+              <h3 class="font-semibold">PLO–Course</h3>
+              <span class="rounded-full bg-yhct-50 text-yhct-700 text-xs px-2 py-1 border">CSV/JSON</span>
             </div>
-            <p class="card-desc mt-1">Mapping học phần với PLO, ma trận & I/R/M/A.</p>
-            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+            <p class="text-sm text-gray-600 mt-1">Mapping học phần với PLO, ma trận &amp; I/R/M/A.</p>
+            <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
 
         <a href="./clo-plo.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
-              <h3 class="card-title">CLO–PLO</h3>
+              <h3 class="font-semibold">CLO–PLO</h3>
               <span class="rounded-full bg-purple-50 text-purple-700 text-xs px-2 py-1 border">Mở rộng</span>
             </div>
-            <p class="card-desc mt-1">Liên kết CLO → PLO.</p>
-            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+            <p class="text-sm text-gray-600 mt-1">Liên kết CLO → PLO.</p>
+            <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
 
         <a href="./phan-bo-khung.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
-              <h3 class="card-title">Phân bổ khung</h3>
-              <span class="rounded-full bg-amber-50 text-amber-700 text-xs px-2 py-1 border">Kế hoạch</span>
+              <h3 class="font-semibold">Phân bổ khung</h3>
+              <span class="rounded-full bg-accent-50 text-accent-700 text-xs px-2 py-1 border">Kế hoạch</span>
             </div>
-            <p class="card-desc mt-1">Phân bổ học phần, tín chỉ theo giai đoạn.</p>
-            <div class="mt-3 text-sky-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
+            <p class="text-sm text-gray-600 mt-1">Phân bổ học phần, tín chỉ theo giai đoạn.</p>
+            <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
       </div>
@@ -207,12 +208,12 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t">
+  <footer class="border-t bg-white">
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500 flex items-center justify-between">
       <div>© 2025 — Curriculum Matrices</div>
       <div class="flex items-center gap-3">
-        <img src="./logo-ump.png" alt="UMP" class="h-6 w-6 rounded-full ring-1 ring-black/5 bg-white">
-        <img src="./logo-yhct.png" alt="YHCT" class="h-6 w-6 rounded-full ring-1 ring-black/5 bg-white">
+        <img src="./assets/logo-ump.png" alt="UMP" class="h-6 w-6 rounded-full ring-1 ring-black/5 bg-white">
+        <img src="./assets/logo-yhct.png" alt="YHCT" class="h-6 w-6 rounded-full ring-1 ring-black/5 bg-white">
       </div>
     </div>
   </footer>

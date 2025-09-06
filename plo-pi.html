@@ -3,13 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ma trận PLO-PI</title>
+  <title>Ma trận PLO–PI</title>
+
+  <!-- Tailwind + brand (nếu bạn đã thêm block brand thì dùng lại block đó) -->
+  <script>
+    const brand = {
+      50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+      500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'
+    };
+    const yhct = {
+      50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+      500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
+    };
+    tailwind.config = { theme:{ extend:{ colors:{brand,yhct,herb:yhct} } } };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="stylesheet" href="./css/styles.css" />
+
+  <!-- Libs -->
+  <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
       <ul class="flex gap-4 text-sm" id="topnav">
         <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
@@ -20,33 +38,105 @@
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ma trận PLO-Course</h1>
-      <div class="text-sm text-gray-500">/plo-course.html</div>
+      <h1 class="text-2xl font-semibold">Ma trận PLO–PI</h1>
+      <div class="text-sm text-gray-500">/plo-pi.html</div>
     </div>
 
-    <!-- Khu vực bạn “cắm” chức năng đã có -->
-    <div id="app-plo-course" class="card p-4">
-      <!-- Gợi ý: nếu logic của bạn tạo bảng, hãy mount vào đây -->
-      <div id="toolbar" class="flex gap-2 mb-3">
-        <button id="btn-load" class="btn">Nạp dữ liệu</button>
-        <button id="btn-export" class="btn">Xuất CSV</button>
+    <div class="grid lg:grid-cols-3 gap-4">
+      <!-- Panel trái: nạp CSV + thao tác kết nối -->
+      <div class="space-y-4 card p-4">
+        <div class="space-y-2">
+          <h3 class="font-semibold">Nạp dữ liệu CSV</h3>
+          <label class="block text-sm">PLO.csv (label,content)
+            <input type="file" id="ploCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+          </label>
+          <label class="block text-sm">PI.csv (label,content)
+            <input type="file" id="piCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+          </label>
+          <button id="btnBuild" class="btn bg-brand-600 hover:bg-brand-700 text-white">Xây đồ thị</button>
+          <div id="buildStatus" class="text-xs text-gray-500"></div>
+        </div>
+
+        <hr>
+
+        <div class="space-y-2">
+          <h3 class="font-semibold">Thêm kết nối PLO → PI</h3>
+          <div class="grid grid-cols-1 gap-2 text-sm">
+            <label>PLO (label)
+              <select id="plo-add" class="mt-1 w-full border rounded p-1"></select>
+            </label>
+            <label>PI (label)
+              <select id="pi-add" class="mt-1 w-full border rounded p-1"></select>
+            </label>
+            <button id="btnAdd" class="btn border hover:bg-gray-50">Thêm kết nối</button>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="space-y-2">
+          <h3 class="font-semibold">Chỉnh sửa kết nối đang chọn</h3>
+          <div class="flex flex-wrap gap-2 text-sm">
+            <button id="btnDelete" class="btn border hover:bg-gray-50">Xoá kết nối</button>
+            <button id="btnUndo" class="btn border hover:bg-gray-50">Hoàn tác xoá</button>
+          </div>
+          <p class="text-xs text-gray-500">Chọn cạnh trên đồ thị để xoá/hoàn tác.</p>
+        </div>
       </div>
-      <div id="matrix-container" class="overflow-auto">
-        <!-- JS sẽ render ma trận vào đây -->
+
+      <!-- Panel phải (span 2 cột): đồ thị + tooltip -->
+      <div class="lg:col-span-2 card p-4">
+        <div id="cy" class="w-full rounded-xl border" style="height: 560px;"></div>
+        <div id="tooltip"
+             style="position:absolute; display:none; background:#fff; border:1px solid #ddd; padding:6px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); font-size:12px; max-width:420px; z-index:50;"></div>
+        <p class="text-xs text-gray-500 mt-2">
+          Gợi ý: bấm vào cạnh để chọn (xoá/hoàn tác). Bấm nền để bỏ chọn. Bấm vào node để làm nổi các kết nối liên quan.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bảng kết quả + bộ lọc -->
+    <div class="card p-4">
+      <div class="flex flex-wrap items-end gap-3 mb-3">
+        <div>
+          <label class="block text-xs text-gray-600">Lọc theo PLO</label>
+          <select id="filter-plo" class="border rounded p-2 text-sm">
+            <option value="">— Tất cả PLO —</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-600">Lọc theo PI</label>
+          <select id="filter-pi" class="border rounded p-2 text-sm">
+            <option value="">— Tất cả PI —</option>
+          </select>
+        </div>
+        <button id="btnClearFilters" class="btn border hover:bg-gray-50 text-sm">Xoá bộ lọc</button>
+      </div>
+
+      <div class="overflow-auto">
+        <table id="resultTable" class="min-w-full text-sm border border-gray-200">
+          <thead class="bg-gray-100 sticky top-0">
+            <tr>
+              <th class="border p-2 text-left">PLO</th>
+              <th class="border p-2 text-left">PI</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
   </main>
 
   <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-xs text-gray-500">
       © 2025 — Curriculum Matrices
     </div>
   </footer>
 
   <script src="./js/common.js"></script>
   <script src="./js/plo-pi.js"></script>
-  <script>window.__setActive && window.__setActive("plo-course");</script>
+  <script>window.__setActive && window.__setActive("plo-pi");</script>
 </body>
 </html>

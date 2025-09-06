@@ -5,237 +5,294 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CLO–PLO (PLO–COURSE–CLO) | Curriculum Matrices</title>
 
-  <!-- App icons / favicon -->
-  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/assets/brand/favicon.ico">
-  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
-  <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
-  <link rel="manifest" href="/assets/brand/site.webmanifest">
+  <!-- App icons / favicon (đường dẫn tương đối) -->
+  <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="./assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="./assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="./assets/brand/site.webmanifest">
   <meta name="theme-color" content="#0E7BD0">
 
   <!-- Font & Tailwind (CDN) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script>
-    /* Brand palette đã dùng thống nhất toàn app */
-    const brand = {
-      50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
-      500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'
-    };
-    const yhct = {
-      50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
-      500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
-    };
-    const accent = {
-      50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
-      500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'
-    };
+    /* Brand palette thống nhất toàn app */
+    const brand = {50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+                   500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'};
+    const yhct  = {50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+                   500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'};
+    const accent= {50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+                   500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'};
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: { brand, yhct, herb: yhct, accent },
-          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] }
-        }
-      }
+      theme:{ extend:{ colors:{ brand, yhct, herb:yhct, accent },
+                       fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] } } }
     };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Styles -->
   <link rel="stylesheet" href="./css/styles.css" />
+  <style>
+    :root{ --brand-600:#0E7BD0; --brand-700:#0B66AA; --yhct-600:#228C5C; --accent-600:#F59F00; }
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:.75rem;font-weight:700;padding:.6rem 1rem;transition:.2s}
+    .btn svg{width:1rem;height:1rem}
+    .btn-primary{background:var(--brand-600);color:#fff}
+    .btn-primary:hover{background:var(--brand-700)}
+    .btn-outline{border:1px solid #d1d5db;background:#fff}
+    .btn-outline:hover{background:#f8fafc}
+    .btn-soft{background:rgba(14,123,208,.08);color:#0B66AA}
+    .btn-soft:hover{background:rgba(14,123,208,.12)}
+    .btn-ghost{background:transparent;border:1px dashed #d1d5db}
+    .btn-ghost:hover{background:#f8fafc}
+
+    /* Inputs */
+    .input{border:1px solid #d1d5db;border-radius:.75rem;padding:.55rem .9rem}
+    .input:focus{outline:none;box-shadow:0 0 0 2px rgba(14,123,208,.35);border-color:#8EC4FF}
+
+    /* Card + Page tint */
+    .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+    .page{
+      background:
+        radial-gradient(1100px 520px at -10% -10%, rgba(14,123,208,.06), transparent 60%),
+        radial-gradient(1100px 520px at 110% -10%, rgba(43,174,114,.06), transparent 60%),
+        linear-gradient(180deg,#fff 0%, #f7fafc 100%);
+    }
+
+    /* Table */
+    table thead th{background:#f8fafc}
+  </style>
 
   <!-- Libs -->
   <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-900 font-sans">
   <!-- NAV -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+  <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
     <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 font-bold">
         <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
         <span>Curriculum Matrices</span>
       </a>
       <ul class="flex gap-4 text-sm" id="topnav">
-        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
-        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
-        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">CLO-PLO</a></li>
-        <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link">Phân bổ khung</a></li>
+        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link hover:text-brand-700">PLO-PI</a></li>
+        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link hover:text-brand-700">PLO-Course</a></li>
+        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link text-brand-700">CLO-PLO</a></li>
+        <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link hover:text-brand-700">Phân bổ khung</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
-    <!-- Title -->
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">CLO–PLO (mạng PLO → COURSE → CLO)</h1>
-      <div class="text-xs md:text-sm text-gray-500">/clo-plo.html</div>
-    </div>
+  <!-- PAGE -->
+  <main class="page">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
+      <!-- Title -->
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl md:text-3xl font-semibold">CLO–PLO <span class="text-brand-700">(PLO → COURSE → CLO)</span></h1>
+        <div class="text-xs md:text-sm text-gray-500">/clo-plo.html</div>
+      </div>
 
-    <!-- 1) Nguồn dữ liệu -->
-    <section class="card p-4 space-y-3">
-      <h2 class="font-semibold">Nguồn dữ liệu</h2>
+      <!-- 1) Nguồn dữ liệu (gọn: chỉ input & nút) -->
+      <section class="card p-4 space-y-4">
+        <h2 class="font-semibold">Nguồn dữ liệu</h2>
 
-      <div class="grid md:grid-cols-3 gap-4 text-sm">
-        <!-- A. Tự nạp từ PLO–COURSE (localStorage) -->
-        <div class="rounded-xl border p-4 bg-white">
-          <div class="font-semibold mb-1">A. Tự nạp từ bước PLO–COURSE</div>
-          <p class="text-gray-600 text-sm mb-2">Dữ liệu đã lưu ở trình duyệt (localStorage). Gồm: PLO, Course & liên kết I/R/M/A.</p>
-          <div class="text-xs" id="lsSummary">—</div>
-          <div class="mt-2 flex flex-wrap gap-2">
-            <button id="btnLoadFromLS" class="btn bg-brand-600 hover:bg-brand-700 text-white">Nạp lại</button>
-            <button id="btnClearLS" class="btn btn-ghost">Xoá cache CLO</button>
+        <div class="grid lg:grid-cols-3 gap-4">
+          <!-- A. Người dùng tự nạp từ bước PLO–COURSE -->
+          <div class="rounded-xl border p-4 bg-white space-y-3">
+            <div class="font-semibold text-sm">A. PLO, COURSE & Kết nối (PLO–COURSE)</div>
+            <label class="block text-sm">PLO.csv (label,content)
+              <input id="csvPLO" type="file" accept=".csv" class="input mt-1 w-full">
+            </label>
+            <label class="block text-sm">COURSE.csv (id,label,fullname,group)
+              <input id="csvCOURSE" type="file" accept=".csv" class="input mt-1 w-full">
+            </label>
+            <label class="block text-sm">Kết nối PLO–COURSE.csv (plo_label,course_id,level)
+              <input id="csvConnPloCourse" type="file" accept=".csv" class="input mt-1 w-full">
+            </label>
+            <button id="btnBuild" class="btn btn-primary shadow-sm">
+              <!-- play icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Xây đồ thị
+            </button>
+            <div id="buildStatus" class="text-xs text-gray-500">—</div>
+          </div>
+
+          <!-- B. COURSE–CLO -->
+          <div class="rounded-xl border p-4 bg-white space-y-3">
+            <div class="font-semibold text-sm">B. COURSE–CLO.csv</div>
+            <input id="csvCourseCLO" type="file" accept=".csv" class="input w-full">
+            <div class="flex flex-wrap gap-2">
+              <button id="btnLoadCourseCLO" class="btn btn-soft">Nạp COURSE–CLO</button>
+              <button id="btnExportCLO" class="btn btn-outline">Xuất CSV</button>
+            </div>
+            <div id="cloStatus" class="text-xs text-gray-500">—</div>
+          </div>
+
+          <!-- C. Bloom verbs -->
+          <div class="rounded-xl border p-4 bg-white space-y-3">
+            <div class="font-semibold text-sm">C. Bloom verbs.csv</div>
+            <input id="csvBloom" type="file" accept=".csv" class="input w-full">
+            <div id="bloomStatus" class="text-xs text-gray-500">—</div>
           </div>
         </div>
+      </section>
 
-        <!-- B. COURSE–CLO CSV -->
-        <div class="rounded-xl border p-4 bg-white">
-          <div class="font-semibold mb-1">B. COURSE–CLO.csv</div>
-          <p class="text-gray-600 text-sm mb-2">
-            Định dạng: <code>label, fullname, tong, clo, content</code>.<br>
-            <span class="text-xs text-gray-500">label = mã học phần (ví dụ C041 hay “Y học gia đình”).</span>
-          </p>
-          <label class="block">
-            <input id="csvCourseCLO" type="file" accept=".csv" class="w-full">
-          </label>
-          <div class="mt-2 flex flex-wrap gap-2">
-            <button id="btnExportCLO" class="btn border hover:bg-gray-50">Xuất CSV</button>
+      <!-- 2) Bộ lọc -->
+      <section class="card p-4">
+        <div class="flex flex-wrap gap-3 items-end">
+          <div>
+            <label class="block text-xs text-gray-600">Lọc theo PLO</label>
+            <select id="filter-plo" class="input mt-1 min-w-[220px]">
+              <option value="">— Tất cả PLO —</option>
+            </select>
           </div>
-          <div id="cloStatus" class="text-xs text-gray-500 mt-2">—</div>
+          <div>
+            <label class="block text-xs text-gray-600">Lọc theo Course</label>
+            <select id="filter-course" class="input mt-1 min-w-[240px]">
+              <option value="">— Tất cả Course —</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600">Lọc theo CLO</label>
+            <select id="filter-clo" class="input mt-1 min-w-[200px]">
+              <option value="">— Tất cả CLO —</option>
+            </select>
+          </div>
+          <button id="btnClearFilters" class="btn btn-outline">
+            <!-- x icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 6-12 12M6 6l12 12"/></svg>
+            Xoá bộ lọc
+          </button>
         </div>
+      </section>
 
-        <!-- C. Bloom verbs -->
-        <div class="rounded-xl border p-4 bg-white">
-          <div class="font-semibold mb-1">C. Bloom verbs.csv</div>
-          <p class="text-gray-600 text-sm mb-2">Định dạng: <code>verb, level</code> (Remember…Create).</p>
-          <label class="block">
-            <input id="csvBloom" type="file" accept=".csv" class="w-full">
-          </label>
-          <div id="bloomStatus" class="text-xs text-gray-500 mt-2">—</div>
+      <!-- 3) Network + legend -->
+      <section class="card p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">Mạng PLO → COURSE → CLO</h3>
+          <div class="flex items-center gap-2">
+            <button id="btnFit" class="btn btn-outline" title="Fit to view">
+              <!-- maximize -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8V5a2 2 0 0 1 2-2h3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg>
+              Fit
+            </button>
+            <button id="btnScreenshot" class="btn btn-primary">
+              <!-- camera -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/></svg>
+              Chụp ảnh
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 2) Bộ lọc -->
-    <section class="card p-4">
-      <div class="flex flex-wrap gap-3 items-end">
-        <div>
-          <label class="block text-xs text-gray-600">Lọc theo PLO</label>
-          <select id="filter-plo" class="border rounded-lg p-2 text-sm min-w-[220px] focus:ring-2 focus:ring-brand-300">
-            <option value="">— Tất cả PLO —</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs text-gray-600">Lọc theo Course</label>
-          <select id="filter-course" class="border rounded-lg p-2 text-sm min-w-[240px] focus:ring-2 focus:ring-brand-300">
-            <option value="">— Tất cả Course —</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs text-gray-600">Lọc theo CLO</label>
-          <select id="filter-clo" class="border rounded-lg p-2 text-sm min-w-[200px] focus:ring-2 focus:ring-brand-300">
-            <option value="">— Tất cả CLO —</option>
-          </select>
-        </div>
-        <button id="btnClearFilters" class="btn btn-ghost">Xoá bộ lọc</button>
-      </div>
-    </section>
-
-    <!-- 3) Network + legend -->
-    <section class="card p-4">
-      <div class="flex items-center justify-between mb-2">
-        <h3 class="font-semibold">Mạng PLO → COURSE → CLO</h3>
-        <div class="text-xs flex flex-wrap gap-2">
+        <div class="text-xs flex flex-wrap gap-3 mb-2">
           <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-sky-400"></i> I</span>
           <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-emerald-400"></i> R</span>
           <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-amber-400"></i> M</span>
           <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-red-500"></i> A</span>
         </div>
-      </div>
-      <div id="cy" class="w-full h-[560px] border rounded-2xl bg-white"></div>
-      <p class="text-xs text-gray-500 mt-2">Gợi ý: bấm node để làm nổi các kết nối; rê chuột để xem nội dung PLO/CLO.</p>
-    </section>
+        <div id="cy" class="w-full rounded-xl border border-gray-200 bg-white" style="height: 560px;"></div>
+        <div id="tooltip"
+             style="position:absolute; display:none; background:#fff; border:1px solid #e5e7eb; padding:8px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.08); font-size:12px; max-width:480px; z-index:50;"></div>
+        <p class="text-xs text-gray-600 mt-2">Gợi ý: bấm node để làm nổi các kết nối; rê chuột để xem nội dung PLO/CLO.</p>
+      </section>
 
-    <!-- 4) Bảng chi tiết -->
-    <section class="card p-4">
-      <h3 class="font-semibold mb-2">Bảng ghép PLO – COURSE – CLO</h3>
-      <div class="overflow-auto">
-        <table id="resultTable" class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead class="bg-gray-100 sticky top-0">
-            <tr>
-              <th class="border p-2 text-left">PLO</th>
-              <th class="border p-2 text-left">Course</th>
-              <th class="border p-2 text-left">I/R/M/A</th>
-              <th class="border p-2 text-left">CLO</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
+      <!-- 4) Bảng chi tiết -->
+      <section class="card p-4">
+        <h3 class="font-semibold mb-2">Bảng ghép PLO – COURSE – CLO</h3>
+        <div class="overflow-auto">
+          <table id="resultTable" class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+            <thead class="sticky top-0">
+              <tr>
+                <th class="border p-2 text-left">PLO</th>
+                <th class="border p-2 text-left">Course</th>
+                <th class="border p-2 text-left">I/R/M/A</th>
+                <th class="border p-2 text-left">CLO</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
 
-    <!-- 5) GPT tools -->
-    <section class="card p-4 space-y-4">
-      <h3 class="font-semibold">GPT trợ giúp (gợi ý & đánh giá)</h3>
-
-      <div class="grid md:grid-cols-2 gap-4">
-        <!-- Suggest CLO -->
-        <div class="rounded-xl border p-4 bg-white">
-          <div class="font-semibold mb-2">Gợi ý CLO theo PLO–COURSE & Bloom</div>
-          <div class="grid gap-2 text-sm">
-            <label>PLO
-              <select id="ai-plo" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
-            </label>
-            <label>Course
-              <select id="ai-course" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
-            </label>
-            <label>Mức liên kết (I/R/M/A)
-              <select id="ai-level" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300">
-                <option>I</option><option>R</option><option>M</option><option>A</option>
-              </select>
-            </label>
-            <button id="btnAISuggest" class="btn bg-brand-600 hover:bg-brand-700 text-white">Gợi ý CLO</button>
-            <div class="text-xs text-gray-500">* Nếu chưa cấu hình GPT backend, hệ thống sẽ sinh gợi ý offline theo Bloom.</div>
+      <!-- 5) GPT tools -->
+      <section class="card p-4 space-y-4">
+        <h3 class="font-semibold">GPT trợ giúp (gợi ý & đánh giá)</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Suggest CLO -->
+          <div class="rounded-xl border p-4 bg-white">
+            <div class="font-semibold mb-2">Gợi ý CLO theo PLO–COURSE & Bloom</div>
+            <div class="grid gap-2 text-sm">
+              <label>PLO
+                <select id="ai-plo" class="input w-full"></select>
+              </label>
+              <label>Course
+                <select id="ai-course" class="input w-full"></select>
+              </label>
+              <label>Mức liên kết (I/R/M/A)
+                <select id="ai-level" class="input w-full">
+                  <option>I</option><option>R</option><option>M</option><option>A</option>
+                </select>
+              </label>
+              <button id="btnAISuggest" class="btn btn-primary">Gợi ý CLO</button>
+              <div class="text-xs text-gray-500">* Nếu chưa cấu hình GPT backend, hệ thống sẽ sinh gợi ý offline theo Bloom.</div>
+            </div>
+            <div class="mt-3">
+              <label class="text-sm font-semibold">Kết quả:</label>
+              <ul id="aiSuggestions" class="list-disc ml-5 text-sm space-y-1"></ul>
+            </div>
           </div>
-          <div class="mt-3">
-            <label class="text-sm font-semibold">Kết quả:</label>
-            <ul id="aiSuggestions" class="list-disc ml-5 text-sm space-y-1"></ul>
+
+          <!-- Evaluate CLO fit -->
+          <div class="rounded-xl border p-4 bg-white">
+            <div class="font-semibold mb-2">Đánh giá CLO ↔ PLO</div>
+            <div class="grid gap-2 text-sm">
+              <label>PLO
+                <select id="eval-plo" class="input w-full"></select>
+              </label>
+              <label>CLO (nhập nội dung)
+                <textarea id="eval-clo" rows="4" class="input w-full" placeholder="Nhập nội dung CLO cần đánh giá..."></textarea>
+              </label>
+              <button id="btnAIEval" class="btn btn-outline">Đánh giá</button>
+            </div>
+            <div id="evalResult" class="text-sm mt-3 text-gray-800 whitespace-pre-wrap"></div>
           </div>
         </div>
 
-        <!-- Evaluate CLO fit -->
-        <div class="rounded-xl border p-4 bg-white">
-          <div class="font-semibold mb-2">Đánh giá CLO ↔ PLO</div>
-          <div class="grid gap-2 text-sm">
-            <label>PLO
-              <select id="eval-plo" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
-            </label>
-            <label>CLO (nhập nội dung)
-              <textarea id="eval-clo" rows="4" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300" placeholder="Nhập nội dung CLO cần đánh giá..."></textarea>
-            </label>
-            <button id="btnAIEval" class="btn btn-ghost">Đánh giá</button>
-          </div>
-          <div id="evalResult" class="text-sm mt-3 text-gray-800 whitespace-pre-wrap"></div>
-        </div>
-      </div>
-
-      <details class="text-xs text-gray-500">
-        <summary class="cursor-pointer">Cấu hình GPT (tuỳ chọn)</summary>
-        <p class="mt-2">
-          Trang là static (GitHub Pages) nên không nên nhúng API key trên client. Hãy dùng backend riêng (Render/Vercel) và sửa hàm <code>gptCall()</code> trong <code>./js/clo-plo.js</code> trỏ về backend của bạn.
-        </p>
-      </details>
-    </section>
+        <details class="text-xs text-gray-500">
+          <summary class="cursor-pointer">Cấu hình GPT (tuỳ chọn)</summary>
+          <p class="mt-2">
+            Trang là static (GitHub Pages) nên không nên nhúng API key trên client. Hãy dùng backend riêng (Render/Vercel) và sửa hàm <code>gptCall()</code> trong <code>./js/clo-plo.js</code> trỏ về backend của bạn.
+          </p>
+        </details>
+      </section>
+    </div>
   </main>
 
-  <footer class="border-t">
+  <!-- FOOTER -->
+  <footer class="border-top bg-white border-t">
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500">
       © 2025 — Curriculum Matrices
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="./js/common.js"></script>
   <script src="./js/clo-plo.js"></script>
-  <script>window.__setActive && window.__setActive("clo-plo");</script>
+  <script>
+    // Phím tắt tiện dụng (tuỳ chọn, gọi hàm trong clo-plo.js nếu cần)
+    document.getElementById('btnFit')?.addEventListener('click', () => {
+      if (window.cy) window.cy.fit();
+    });
+    document.getElementById('btnScreenshot')?.addEventListener('click', () => {
+      if (window.cy) {
+        const png64 = window.cy.png({ bg: 'white', full: true, scale: 2 });
+        const a = document.createElement('a'); a.href = png64; a.download = 'CLO-PLO-graph.png'; a.click();
+      }
+    });
+    // Đánh dấu active nav
+    window.__setActive && window.__setActive("clo-plo");
+  </script>
 </body>
 </html>

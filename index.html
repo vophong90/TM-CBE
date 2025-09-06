@@ -20,62 +20,54 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vophong90.github.io/TM-CBE/">
   <meta name="twitter:card" content="summary_large_image">
-
-  <!-- Font & Tailwind (CDN) -->
+  
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind config (đặt TRƯỚC CDN) -->
   <script>
-    // Brand palette
-    const brand = {
-      50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
-      500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'
-    };
-    const yhct = {
-      50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
-      500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
-    };
-    const accent = {
-      50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
-      500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'
-    };
-    tailwind.config = {
-      theme: {
-        extend: { colors: { brand, yhct, herb: yhct, accent },
-                  fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] } }
-      }
-    };
+    const brand = {50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+                   500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'};
+    const yhct  = {50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+                   500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'};
+    const accent= {50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+                   500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'};
+    window.tailwind = { config: {
+      theme:{ extend:{ colors:{ brand, yhct, herb:yhct, accent },
+                      fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] } } }
+    }};
   </script>
-  <link rel="stylesheet" href="./css/styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
-
+  
+  <!-- CSS riêng (đặt SAU Tailwind để override) -->
+  <link rel="stylesheet" href="./css/styles.css" />
   <style>
-    /* Hero: gradient + (tùy chọn) ảnh */
-    .hero {
-      position: relative;
+    /* Fallback màu nếu class bg-brand-600… không sinh ra */
+    :root{
+      --brand-600:#0E7BD0; --brand-700:#0B66AA;
+      --yhct-600:#228C5C;  --accent-600:#F59F00;
+    }
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.625rem 1.1rem;
+         border-radius:.75rem;font-weight:700;gap:.5rem;transition:.2s}
+    .btn-primary{background:var(--brand-600);color:#fff}
+    .btn-primary:hover{background:var(--brand-700)}
+    .btn-outline{border:1px solid #d1d5db;background:#fff}
+    /* Card, badge, logo */
+    .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06);transition:.2s}
+    .card:hover{box-shadow:0 16px 32px rgba(0,0,0,.10);transform:translateY(-1px)}
+    .logo-badge{width:88px;height:88px;border-radius:9999px;background:#fff;border:1px solid rgba(0,0,0,.08);
+                box-shadow:0 6px 18px rgba(14,123,208,.12);display:grid;place-items:center;overflow:hidden}
+  .logo-badge img{width:88%;height:88%;object-fit:contain}
+    /* Hero gradient đậm hơn */
+    .hero{
+      position:relative;
       background:
-        radial-gradient(1000px 500px at -10% -10%, rgba(14,123,208,.10), transparent 60%),
-        radial-gradient(900px 450px at 110% -20%, rgba(43,174,114,.10), transparent 60%),
-        linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+        radial-gradient(1200px 600px at -10% -20%, rgba(14,123,208,.20), transparent 60%),
+        radial-gradient(1200px 600px at 110% -10%, rgba(43,174,114,.18), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #edf2f7 100%);
     }
-    /* Nếu bạn có ./assets/brand/hero.jpg, bật ảnh bằng dòng dưới:
-       .hero { background-image:
-         linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(248,250,252,.92) 100%),
-         url('./assets/brand/hero.jpg'); background-size:cover; background-position:center; } */
-
-    .logo-badge{ width:84px;height:84px;border-radius:9999px;background:#fff;
-      box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06);
-      display:grid;place-items:center;overflow:hidden}
-    .logo-badge img{ width:88%;height:88%;object-fit:contain }
-    @media (max-width:480px){
-      .logo-badge{ width:72px;height:72px }
-      .hero h1{ font-size:1.75rem;line-height:1.25 }
-    }
-    /* Card & button polish (nếu styles.css chưa có) */
-    .card{ border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:.2s }
-    .card:hover{ box-shadow:0 8px 24px rgba(0,0,0,.08) }
-    .card-body{ padding:1.25rem }
-    .btn{ display:inline-flex;align-items:center;justify-content:center;padding:.5rem 1rem;border-radius:.75rem;font-weight:600;gap:.5rem}
   </style>
+
 </head>
 <body class="bg-white text-gray-900 font-sans">
   <!-- NAV -->
@@ -112,12 +104,12 @@
           <p class="text-gray-700 md:text-lg">
             Nền tảng xây dựng khung chương trình đào tạo bác sỹ y học cổ truyền.
           </p>
-
+          
           <div class="flex flex-wrap gap-3">
-            <a class="btn bg-brand-600 hover:bg-brand-700 text-white shadow-sm" href="./plo-pi.html">Bắt đầu với PLO–PI</a>
-            <a class="btn border border-gray-300 hover:bg-gray-50" href="./plo-pi.html">Hướng dẫn</a>
+            <a class="btn btn-primary shadow-lg ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
+              href="./plo-pi.html">Bắt đầu với PLO–PI</a>
+            <a class="btn btn-outline hover:bg-gray-50" href="./plo-pi.html">Hướng dẫn</a>
           </div>
-        </div>
 
         <!-- Giới thiệu (gọn) -->
         <div class="rounded-2xl border p-5 bg-white shadow-sm">

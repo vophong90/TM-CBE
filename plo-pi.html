@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ma trận PLO–PI</title>
 
-  <!-- Tailwind + brand (nếu bạn đã thêm block brand thì dùng lại block đó) -->
+  <!-- Brand palette + Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script>
     const brand = {
       50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
@@ -15,22 +17,41 @@
       50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
       500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
     };
-    tailwind.config = { theme:{ extend:{ colors:{brand,yhct,herb:yhct} } } };
+    const accent = {
+      50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+      500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'
+    };
+    tailwind.config = {
+      theme:{ extend:{ colors:{brand,yhct,herb:yhct,accent}, fontFamily:{sans:['Inter','ui-sans-serif','system-ui']} } }
+    };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Favicon pack (nếu đã thêm vào /assets/brand/ ) -->
+  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="/assets/brand/site.webmanifest">
+  <meta name="theme-color" content="#0E7BD0">
+
+  <!-- App styles (tùy chọn của bạn) -->
   <link rel="stylesheet" href="./css/styles.css" />
 
   <!-- Libs -->
   <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-3 font-bold">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+        <span>Curriculum Matrices</span>
+      </a>
       <ul class="flex gap-4 text-sm" id="topnav">
-        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
+        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link text-brand-700">PLO-PI</a></li>
         <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
         <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">CLO-PLO</a></li>
         <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link">Phân bổ khung</a></li>
@@ -38,100 +59,141 @@
     </nav>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+  <!-- PAGE -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ma trận PLO–PI</h1>
-      <div class="text-sm text-gray-500">/plo-pi.html</div>
+      <div>
+        <h1 class="text-2xl md:text-3xl font-semibold">Ma trận <span class="text-brand-700">PLO–PI</span></h1>
+        <p class="text-sm text-gray-500 mt-1">Nạp PLO/PI từ CSV, vẽ mạng lưới, thao tác kết nối, lọc và xuất/nhập CSV kết nối.</p>
+      </div>
+      <div class="text-xs text-gray-500">/plo-pi.html</div>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-4">
-      <!-- Panel trái: nạp CSV + thao tác kết nối -->
-      <div class="space-y-4 card p-4">
-        <div class="space-y-2">
+    <div class="grid lg:grid-cols-3 gap-5">
+      <!-- LEFT: CSV + Actions -->
+      <section class="rounded-2xl border bg-white shadow-sm p-4 space-y-5">
+        <div class="space-y-3">
           <h3 class="font-semibold">Nạp dữ liệu CSV</h3>
           <label class="block text-sm">PLO.csv (label,content)
-            <input type="file" id="ploCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+            <input type="file" id="ploCsvInput" accept=".csv"
+                   class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
           </label>
           <label class="block text-sm">PI.csv (label,content)
-            <input type="file" id="piCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+            <input type="file" id="piCsvInput" accept=".csv"
+                   class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
           </label>
-          <button id="btnBuild" class="btn bg-brand-600 hover:bg-brand-700 text-white">Xây đồ thị</button>
+          <button id="btnBuild"
+                  class="inline-flex items-center justify-center rounded-xl bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 text-sm font-semibold shadow-sm">
+            Xây đồ thị
+          </button>
           <div id="buildStatus" class="text-xs text-gray-500"></div>
         </div>
 
-        <hr>
+        <hr class="border-gray-200">
 
-        <div class="space-y-2">
+        <div class="space-y-3">
           <h3 class="font-semibold">Thêm kết nối PLO → PI</h3>
-          <div class="grid grid-cols-1 gap-2 text-sm">
-            <label>PLO (label)
-              <select id="plo-add" class="mt-1 w-full border rounded p-1"></select>
-            </label>
-            <label>PI (label)
-              <select id="pi-add" class="mt-1 w-full border rounded p-1"></select>
-            </label>
-            <button id="btnAdd" class="btn border hover:bg-gray-50">Thêm kết nối</button>
-          </div>
+          <label class="block text-sm">PLO (label)
+            <select id="plo-add"
+                    class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"></select>
+          </label>
+          <label class="block text-sm">PI (label)
+            <select id="pi-add"
+                    class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"></select>
+          </label>
+          <button id="btnAdd"
+                  class="inline-flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-50 px-4 py-2 text-sm font-medium">
+            Thêm kết nối
+          </button>
         </div>
 
-        <hr>
+        <hr class="border-gray-200">
 
         <div class="space-y-2">
-          <h3 class="font-semibold">Chỉnh sửa kết nối đang chọn</h3>
+          <h3 class="font-semibold">Chỉnh sửa kết nối</h3>
           <div class="flex flex-wrap gap-2 text-sm">
-            <button id="btnDelete" class="btn border hover:bg-gray-50">Xoá kết nối</button>
-            <button id="btnUndo" class="btn border hover:bg-gray-50">Hoàn tác xoá</button>
+            <button id="btnDelete" class="rounded-xl border border-gray-300 hover:bg-gray-50 px-3 py-2">Xoá kết nối</button>
+            <button id="btnUndo" class="rounded-xl border border-gray-300 hover:bg-gray-50 px-3 py-2">Hoàn tác xoá</button>
           </div>
           <p class="text-xs text-gray-500">Chọn cạnh trên đồ thị để xoá/hoàn tác.</p>
         </div>
-      </div>
 
-      <!-- Panel phải (span 2 cột): đồ thị + tooltip -->
-      <div class="lg:col-span-2 card p-4">
-        <div id="cy" class="w-full rounded-xl border" style="height: 560px;"></div>
+        <hr class="border-gray-200">
+
+        <div class="space-y-3">
+          <h3 class="font-semibold">Nhập/Xuất CSV kết nối</h3>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btnExportConnCSV"
+                    class="rounded-xl bg-yhct-600 hover:bg-yhct-700 text-white px-3 py-2 text-sm font-semibold shadow-sm">
+              Xuất CSV (plo,pi)
+            </button>
+            <label class="text-sm">
+              <span class="block mb-1">Nhập CSV kết nối</span>
+              <input type="file" id="connCsvInput" accept=".csv"
+                     class="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
+            </label>
+          </div>
+          <p class="text-xs text-gray-500">Định dạng: hàng tiêu đề <code>plo,pi</code>. Ví dụ: <code>PLO1,PI2</code></p>
+        </div>
+      </section>
+
+      <!-- RIGHT: Graph -->
+      <section class="lg:col-span-2 rounded-2xl border bg-white shadow-sm p-4">
+        <div id="cy" class="w-full rounded-xl border border-gray-200" style="height: 560px;"></div>
         <div id="tooltip"
-             style="position:absolute; display:none; background:#fff; border:1px solid #ddd; padding:6px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); font-size:12px; max-width:420px; z-index:50;"></div>
+             style="position:absolute; display:none; background:#fff; border:1px solid #e5e7eb; padding:8px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.08); font-size:12px; max-width:440px; z-index:50;"></div>
         <p class="text-xs text-gray-500 mt-2">
           Gợi ý: bấm vào cạnh để chọn (xoá/hoàn tác). Bấm nền để bỏ chọn. Bấm vào node để làm nổi các kết nối liên quan.
         </p>
-      </div>
+      </section>
     </div>
 
-    <!-- Bảng kết quả + bộ lọc -->
-    <div class="card p-4">
+    <!-- TABLE + FILTERS -->
+    <section class="rounded-2xl border bg-white shadow-sm p-4">
       <div class="flex flex-wrap items-end gap-3 mb-3">
         <div>
           <label class="block text-xs text-gray-600">Lọc theo PLO</label>
-          <select id="filter-plo" class="border rounded p-2 text-sm">
+          <select id="filter-plo"
+                  class="rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
             <option value="">— Tất cả PLO —</option>
           </select>
         </div>
         <div>
           <label class="block text-xs text-gray-600">Lọc theo PI</label>
-          <select id="filter-pi" class="border rounded p-2 text-sm">
+          <select id="filter-pi"
+                  class="rounded-xl border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
             <option value="">— Tất cả PI —</option>
           </select>
         </div>
-        <button id="btnClearFilters" class="btn border hover:bg-gray-50 text-sm">Xoá bộ lọc</button>
+        <button id="btnClearFilters"
+                class="rounded-xl border border-gray-300 hover:bg-gray-50 px-3 py-2 text-sm">
+          Xoá bộ lọc
+        </button>
       </div>
 
       <div class="overflow-auto">
         <table id="resultTable" class="min-w-full text-sm border border-gray-200">
-          <thead class="bg-gray-100 sticky top-0">
-            <tr>
-              <th class="border p-2 text-left">PLO</th>
-              <th class="border p-2 text-left">PI</th>
+          <thead class="bg-gray-50 sticky top-0">
+            <tr class="text-left">
+              <th class="border p-2 w-1/2">PLO</th>
+              <th class="border p-2 w-1/2">PI</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="border-t">
-    <div class="max-w-7xl mx-auto px-4 py-6 text-xs text-gray-500">
-      © 2025 — Curriculum Matrices
+  <!-- FOOTER -->
+  <footer class="border-t bg-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500 flex items-center justify-between">
+      <div>© 2025 — Curriculum Matrices</div>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-yhct-600"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-accent-500"></span>
+      </div>
     </div>
   </footer>
 

@@ -3,14 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Phân bố khung chương trình</title>
+  <title>Phân bổ khung | Curriculum Matrices</title>
+
+  <!-- Brand + Tailwind -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    const brand = {50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'};
+    const yhct  = {50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'};
+    const accent= {50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'};
+    tailwind.config = { theme:{ extend:{ colors:{ brand, yhct, herb:yhct, accent }, fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] } } } };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="stylesheet" href="./css/styles.css" />
+  <style>
+    .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+    .card:hover{box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:.75rem;padding:.5rem 1rem;font-weight:600;gap:.5rem}
+    .scrollbar-thin{scrollbar-width:thin}
+    .scrollbar-thin::-webkit-scrollbar{height:8px}
+    .scrollbar-thin::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem .625rem;border-radius:.625rem;font-size:.8rem;font-weight:600;white-space:nowrap;cursor:grab;border:1px solid rgba(0,0,0,.06)}
+    .khoi-tay{background:#E6F0FB;color:#0E7BD0}
+    .khoi-dong{background:#E8F7EF;color:#228C5C}
+    .khoi-ket{background:#FFF6DF;color:#B45309}
+    .semester{min-width:260px}
+  </style>
+
+  <!-- Libs -->
+  <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
-  <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+      <a href="./index.html" class="font-bold">Curriculum Matrices</a>
       <ul class="flex gap-4 text-sm" id="topnav">
         <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
         <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
@@ -20,33 +51,102 @@
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ma trận PLO-Course</h1>
-      <div class="text-sm text-gray-500">/plo-course.html</div>
+      <h1 class="text-2xl font-semibold">Phân bổ khung</h1>
+      <div class="text-sm text-gray-500">/phan-bo-khung.html</div>
     </div>
 
-    <!-- Khu vực bạn “cắm” chức năng đã có -->
-    <div id="app-plo-course" class="card p-4">
-      <!-- Gợi ý: nếu logic của bạn tạo bảng, hãy mount vào đây -->
-      <div id="toolbar" class="flex gap-2 mb-3">
-        <button id="btn-load" class="btn">Nạp dữ liệu</button>
-        <button id="btn-export" class="btn">Xuất CSV</button>
+    <!-- 1) Nạp CSV kho học phần -->
+    <section class="card p-4 space-y-3">
+      <h2 class="font-semibold">Kho học phần (CSV)</h2>
+      <div class="grid sm:grid-cols-2 gap-3 text-sm">
+        <label class="block">
+          <div class="mb-1 text-gray-600">COURSES.csv
+            <span class="text-xs text-gray-500">(label, fullname, lt, th, group, khoi, type, tong)</span>
+          </div>
+          <input id="csvCourses" type="file" accept=".csv" class="w-full">
+        </label>
+        <div class="flex items-center gap-2">
+          <button id="btnClearBank" class="btn border hover:bg-gray-50">Xoá kho</button>
+          <button id="btnExportAssign" class="btn border hover:bg-gray-50">Xuất CSV phân bổ</button>
+          <label class="btn border hover:bg-gray-50 cursor-pointer">
+            <input id="fileAssignCsv" type="file" accept=".csv" class="hidden">
+            Tải CSV phân bổ
+          </label>
+          <span id="bankStatus" class="text-xs text-gray-500"></span>
+        </div>
       </div>
-      <div id="matrix-container" class="overflow-auto">
-        <!-- JS sẽ render ma trận vào đây -->
+      <div id="course-bank" class="scrollbar-thin overflow-x-auto flex gap-2 p-3 border rounded-xl bg-white">
+        <!-- chip học phần sẽ render bằng JS -->
       </div>
-    </div>
+      <p class="text-xs text-gray-500">Màu chip theo <b>khối:</b> xanh dương = Tây • xanh lá = Đông • vàng = Kết hợp.</p>
+    </section>
+
+    <!-- 2) 12 học kỳ kéo-thả -->
+    <section class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold">12 học kỳ</h2>
+        <div class="flex flex-wrap gap-2">
+          <button id="btnRefreshCharts" class="btn border hover:bg-gray-50">↻ Cập nhật biểu đồ</button>
+        </div>
+      </div>
+      <div id="semester-container" class="semester-container grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <!-- JS tạo 12 học kỳ -->
+      </div>
+    </section>
+
+    <!-- 3) Ràng buộc & đồ thị -->
+    <section class="grid lg:grid-cols-3 gap-4">
+      <div class="card p-4 space-y-3">
+        <h3 class="font-semibold">Ràng buộc</h3>
+        <div class="text-sm space-y-2">
+          <div class="grid sm:grid-cols-2 gap-2">
+            <label>Tiên quyết: Trước
+              <select id="prereq-from" class="w-full border rounded p-1"></select>
+            </label>
+            <label> → Sau
+              <select id="prereq-to" class="w-full border rounded p-1"></select>
+            </label>
+          </div>
+          <button id="btnAddPrereq" class="btn border hover:bg-gray-50">Thêm tiên quyết</button>
+
+          <hr class="my-2">
+          <div class="grid sm:grid-cols-2 gap-2">
+            <label>Song hành: A
+              <select id="coreq-a" class="w-full border rounded p-1"></select>
+            </label>
+            <label> ↔ B
+              <select id="coreq-b" class="w-full border rounded p-1"></select>
+            </label>
+          </div>
+          <button id="btnAddCoreq" class="btn border hover:bg-gray-50">Thêm song hành</button>
+
+          <div id="violations" class="text-xs text-red-600 mt-2"></div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 card p-4">
+        <h3 class="font-semibold mb-2">Đồ thị ràng buộc</h3>
+        <div id="cy" class="w-full h-[420px] border rounded-xl"></div>
+      </div>
+    </section>
+
+    <!-- 4) Biểu đồ tín chỉ -->
+    <section class="card p-4">
+      <h3 class="font-semibold mb-2">Số tín chỉ theo khối & năm học</h3>
+      <canvas id="creditChart" height="160"></canvas>
+    </section>
   </main>
 
   <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500">
       © 2025 — Curriculum Matrices
     </div>
   </footer>
 
   <script src="./js/common.js"></script>
   <script src="./js/phan-bo-khung.js"></script>
-  <script>window.__setActive && window.__setActive("plo-course");</script>
+  <script>window.__setActive && window.__setActive("phan-bo-khung");</script>
 </body>
 </html>

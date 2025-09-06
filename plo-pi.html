@@ -54,11 +54,16 @@
     .btn-outline:hover{background:#f8fafc}
     .btn-soft{background:rgba(14,123,208,.08); color:#0B66AA}
     .btn-soft:hover{background:rgba(14,123,208,.12)}
+    .btn-danger{background:#ef4444;color:#fff}
+    .btn-danger:hover{background:#dc2626}
+
     /* Inputs */
     .input{border:1px solid #d1d5db;border-radius:.75rem;padding:.55rem .9rem}
     .input:focus{outline:none;box-shadow:0 0 0 2px rgba(14,123,208,.35);border-color:#8EC4FF}
+
     /* Card */
     .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+
     /* Page tint giống index */
     .page{
       background:
@@ -66,6 +71,7 @@
         radial-gradient(1100px 520px at 110% -10%, rgba(43,174,114,.06), transparent 60%),
         linear-gradient(180deg,#fff 0%, #f7fafc 100%);
     }
+
     /* Table */
     table thead th{background:#f8fafc}
   </style>
@@ -136,18 +142,11 @@
             <label class="block text-sm">PI (label)
               <select id="pi-add" class="input mt-1 w-full"></select>
             </label>
-            <div class="flex flex-wrap gap-2">
-              <button id="btnAdd" class="btn btn-soft">
-                <!-- plus icon -->
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                Thêm kết nối
-              </button>
-              <button id="btnExportConnCSV" class="btn" style="background: rgba(34,140,92,.12); color:#1C734C">
-                <!-- download icon -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
-                Xuất CSV (plo,pi)
-              </button>
-            </div>
+            <button id="btnAdd" class="btn btn-soft">
+              <!-- plus icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Thêm kết nối
+            </button>
           </div>
 
           <hr class="border-gray-200">
@@ -159,12 +158,12 @@
               Chỉnh sửa kết nối
             </h3>
             <div class="flex flex-wrap gap-2 text-sm">
-              <button id="btnDelete" class="btn btn-outline">
+              <button id="btnDelete" class="btn btn-danger">
                 <!-- trash icon -->
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
                 Xoá kết nối
               </button>
-              <button id="btnUndo" class="btn btn-outline">
+              <button id="btnUndo" class="btn btn-soft">
                 <!-- undo icon -->
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M20 20a8 8 0 0 0-8-8H4"/></svg>
                 Hoàn tác xoá
@@ -175,16 +174,22 @@
 
           <hr class="border-gray-200">
 
-          <!-- Block: Import edges CSV -->
+          <!-- Block: Import/Export edges CSV -->
           <div class="space-y-3">
             <h3 class="font-semibold flex items-center gap-2">
               <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
               Nhập/Xuất CSV kết nối
             </h3>
-            <label class="text-sm">
-              <span class="block mb-1">Nhập CSV kết nối</span>
-              <input type="file" id="connCsvInput" accept=".csv" class="input w-full">
-            </label>
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="btnExportConnCSV" class="btn btn-primary shadow-sm">
+                <!-- download icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/>
+                </svg>
+                Xuất CSV (plo,pi)
+              </button>
+              <input type="file" id="connCsvInput" accept=".csv" class="input w-full sm:w-auto" />
+            </div>
             <p class="text-xs text-gray-500">Định dạng: hàng tiêu đề <code>plo,pi</code>. Ví dụ: <code>PLO1,PI2</code></p>
           </div>
         </section>
@@ -268,7 +273,7 @@
   <script src="./js/common.js"></script>
   <script src="./js/plo-pi.js"></script>
   <script>
-    // Ví dụ: gán sự kiện cho nút phụ nếu bạn muốn xử lý ở đây
+    // Fit & Screenshot (tuỳ chọn)
     document.getElementById('btnFit')?.addEventListener('click', ()=> {
       if(window.cy) { window.cy.fit(); }
     });

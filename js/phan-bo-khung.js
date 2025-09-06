@@ -1,19 +1,23 @@
 /* Phân bổ khung
  * - Nạp kho học phần từ CSV: label, fullname, lt, th, group, khoi, type, tong
- * - Kéo-thả vào 12 học kỳ; tín chỉ tính theo 'tong' (nếu không có thì lt+th)
- * - Xuất/Tải CSV phân bổ (label,semester) + exporter chi tiết (kèm fullname, lt, th, tong, group, khoi, type)
- * - Ràng buộc tiên quyết (from→to) và song hành (a↔b) + đồ thị Cytoscape
- * - Biểu đồ tín chỉ theo khối (Tây/Đông/Kết hợp) và theo năm (1..6)
+ * - Kéo-thả vào 12 học kỳ; tín chỉ tính theo 'tong' (nếu trống thì lt+th)
+ * - Xuất/Tải CSV phân bổ (label,semester) + xuất chi tiết kèm fullname, lt, th, tong, group, khoi, type
+ * - Ràng buộc: tiên quyết (from→to) & song hành (a↔b) + đồ thị Cytoscape
+ * - Biểu đồ cột chồng:
+ *     (1) Tín chỉ theo khối (Tây/Đông/Kết hợp) & năm học
+ *     (2) Tín chỉ theo type & năm học
+ * - Thống kê mỗi học kỳ (TC; LT|TH; TY|ĐY|KH)
  */
 
 (function () {
   // ---------- State ----------
   let courses = [];                     // [{id,label,fullname,lt,th,tong,group,khoi,type}]
-  const assigns = {};                   // { id: semester (1..12) } ; không có nghĩa là ở kho
+  const assigns = {};                   // { id: semester (1..12) }
   const prerequisites = [];             // [{from, to}]
   const corequisites  = [];             // [{a, b}]
   let cy = null;                        // Cytoscape
-  let creditChart = null;               // Chart.js
+  let creditChart = null;               // Chart.js (khối)
+  let typeChart = null;                 // Chart.js (type)
 
   // ---------- DOM ----------
   const bankEl   = document.getElementById('course-bank');
@@ -43,7 +47,6 @@
   const toNum = v => {
     if (v === null || v === undefined) return 0;
     if (typeof v === 'number') return isFinite(v) ? v : 0;
-    // convert "1,5" -> 1.5 ; "1.0" -> 1
     const s = String(v).replace(',', '.').trim();
     const n = parseFloat(s);
     return isNaN(n) ? 0 : n;
@@ -60,7 +63,6 @@
     }
     return out;
   }
-
   function parseCSV(file) {
     return new Promise((resolve, reject) => {
       Papa.parse(file, {
@@ -71,28 +73,25 @@
     });
   }
 
-  function creditOf(c) { return c.tong != null ? toNum(c.tong) : (toNum(c.lt) + toNum(c.th)); }
+  function creditOf(c) { return c.tong != null && c.tong !== '' ? toNum(c.tong) : (toNum(c.lt) + toNum(c.th)); }
 
   const khoiClass = (khoi) => {
     const k = (khoi || '').toLowerCase();
     if (k.startsWith('tây')) return 'khoi-tay';
     if (k.startsWith('đông') || k.startsWith('dong')) return 'khoi-dong';
-    return 'khoi-ket'; // Kết hợp (mặc định)
+    return 'khoi-ket'; // Kết hợp
   };
 
   // ---------- Courses bank ----------
   function renderBank() {
     bankEl.innerHTML = '';
     courses.forEach(c => {
-      // nếu đã xếp vào học kỳ thì không hiển thị trong bank
-      if (assigns[c.id]) return;
-
+      if (assigns[c.id]) return; // đã xếp -> không hiện trong bank
       const chip = document.createElement('div');
       chip.className = `chip ${khoiClass(c.khoi)}`;
       chip.draggable = true;
       chip.dataset.id = c.id;
       chip.title = `${c.label} — ${c.fullname}\n${creditOf(c)} tín chỉ (${c.lt||0} LT, ${c.th||0} TH)`;
-
       chip.innerHTML = `<span>${esc(c.label)}</span><span class="opacity-70">(${creditOf(c)})</span>`;
       chip.addEventListener('dragstart', onDragStart);
       bankEl.appendChild(chip);
@@ -117,14 +116,22 @@
       wrap.dataset.semester = String(i);
 
       const head = document.createElement('div');
-      head.className = 'flex items-center justify-between mb-2';
+      head.className = 'mb-2';
       head.innerHTML = `
-        <div class="font-semibold">Học kỳ ${i}</div>
-        <div class="text-sm text-gray-600">TC: <span class="tc" data-s="${i}">0</span></div>
+        <div class="flex items-center justify-between">
+          <div class="font-semibold">Học kỳ ${i}</div>
+          <div class="text-sm text-gray-600">Tổng TC: <span class="tc" data-s="${i}">0</span></div>
+        </div>
+        <div class="text-xs text-gray-600 mt-1">
+          LT: <span class="lt" data-s="${i}">0</span> | TH: <span class="th" data-s="${i}">0</span>
+        </div>
+        <div class="text-xs text-gray-600">
+          TY: <span class="ty" data-s="${i}">0</span> | ĐY: <span class="dy" data-s="${i}">0</span> | KH: <span class="kh" data-s="${i}">0</span>
+        </div>
       `;
 
       const list = document.createElement('div');
-      list.className = 'min-h-[88px] rounded-xl border border-dashed border-gray-300 p-2 flex flex-wrap gap-2';
+      list.className = 'min-h-[98px] rounded-xl border border-dashed border-gray-300 p-2 flex flex-wrap gap-2';
       list.dataset.dropzone = String(i);
       bindDropzone(list);
 
@@ -140,7 +147,6 @@
     e.dataTransfer.setData('text/plain', id);
     e.dataTransfer.effectAllowed = 'move';
   }
-
   function bindDropzone(el) {
     el.addEventListener('dragover', (ev) => { ev.preventDefault(); ev.dataTransfer.dropEffect = 'move'; });
     el.addEventListener('drop', (ev) => {
@@ -163,7 +169,7 @@
   function moveCourseToSemester(id, semester) {
     if (!courses.find(c => c.id === id)) return;
 
-    // Xoá chip cũ ở bất kỳ nơi nào
+    // Xoá chip cũ
     document.querySelectorAll(`[data-id="${CSS.escape(id)}"]`).forEach(n => n.remove());
 
     if (semester >= 1 && semester <= SEMESTERS) {
@@ -182,26 +188,57 @@
       zone?.appendChild(chip);
     } else {
       delete assigns[id];
-      // trả về bank
       renderBank();
     }
-    updateSemesterCredits();
+    updateSemesterStats();
     validateConstraints();
     rebuildGraph();
+    rebuildCharts();
   }
 
-  function updateSemesterCredits() {
-    const totals = Array.from({length: SEMESTERS}, () => 0);
-    for (const id in assigns) {
-      const s = assigns[id] - 1;
-      const c = courses.find(x => x.id === id);
-      if (c && s >= 0) totals[s] += creditOf(c);
-    }
-    document.querySelectorAll('.tc').forEach(span => {
-      const s = Number(span.dataset.s);
-      span.textContent = (totals[s-1] || 0).toString();
-    });
-    bankStatus.textContent = `${Object.keys(assigns).length}/${courses.length} học phần đã xếp vào học kỳ`;
+  // ---------- Per-semester stats ----------
+  function updateSemesterStats() {
+  const fmt = n => (Math.round(n * 100) / 100).toString();
+  const stats = Array.from({ length: SEMESTERS }, () => ({
+    tc: 0, lt: 0, th: 0, ty: 0, dy: 0, kh: 0
+  }));
+
+  // Dồn số liệu
+  for (const id in assigns) {
+    const sIndex = assigns[id] - 1; // 0..11
+    const c = courses.find(x => x.id === id);
+    if (!c || sIndex < 0) continue;
+
+    const cc = creditOf(c);      // tổng TC của học phần
+    stats[sIndex].tc += cc;      // Tổng TC
+    stats[sIndex].lt += toNum(c.lt);
+    stats[sIndex].th += toNum(c.th);
+
+    const k = (c.khoi || '').toLowerCase();
+    if (k.startsWith('tây')) stats[sIndex].ty += cc;                 // TY theo TC
+    else if (k.startsWith('đông') || k.startsWith('dong')) stats[sIndex].dy += cc; // ĐY theo TC
+    else stats[sIndex].kh += cc;                                     // KH theo TC
+  }
+
+  // Render ra DOM
+  for (let i = 1; i <= SEMESTERS; i++) {
+    const tcEl = document.querySelector(`.tc[data-s="${i}"]`);
+    const ltEl = document.querySelector(`.lt[data-s="${i}"]`);
+    const thEl = document.querySelector(`.th[data-s="${i}"]`);
+    const tyEl = document.querySelector(`.ty[data-s="${i}"]`);
+    const dyEl = document.querySelector(`.dy[data-s="${i}"]`);
+    const khEl = document.querySelector(`.kh[data-s="${i}"]`);
+
+    const s = stats[i - 1];
+    if (tcEl) tcEl.textContent = fmt(s.tc);
+    if (ltEl) ltEl.textContent = fmt(s.lt);
+    if (thEl) thEl.textContent = fmt(s.th);
+    if (tyEl) tyEl.textContent = fmt(s.ty);
+    if (dyEl) dyEl.textContent = fmt(s.dy);
+    if (khEl) khEl.textContent = fmt(s.kh);
+  }
+
+  bankStatus.textContent = `${Object.keys(assigns).length}/${courses.length} học phần đã xếp vào học kỳ`;
   }
 
   // ---------- Constraints ----------
@@ -226,17 +263,15 @@
 
   function validateConstraints() {
     const lines = [];
-    // Tiên quyết: from < to
     prerequisites.forEach(({from, to}) => {
       const s1 = assigns[from], s2 = assigns[to];
-      if (!s1 || !s2) return; // chưa xếp: bỏ qua cảnh báo
+      if (!s1 || !s2) return;
       if (!(s1 < s2)) {
         const cf = courses.find(c => c.id === from);
         const ct = courses.find(c => c.id === to);
         lines.push(`Tiên quyết: ${cf?.label} phải ở HK < ${ct?.label} (hiện: ${s1} → ${s2})`);
       }
     });
-    // Song hành: a == b
     corequisites.forEach(({a,b}) => {
       const s1 = assigns[a], s2 = assigns[b];
       if (!s1 || !s2) return;
@@ -246,7 +281,6 @@
         lines.push(`Song hành: ${ca?.label} phải cùng HK với ${cb?.label} (hiện: ${s1} ≠ ${s2})`);
       }
     });
-
     violationsEl.innerHTML = lines.length ? ('• ' + lines.join('<br>• ')) : '<span class="text-green-700">Không có vi phạm.</span>';
   }
 
@@ -287,10 +321,14 @@
   }
 
   // ---------- Charts ----------
-  function rebuildChart() {
+  function rebuildCharts() {
+    rebuildKhoiChart();
+    rebuildTypeChart();
+  }
+
+  function rebuildKhoiChart() {
     if (creditChart) { creditChart.destroy(); creditChart = null; }
 
-    // Tính theo năm & khối
     const years = [1,2,3,4,5,6];
     const buckets = { tay: [0,0,0,0,0,0], dong: [0,0,0,0,0,0], ket: [0,0,0,0,0,0] };
 
@@ -319,6 +357,61 @@
       },
       options: {
         responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, title: { display:true, text:'Tín chỉ' } } }
+      }
+    });
+  }
+
+  function rebuildTypeChart() {
+    if (typeChart) { typeChart.destroy(); typeChart = null; }
+
+    const years = [1,2,3,4,5,6];
+
+    // Lấy danh sách type xuất hiện
+    const typeSet = new Set();
+    courses.forEach(c => typeSet.add((c.type || 'Khác').trim() || 'Khác'));
+    const types = Array.from(typeSet);
+
+    // Khởi tạo buckets
+    const bucketsByType = {};
+    types.forEach(t => { bucketsByType[t] = [0,0,0,0,0,0]; });
+
+    // Dồn tín chỉ theo năm & type
+    for (const id in assigns) {
+      const sem = assigns[id];
+      const yearIndex = Math.ceil(sem / 2) - 1; // 0..5
+      const c = courses.find(x => x.id === id);
+      if (!c) continue;
+      const cc = creditOf(c);
+      const t = (c.type || 'Khác').trim() || 'Khác';
+      if (!bucketsByType[t]) bucketsByType[t] = [0,0,0,0,0,0];
+      bucketsByType[t][yearIndex] += cc;
+    }
+
+    // Màu sắc dataset (vòng qua palette thương hiệu)
+    const palette = [
+      '#0E7BD0', '#2BAE72', '#FFB000', '#7C3AED', '#EA580C', '#059669',
+      '#2563EB', '#9333EA', '#DC2626', '#0D9488'
+    ];
+
+    const datasets = types.map((t, idx) => ({
+      label: t,
+      data: bucketsByType[t],
+      stack: 'type',
+      backgroundColor: palette[idx % palette.length]
+    }));
+
+    const ctx = document.getElementById('typeChart');
+    typeChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: years.map(y => `Năm ${y}`),
+        datasets
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
         scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, title: { display:true, text:'Tín chỉ' } } }
       }
     });
@@ -326,7 +419,7 @@
 
   // ---------- Import/Export ----------
   function exportAssignmentCSV() {
-    // Ghi chi tiết để tiện kiểm toán
+    // Xuất chi tiết để tiện kiểm toán & báo cáo
     const rows = [['label','semester','fullname','lt','th','tong','group','khoi','type']];
     courses.forEach(c => {
       const sem = assigns[c.id] || '';
@@ -351,6 +444,7 @@
   async function importAssignmentCSV(file) {
     const rows = await parseCSV(file);
     let placed = 0, skipped = 0;
+
     // clear current placements
     for (const id in assigns) delete assigns[id];
     document.querySelectorAll('[data-dropzone]').forEach(z => z.innerHTML = '');
@@ -365,10 +459,10 @@
     });
 
     renderBank();
-    updateSemesterCredits();
+    updateSemesterStats();
     validateConstraints();
     rebuildGraph();
-    rebuildChart();
+    rebuildCharts();
 
     alert(`Tải CSV phân bổ: xếp ${placed}, bỏ qua ${skipped}.`);
   }
@@ -392,13 +486,12 @@
     for (const k in assigns) delete assigns[k];
     prerequisites.length = 0; corequisites.length = 0;
 
-    // Render
     renderBank();
     createSemesters();
-    updateSemesterCredits();
+    updateSemesterStats();
     populateCourseSelects();
     rebuildGraph();
-    rebuildChart();
+    rebuildCharts();
   }
 
   // ---------- Events ----------
@@ -415,6 +508,7 @@
     bankStatus.textContent = '';
     if (cy) { cy.destroy(); cy=null; }
     if (creditChart) { creditChart.destroy(); creditChart=null; }
+    if (typeChart) { typeChart.destroy(); typeChart=null; }
     [prereqFrom, prereqTo, coreqA, coreqB].forEach(sel => sel.innerHTML = '<option value="">—</option>');
     violationsEl.innerHTML = '';
   });
@@ -428,7 +522,7 @@
   btnAddPrereq?.addEventListener('click', addPrereq);
   btnAddCoreq?.addEventListener('click', addCoreq);
 
-  btnRefreshCharts?.addEventListener('click', () => rebuildChart());
+  btnRefreshCharts?.addEventListener('click', () => rebuildCharts());
 
   // Init bare UI
   createSemesters();

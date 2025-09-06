@@ -4,52 +4,72 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Curriculum Matrices | Trang chủ</title>
+  <!-- App icons / favicon -->
+  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="/assets/brand/site.webmanifest">
+  <meta name="theme-color" content="#0E7BD0">
+  
+  <!-- Social sharing -->
+  <meta property="og:title" content="Curriculum Matrices">
+  <meta property="og:description" content="Nền tảng quản trị ma trận PLO, Course, CLO và PI – Khoa Y học cổ truyền, ĐH Y Dược TP.HCM.">
+  <meta property="og:image" content="/assets/brand/og-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://<username>.github.io/<repo>/">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- Font & Tailwind (CDN, không cần build) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+  // UMP brand blue
+  const brand = {
+    50:'#EEF7FF', 100:'#D8ECFF', 200:'#BADBFF', 300:'#8EC4FF', 400:'#5AA9F7',
+    500:'#2D8FE8', 600:'#0E7BD0', 700:'#0B66AA', 800:'#0D5186', 900:'#0E436F'
+  };
+  // YHCT green (alias 'herb' để tương thích class cũ)
+  const yhct = {
+    50:'#EFFAF3', 100:'#D7F2E2', 200:'#B5E6C9', 300:'#86D6AA', 400:'#53C48B',
+    500:'#2BAE72', 600:'#228C5C', 700:'#1C734C', 800:'#165B3D', 900:'#124B33'
+  };
+  // Gold accent (điểm nhấn theo viền/chữ logo)
+  const accent = {
+    50:'#FFFAE8', 100:'#FFF3C4', 200:'#FFE58A', 300:'#FFD34D', 400:'#FFC21E',
+    500:'#FFB000', 600:'#F59F00', 700:'#D97706', 800:'#B45309', 900:'#92400E'
+  };
+
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { brand, yhct, herb: yhct, accent },
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] }
+      }
+    }
+  };
+</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./css/styles.css" />
 
-  <style>
-    :root { --brand: #0ea5e9; }
-    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji"; }
-    .btn { @apply inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition; }
-    .btn-primary { @apply bg-sky-600 text-white hover:bg-sky-700; }
-    .btn-ghost { @apply border border-gray-300 text-gray-800 hover:bg-gray-50; }
-    .card { @apply rounded-2xl border bg-white shadow-sm hover:shadow-md transition; }
-    .card-body { @apply p-5; }
-    .card-title { @apply text-base font-semibold; }
-    .card-desc { @apply text-sm text-gray-600; }
-
-    /* Hero gradient nhẹ, cao cấp */
-    .hero {
-      background:
-        radial-gradient(1200px 600px at -10% -10%, rgba(14,165,233,.12), transparent 60%),
-        radial-gradient(1000px 500px at 110% -20%, rgba(99,102,241,.10), transparent 60%),
-        linear-gradient(180deg, #fff 0%, #f8fafc 100%);
-    }
-
-    /* Logo badge: che các logo nền trắng bằng khung tròn nền trắng + viền nhẹ */
-    .logo-badge {
-      width: 84px; height: 84px;
-      border-radius: 9999px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      border: 1px solid rgba(0,0,0,.06);
-      display: grid; place-items: center;
-      overflow: hidden;
-    }
-    .logo-badge img {
-      width: 88%; height: 88%; object-fit: contain;
-      image-rendering: -webkit-optimize-contrast;
-    }
-
-    /* Tinh chỉnh <details> */
-    details[open] > summary .twist { transform: rotate(90deg); }
-    summary { list-style: none; cursor: pointer; }
-    summary::-webkit-details-marker { display:none; }
-  </style>
+<style>
+  :root { --brand-600:#0E7BD0; }
+  /* Hero: dùng ảnh + lớp phủ gradient, tự tối ưu mobile */
+  .hero {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.92) 100%),
+      url('/assets/brand/hero.jpg') center/cover no-repeat;
+  }
+  @media (max-width: 480px) {
+    .logo-badge { width: 72px; height: 72px; }
+    .hero h1 { font-size: 1.75rem; line-height: 1.25; }
+  }
+  /* Logo badge giữ nguyên từ bản trước */
+  .logo-badge { width: 84px; height: 84px; border-radius:9999px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06); display:grid; place-items:center; overflow:hidden;}
+  .logo-badge img { width:88%; height:88%; object-fit:contain; }
+</style>
+  
 </head>
 <body class="bg-white text-gray-900">
   <!-- NAV -->
@@ -80,7 +100,7 @@
 
           <h1 class="text-3xl md:text-4xl font-bold leading-tight">
             Khoa Y học cổ truyền<br>
-            <span class="text-sky-700">Đại học Y Dược TP.HCM</span>
+            <span class="text-brand-700">Đại học Y Dược TP.HCM</span>
           </h1>
 
           <p class="text-gray-700 md:text-lg">
@@ -88,7 +108,7 @@
           </p>
 
           <div class="flex flex-wrap gap-3">
-            <a class="btn btn-primary" href="./plo-course.html">Bắt đầu với PLO–Course</a>
+            <a class="btn bg-brand-600 hover:bg-brand-700 text-white" href="./plo-course.html">Bắt đầu với PLO–Course</a>
             <a class="btn btn-ghost" href="./plo-pi.html">Xem PLO–PI</a>
           </div>
         </div>

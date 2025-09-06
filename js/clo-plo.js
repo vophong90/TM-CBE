@@ -1,14 +1,9 @@
-// js/clo-plo.js (phiên bản khớp HTML mới, không dùng LocalStorage)
-// - Người dùng upload: PLO.csv, COURSE.csv, PLO–COURSE.csv, COURSE–CLO.csv, Bloom.csv
-// - Xây đồ thị PLO → COURSE → CLO
-// - Bộ lọc theo PLO / Course / CLO
-// - GPT gợi ý & đánh giá (có fallback offline nếu không gọi được API)
-// - Xuất bảng PLO–COURSE–CLO (CSV)
+// js/clo-plo.js — đọc PLO.csv, COURSE.csv và PLO-COURSE.csv (plo,course,level)
 
 (function () {
-  // ======= CONFIG: GPT backend (Render) =======
-  const API_BASE = 'https://cm-gpt-service.onrender.com'; // đổi nếu dùng server khác
-  const APP_TOKEN = ''; // điền nếu server có APP_TOKEN
+  // ======= CONFIG: (tuỳ chọn) GPT backend =======
+  const API_BASE = 'https://cm-gpt-service.onrender.com';
+  const APP_TOKEN = '';
 
   // ======= STATE =======
   let PLO = {};                // { "PLO1": "..." }
@@ -18,34 +13,25 @@
   let CLO_ITEMS = [];          // [{courseId, courseLabel, fullname, tong, clo, content}]
   let BLOOM = [];              // [{verb, level}]
   let BLOOM_BY_LEVEL = {};     // {Level:[verbs]}
-
   let cy = null;
 
   // ======= DOM =======
-  // Nguồn dữ liệu
-  const csvPLO = document.getElementById('csvPLO');
-  const csvCOURSE = document.getElementById('csvCOURSE');
-  const csvConnPloCourse = document.getElementById('csvConnPloCourse');
   const btnBuild = document.getElementById('btnBuild');
-  const buildStatus = document.getElementById('buildStatus');
+  const ploCsvInput = document.getElementById('ploCsvInput');
+  const courseCsvInput = document.getElementById('courseCsvInput');
+  const pcConnCsvInput = document.getElementById('pcConnCsvInput');
 
   const csvCourseCLO = document.getElementById('csvCourseCLO');
-  const cloStatus = document.getElementById('cloStatus');
-
   const csvBloom = document.getElementById('csvBloom');
-  const bloomStatus = document.getElementById('bloomStatus');
 
-  // Bộ lọc
   const filterPLO = document.getElementById('filter-plo');
   const filterCourse = document.getElementById('filter-course');
   const filterCLO = document.getElementById('filter-clo');
   const btnClearFilters = document.getElementById('btnClearFilters');
 
-  // Bảng
   const resultTable = document.getElementById('resultTable');
   const resultTableBody = resultTable?.querySelector('tbody');
 
-  // GPT tools
   const aiPLO = document.getElementById('ai-plo');
   const aiCourse = document.getElementById('ai-course');
   const aiLevel = document.getElementById('ai-level');
@@ -61,15 +47,6 @@
   const esc = s => String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;')
     .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-
-  function __downloadText(filename, text) {
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url);
-  }
 
   function csvQuote(v) {
     if (v == null) return '';
@@ -95,121 +72,111 @@
       });
     });
   }
+  function norm(s){ return String(s || '').replace(/^\ufeff/, '').trim(); }
 
-  function colorForLevel(level) {
-    switch ((level || '').toUpperCase()) {
-      case 'I': return '#60A5FA';    // sky-400
-      case 'R': return '#34D399';    // emerald-400
-      case 'M': return '#FBBF24';    // amber-400
-      case 'A': return '#EF4444';    // red-500
-      default:  return '#94A3B8';    // slate-400
-    }
-  }
-
-  // ======= BUILD FROM CSV (A. PLO / COURSE / PLO-COURSE) =======
+  // ======= BUILD FROM CSV (PLO, COURSE, PLO-COURSE) =======
   async function onBuildFromCsv() {
-    const fP = csvPLO?.files?.[0];
-    const fC = csvCOURSE?.files?.[0];
-    const fE = csvConnPloCourse?.files?.[0];
-
-    if (!fP || !fC || !fE) {
-      alert('Hãy chọn đủ PLO.csv, COURSE.csv và Kết nối PLO–COURSE.csv');
-      return;
+    const fPLO    = ploCsvInput?.files?.[0];
+    const fCOURSE = courseCsvInput?.files?.[0];
+    const fPC     = pcConnCsvInput?.files?.[0];
+    if (!fPLO || !fCOURSE || !fPC) {
+      alert('Hãy chọn đủ 3 file: PLO.csv, COURSE.csv và PLO-COURSE.csv (plo,course,level)'); return;
     }
 
-    const [ploRows, courseRows, edgeRows] = await Promise.all([
-      parseCSV(fP), parseCSV(fC), parseCSV(fE)
+    const [ploRows, courseRows, pcRows] = await Promise.all([
+      parseCSV(fPLO),
+      parseCSV(fCOURSE),
+      parseCSV(fPC),
     ]);
 
-    // PLO
+    // 1) PLO
     PLO = {};
     ploRows.forEach(r => {
-      const label = (r.label || r.plo || '').trim();
-      const content = (r.content || r.desc || r.description || '').trim();
+      const label   = norm(r.label || r.plo);
+      const content = norm(r.content || r.desc || r.description);
       if (label) PLO[label] = content;
     });
 
-    // COURSE
-    COURSES = {}; COURSE_BY_LABEL = {};
+    // 2) COURSE + map label→id
+    COURSES = {};
+    COURSE_BY_LABEL = {};
     courseRows.forEach(r => {
-      const id = (r.id || r.code || r.label || '').trim(); // ưu tiên id
+      const id    = norm(r.id || r.code || r.courseid);
       if (!id) return;
-      const label = (r.label || r.code || id).trim();
-      const fullname = (r.fullname || r.name || '').trim();
-      const tong = Number(r.tong ?? (Number(r.tc || 0)));
-      const group = (r.group || r.nhom || '').trim();
+      const label = norm(r.label) || id;
+      const fullname = norm(r.fullname || r.name);
+      const tong  = Number(r.tong || r.tc || 0);
+      const group = norm(r.group || r.khoi || r.type);
       COURSES[id] = { id, label, fullname, tong, group };
-      if (label) COURSE_BY_LABEL[label] = id;
+      COURSE_BY_LABEL[label] = id;
     });
 
-    // PLO–COURSE edges
+    // 3) EDGES PLO–COURSE (CSV cột bắt buộc: plo, course, level)
+    //    - course có thể là id (Cxxx) hoặc label (tên/mã hiển thị)
     EDGES_PC = [];
-    edgeRows.forEach(r => {
-      const plo = (r.plo_label || r.plo || '').trim();
-      let cid = (r.course_id || r.course || r.id || '').trim();
-      const lvl = (r.level || '').trim().toUpperCase() || 'I';
-      if (!plo) return;
-      // Nếu course_id trống, thử map theo label
-      if (!cid && r.course_label) {
-        const tryId = COURSE_BY_LABEL[(r.course_label || '').trim()];
-        if (tryId) cid = tryId;
-      }
-      if (!cid) return;
-      if (!PLO[plo] || !COURSES[cid]) return;
-      EDGES_PC.push({ plo, courseId: cid, level: ['I', 'R', 'M', 'A'].includes(lvl) ? lvl : 'I' });
+    const skipped = [];
+    pcRows.forEach(r => {
+      const plo = norm(r.plo);
+      const rawCourse = norm(r.course);     // id hoặc label
+      const level = (norm(r.level) || 'I').toUpperCase();
+      if (!plo || !rawCourse) return;
+
+      // Ưu tiên id; nếu không có id thì map từ label
+      const cid = COURSES[rawCourse] ? rawCourse : (COURSE_BY_LABEL[rawCourse] || '');
+      if (!cid) { skipped.push({ plo, course: rawCourse }); return; }
+
+      EDGES_PC.push({ plo, courseId: cid, level });
     });
 
-    buildStatus.textContent =
-      `Đã nạp: ${Object.keys(PLO).length} PLO • ${Object.keys(COURSES).length} Course • ${EDGES_PC.length} liên kết PLO–COURSE.`;
+    if (skipped.length) {
+      console.warn('Bỏ qua kết nối vì không tìm thấy COURSE id/label:', skipped.slice(0, 10), skipped.length > 10 ? `…(+${skipped.length - 10})` : '');
+    }
 
-    // Sau khi dựng A, làm mới UI
+    // Giữ CLO_ITEMS/BLOOM nếu người dùng đã nạp ở panel B/C
     rebuildAll();
   }
 
-  // ======= COURSE–CLO CSV (B) =======
+  // ======= COURSE–CLO CSV =======
   async function onLoadCourseCLO(file) {
-    if (!Object.keys(COURSES).length) {
-      cloStatus.textContent = '⚠️ Vui lòng xây đồ thị A (PLO/COURSE/kết nối) trước để map CLO.';
-      return;
-    }
     const rows = await parseCSV(file);
     CLO_ITEMS = [];
-    let ok = 0, miss = 0;
+    const label2id = (lab) => COURSES[lab] ? lab : (COURSE_BY_LABEL[lab] || '');
 
     rows.forEach(r => {
-      const courseLabel = (r.label || '').trim();
-      const fullname = (r.fullname || '').trim();
-      const tong = Number(r.tong || 0);
-      const clo = (r.clo || '').trim();
-      const content = (r.content || '').trim();
-      if (!courseLabel || !clo) return;
+      const courseLabelOrId = norm(r.label || r.id);
+      const courseId = label2id(courseLabelOrId);
+      if (!courseId) return; // chỉ nhận các CLO thuộc course đã nạp ở A.
 
-      const tryId = COURSES[courseLabel] ? courseLabel : (COURSE_BY_LABEL[courseLabel] || '');
-      const courseId = tryId || '';
-      if (!courseId) { miss++; return; }
+      const fullname = norm(r.fullname || COURSES[courseId]?.fullname || '');
+      const tong     = Number(r.tong ?? COURSES[courseId]?.tong ?? 0);
+      const clo      = norm(r.clo);
+      const content  = norm(r.content);
+      if (!clo) return;
 
-      CLO_ITEMS.push({ courseId, courseLabel, fullname, tong, clo, content });
-      ok++;
+      CLO_ITEMS.push({
+        courseId,
+        courseLabel: COURSES[courseId]?.label || courseId,
+        fullname,
+        tong,
+        clo,
+        content
+      });
     });
 
-    cloStatus.textContent = `Đã nạp ${ok} CLO${miss ? ` (bỏ ${miss} do không khớp course)` : ''}.`;
     rebuildAll();
   }
 
-  // ======= Bloom verbs (C) =======
+  // ======= Bloom verbs =======
   async function onLoadBloom(file) {
     const rows = await parseCSV(file);
     BLOOM = [];
     BLOOM_BY_LEVEL = {};
     rows.forEach(r => {
-      const v = (r.verb || '').trim();
-      const lvl = (r.level || '').trim();
+      const v = norm(r.verb), lvl = norm(r.level);
       if (!v || !lvl) return;
       BLOOM.push({ verb: v, level: lvl });
-      BLOOM_BY_LEVEL[lvl] = BLOOM_BY_LEVEL[lvl] || [];
-      BLOOM_BY_LEVEL[lvl].push(v);
+      (BLOOM_BY_LEVEL[lvl] = BLOOM_BY_LEVEL[lvl] || []).push(v);
     });
-    bloomStatus.textContent = `Đã nạp Bloom verbs: ${BLOOM.length} động từ / ${Object.keys(BLOOM_BY_LEVEL).length} mức.`;
   }
 
   // ======= UI: filters / dropdowns =======
@@ -230,10 +197,7 @@
       if (exists) select.value = cur;
     }
 
-    setOpts(filterPLO,
-      Object.keys(PLO).map(l => ({ value: l, label: l })),
-      '— Tất cả PLO —'
-    );
+    setOpts(filterPLO, Object.keys(PLO).map(l => ({ value: l, label: l })), '— Tất cả PLO —');
 
     const coursesList = Object.values(COURSES)
       .map(c => ({ value: c.id, label: `${c.label} — ${c.fullname || ''}`.trim() }))
@@ -251,6 +215,16 @@
   }
 
   // ======= Cytoscape =======
+  function colorForLevel(level) {
+    switch ((level || '').toUpperCase()) {
+      case 'I': return '#60A5FA';   // sky-400
+      case 'R': return '#34D399';   // emerald-400
+      case 'M': return '#FBBF24';   // amber-400
+      case 'A': return '#EF4444';   // red-500
+      default:  return '#94A3B8';   // slate-400
+    }
+  }
+
   function buildElementsByFilters() {
     const fPLO = filterPLO?.value || '';
     const fCourse = filterCourse?.value || '';
@@ -260,16 +234,8 @@
     const nodeSet = new Set();
     const edgeSet = new Set();
 
-    const addNode = (id, data) => {
-      if (nodeSet.has(id)) return;
-      nodeSet.add(id);
-      elements.push({ data: { id, ...data } });
-    };
-    const addEdge = (id, data) => {
-      if (edgeSet.has(id)) return;
-      edgeSet.add(id);
-      elements.push({ data: { id, ...data } });
-    };
+    const addNode = (id, data) => { if (!nodeSet.has(id)) { nodeSet.add(id); elements.push({ data: { id, ...data } }); } };
+    const addEdge = (id, data) => { if (!edgeSet.has(id)) { edgeSet.add(id); elements.push({ data: { id, ...data } }); } };
 
     const coursesOfCLO = {};
     CLO_ITEMS.forEach(it => {
@@ -281,9 +247,7 @@
       if (fCourse && e.courseId !== fCourse) return;
       if (fCLO && !(coursesOfCLO[fCLO]?.has(e.courseId))) return;
 
-      addNode(`PLO::${e.plo}`, {
-        kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
-      });
+      addNode(`PLO::${e.plo}`, { kind: 'PLO', label: e.plo, content: PLO[e.plo] || '' });
 
       const c = COURSES[e.courseId];
       if (!c) return;
@@ -300,12 +264,8 @@
       CLO_ITEMS.forEach(it => {
         if (it.courseId !== c.id) return;
         if (fCLO && it.clo !== fCLO) return;
-        addNode(`CLO::${c.id}::${it.clo}`, {
-          kind: 'CLO', clo: it.clo, content: it.content || ''
-        });
-        addEdge(`E_CC::${c.id}__${it.clo}`, {
-          source: `COURSE::${c.id}`, target: `CLO::${c.id}::${it.clo}`, kind: 'CC'
-        });
+        addNode(`CLO::${c.id}::${it.clo}`, { kind: 'CLO', clo: it.clo, content: it.content || '' });
+        addEdge(`E_CC::${c.id}__${it.clo}`, { source: `COURSE::${c.id}`, target: `CLO::${c.id}::${it.clo}`, kind: 'CC' });
       });
     });
 
@@ -313,83 +273,70 @@
   }
 
   function createCy() {
-    const container = document.getElementById('cy');
-    if (!container) return;
     if (cy) cy.destroy();
+    const elements = buildElementsByFilters();
 
     cy = cytoscape({
-      container,
-      elements: buildElementsByFilters(),
+      container: document.getElementById('cy'),
+      elements,
       style: [
-        {
-          selector: 'node[kind="PLO"]', style: {
-            'shape': 'round-rectangle', 'background-color': '#CFE8FF',
-            'border-color': '#0E7BD0', 'border-width': 1.2,
-            'label': 'data(label)', 'font-size': 10, 'text-valign': 'center',
-            'text-wrap': 'wrap', 'text-max-width': 140
-          }
-        },
-        {
-          selector: 'node[kind="COURSE"]', style: {
-            'shape': 'round-rectangle', 'background-color': '#FFE7A8',
-            'border-color': '#B7791F', 'border-width': 1.2,
-            'label': 'data(label)', 'font-size': 10, 'text-valign': 'center',
-            'text-wrap': 'wrap', 'text-max-width': 140
-          }
-        },
-        {
-          selector: 'node[kind="CLO"]', style: {
-            'shape': 'ellipse', 'background-color': '#E5E7EB',
-            'border-color': '#6B7280', 'border-width': 1,
-            'label': 'data(clo)', 'font-size': 10
-          }
-        },
-        {
-          selector: 'edge[kind="PC"]', style: {
-            'width': 3, 'curve-style': 'bezier',
-            'line-color': ele => colorForLevel(ele.data('level')),
-            'target-arrow-color': ele => colorForLevel(ele.data('level')),
-            'target-arrow-shape': 'triangle'
-          }
-        },
-        {
-          selector: 'edge[kind="CC"]', style: {
-            'width': 2, 'curve-style': 'bezier',
-            'line-color': '#94A3B8', 'target-arrow-color': '#94A3B8', 'target-arrow-shape': 'triangle'
-          }
-        },
+        { selector: 'node[kind="PLO"]', style: {
+          'shape':'round-rectangle','background-color':'#CFE8FF','border-color':'#0E7BD0','border-width':1.2,
+          'label':'data(label)','font-size':10,'text-valign':'center','text-wrap':'wrap','text-max-width':140
+        }},
+        { selector: 'node[kind="COURSE"]', style: {
+          'shape':'round-rectangle','background-color':'#FFE7A8','border-color':'#B7791F','border-width':1.2,
+          'label':'data(label)','font-size':10,'text-valign':'center','text-wrap':'wrap','text-max-width':140
+        }},
+        { selector: 'node[kind="CLO"]', style: {
+          'shape':'ellipse','background-color':'#E5E7EB','border-color':'#6B7280','border-width':1,
+          'label':'data(clo)','font-size':10
+        }},
+        { selector: 'edge[kind="PC"]', style: {
+          'width':3,'curve-style':'bezier',
+          'line-color': ele => colorForLevel(ele.data('level')),
+          'target-arrow-color': ele => colorForLevel(ele.data('level')),
+          'target-arrow-shape':'triangle'
+        }},
+        { selector: 'edge[kind="CC"]', style: {
+          'width':2,'curve-style':'bezier','line-color':'#94A3B8','target-arrow-color':'#94A3B8','target-arrow-shape':'triangle'
+        }},
         { selector: '.dim', style: { 'opacity': 0.12 } },
-        { selector: '.hl', style: { 'border-width': 2, 'background-blacken': -0.1 } }
+        { selector: '.hl',  style: { 'border-width': 2, 'background-blacken': -0.1 } }
       ],
-      layout: { name: 'cose', animate: true, nodeRepulsion: 14000, idealEdgeLength: 120, padding: 30 },
-      wheelSensitivity: 0.2
+      layout: { name:'cose', animate:true, nodeRepulsion:14000, idealEdgeLength:120, padding:30 }
     });
 
-    // Tooltip dùng #tooltip có sẵn trong HTML
-    const tip = document.getElementById('tooltip');
-    if (tip) {
-      cy.on('mouseover', 'node', (evt) => {
-        const n = evt.target;
-        let html = '';
-        if (n.data('kind') === 'PLO') {
-          html = `<b>${esc(n.data('label'))}</b><br>${esc(n.data('content') || '')}`;
-        } else if (n.data('kind') === 'COURSE') {
-          html = `<b>${esc(n.data('label'))}</b> — ${esc(n.data('fullname') || '')}<br>TC: ${esc(n.data('tong') || 0)}`;
-        } else {
-          html = `<b>${esc(n.data('clo'))}</b><br>${esc(n.data('content') || '')}`;
-        }
-        tip.innerHTML = html; tip.style.display = 'block';
-      });
-      cy.on('mouseout', 'node', () => { tip.style.display = 'none'; });
-      cy.on('mousemove', (evt) => {
-        if (tip.style.display === 'block') {
-          tip.style.left = (evt.originalEvent.pageX + 12) + 'px';
-          tip.style.top = (evt.originalEvent.pageY + 12) + 'px';
-        }
-      });
-    }
+    bindCyEvents();
+    // expose for Fit/Screenshot
+    window.cy = cy;
+  }
 
-    // Highlight theo node
+  function bindCyEvents() {
+    const tip = document.createElement('div');
+    tip.style.cssText = 'position:absolute;display:none;background:#fff;border:1px solid #e5e7eb;padding:8px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.08);font-size:12px;max-width:420px;z-index:50;';
+    tip.id = 'cloTip'; document.body.appendChild(tip);
+
+    cy.on('mouseover', 'node', (evt) => {
+      const n = evt.target;
+      let html = '';
+      if (n.data('kind') === 'PLO') {
+        html = `<b>${esc(n.data('label'))}</b><br>${esc(n.data('content') || '')}`;
+      } else if (n.data('kind') === 'COURSE') {
+        html = `<b>${esc(n.data('label'))}</b> — ${esc(n.data('fullname') || '')}<br>TC: ${esc(n.data('tong') || 0)}`;
+      } else {
+        html = `<b>${esc(n.data('clo'))}</b><br>${esc(n.data('content') || '')}`;
+      }
+      tip.innerHTML = html; tip.style.display = 'block';
+    });
+    cy.on('mouseout', 'node', () => { tip.style.display = 'none'; });
+    cy.on('mousemove', (evt) => {
+      if (tip.style.display === 'block') {
+        tip.style.left = (evt.originalEvent.pageX + 12) + 'px';
+        tip.style.top = (evt.originalEvent.pageY + 12) + 'px';
+      }
+    });
+
     cy.on('tap', 'node', (evt) => {
       const n = evt.target;
       cy.elements().addClass('dim');
@@ -398,16 +345,13 @@
       n.connectedEdges().connectedNodes().removeClass('dim').addClass('hl');
       setTimeout(() => cy.elements('.hl').removeClass('hl'), 600);
     });
-    cy.on('tap', (evt) => { if (evt.target === cy) cy.elements().removeClass('dim'); });
 
-    // Cho phép HTML gốc gọi fit/screenshot (đã có script ở file .html)
-    window.cy = cy;
+    cy.on('tap', (evt) => { if (evt.target === cy) cy.elements().removeClass('dim'); });
   }
 
   // ======= TABLE =======
   function rebuildTable() {
     ensureTableToolbar();
-
     const fP = filterPLO?.value || '';
     const fC = filterCourse?.value || '';
     const fL = filterCLO?.value || '';
@@ -415,28 +359,18 @@
     if (!resultTableBody) return;
     resultTableBody.innerHTML = '';
 
-    if (!EDGES_PC.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="border p-2 text-gray-500" colspan="4"><i>Hãy nạp dữ liệu A (PLO/COURSE/kết nối) rồi bấm “Xây đồ thị”.</i></td>`;
-      resultTableBody.appendChild(tr);
-      return;
-    }
-
     const cloMap = {};
-    CLO_ITEMS.forEach(it => {
-      (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
-    });
+    CLO_ITEMS.forEach(it => { (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it); });
 
     const rows = [];
     EDGES_PC.forEach(e => {
       if (fP && e.plo !== fP) return;
       if (fC && e.courseId !== fC) return;
-
       const course = COURSES[e.courseId];
       if (!course) return;
 
-      const list = (cloMap[course.id] || []);
-      const cloFiltered = fL ? list.filter(x => x.clo === fL) : list;
+      const thisCLOs = cloMap[course.id] || [];
+      const cloFiltered = fL ? thisCLOs.filter(x => x.clo === fL) : thisCLOs;
       if (cloFiltered.length === 0) return;
 
       cloFiltered.forEach(ci => {
@@ -453,18 +387,11 @@
       });
     });
 
-    rows.sort((a, b) =>
+    rows.sort((a,b) =>
       a.plo.localeCompare(b.plo) ||
       a.courseLabel.localeCompare(b.courseLabel) ||
       a.clo.localeCompare(b.clo)
     );
-
-    if (!rows.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="border p-2 text-gray-500" colspan="4"><i>Không có kết quả (có thể do chưa nạp COURSE–CLO.csv hoặc bộ lọc đang quá hẹp).</i></td>`;
-      resultTableBody.appendChild(tr);
-      return;
-    }
 
     rows.forEach(r => {
       const tr = document.createElement('tr');
@@ -475,19 +402,24 @@
         </td>
         <td class="border p-2 align-top">${esc(r.courseLabel)} — ${esc(r.courseFull)}</td>
         <td class="border p-2 align-top">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-white text-xs font-semibold"
+          <span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-white text-xs"
                 style="background:${colorForLevel(r.level)}">${esc(r.level || '')}</span>
         </td>
         <td class="border p-2 align-top">
           <div class="font-medium">${esc(r.clo)}</div>
           <div class="text-xs text-gray-600">${esc(r.cloContent)}</div>
-        </td>
-      `;
+        </td>`;
       resultTableBody.appendChild(tr);
     });
+
+    if (rows.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="border p-2 text-gray-500" colspan="4"><i>Không có kết quả phù hợp bộ lọc.</i></td>`;
+      resultTableBody.appendChild(tr);
+    }
   }
 
-  // Toolbar cho bảng (thêm nút Export CSV)
+  // Toolbar cho bảng (nút Export CSV)
   function ensureTableToolbar(){
     if (!resultTable || resultTable.__toolbarReady) return;
     const wrapCard = resultTable.closest('.card');
@@ -503,16 +435,14 @@
     resultTable.__toolbarReady = true;
   }
 
-  // Xuất CSV: PLO, PLO_content, Course_label, Course_fullname, Level, CLO, CLO_content
+  // Xuất CSV bảng ghép theo bộ lọc hiện tại
   function exportMatrixCsv(){
     const fP = filterPLO?.value || '';
     const fC = filterCourse?.value || '';
     const fL = filterCLO?.value || '';
 
     const cloMap = {};
-    CLO_ITEMS.forEach(it => {
-      (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
-    });
+    CLO_ITEMS.forEach(it => { (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it); });
 
     const headers = ['plo','plo_content','course_label','course_fullname','level','clo','clo_content'];
     const lines = [headers.join(',')];
@@ -542,7 +472,7 @@
     __downloadText('plo_course_clo_table.csv', csv);
   }
 
-  // ======= GPT CALLERS (Render) =======
+  // ======= GPT =======
   async function gptCall(kind, payload) {
     const url = `${API_BASE}/api/${kind}`;
     const res = await fetch(url, {
@@ -554,8 +484,7 @@
       body: JSON.stringify(payload)
     });
     if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch { }
+      let msg = ''; try { msg = await res.text(); } catch {}
       throw new Error(`GPT API error: ${res.status} ${msg}`);
     }
     return await res.json();
@@ -571,10 +500,9 @@
     const levels = LEVEL2BLOOM[level] || [];
     const pool = [];
     levels.forEach(lv => (BLOOM_BY_LEVEL[lv] || []).forEach(v => pool.push({ verb: v, level: lv })));
-    if (pool.length === 0) ['Describe', 'Explain', 'Apply', 'Analyze', 'Evaluate', 'Create']
+    if (pool.length === 0) ['Describe','Explain','Apply','Analyze','Evaluate','Create']
       .forEach(v => pool.push({ verb: v, level: '*' }));
-    const out = [];
-    const used = new Set();
+    const out = []; const used = new Set();
     for (let i = 0; i < pool.length && out.length < Math.min(n, pool.length); i++) {
       const idx = Math.floor(Math.random() * pool.length);
       const key = pool[idx].verb.toLowerCase();
@@ -584,7 +512,6 @@
     return out;
   }
 
-  // Tính CLO code tiếp theo (nếu cần)
   function nextCLOCode(courseId){
     const cur = CLO_ITEMS.filter(x => x.courseId === courseId);
     let maxN = 0;
@@ -594,7 +521,6 @@
     });
     return `CLO${maxN+1}`;
   }
-
   function addCLO(courseId, text, explicitCLO){
     if (!COURSES[courseId]) return false;
     const cloCode = explicitCLO || nextCLOCode(courseId);
@@ -606,51 +532,42 @@
     return true;
   }
 
-  // GỢI Ý CLO
   async function suggestCLO() {
     const plo = aiPLO?.value; const courseId = aiCourse?.value; const level = aiLevel?.value || 'I';
     if (!plo || !courseId) return alert('Chọn PLO và Course trước.');
     const ploText = PLO[plo] || '';
     const course = COURSES[courseId] || {};
 
-    aiSuggestions.innerHTML = '<li class="text-gray-500">Đang gọi GPT…</li>';
+    if (aiSuggestions) aiSuggestions.innerHTML = '<li class="text-gray-500">Đang gọi GPT…</li>';
     try {
-      const gpt = await gptCall('suggest', {
-        plo, ploText, course, level, bloomVerbs: BLOOM, count: 6
-      });
-
+      const gpt = await gptCall('suggest', { plo, ploText, course, level, bloomVerbs: BLOOM, count: 6 });
       const items = (gpt && Array.isArray(gpt.items) && gpt.items.length)
         ? gpt.items
         : pickVerbs(level, 5).map((v,i)=>`CLO${i+1}: ${v.verb} ${course.fullname || course.label || 'học phần'} theo yêu cầu ${plo} (${v.level}).`);
 
-      aiSuggestions.innerHTML = '';
-      items.forEach(text=>{
-        const li = document.createElement('li');
-        li.className = 'flex items-start justify-between gap-2';
-        const span = document.createElement('span');
-        span.textContent = text;
-        const add = document.createElement('button');
-        add.className = 'btn btn-outline';
-        add.textContent = '+ Thêm';
-        add.title = 'Thêm CLO này vào dữ liệu';
-        add.addEventListener('click', ()=>{
-          const ok = addCLO(courseId, text);
-          if (!ok) alert('Không thể thêm CLO. Kiểm tra Course.');
+      if (aiSuggestions) {
+        aiSuggestions.innerHTML = '';
+        items.forEach(text=>{
+          const li = document.createElement('li');
+          li.className = 'flex items-start justify-between gap-2';
+          const span = document.createElement('span');
+          span.textContent = text;
+          const add = document.createElement('button');
+          add.className = 'btn btn-outline'; add.textContent = '+ Thêm';
+          add.addEventListener('click', ()=> { if (!addCLO(courseId, text)) alert('Không thể thêm CLO.'); });
+          li.appendChild(span); li.appendChild(add);
+          aiSuggestions.appendChild(li);
         });
-        li.appendChild(span); li.appendChild(add);
-        aiSuggestions.appendChild(li);
-      });
-    } catch (err) {
-      aiSuggestions.innerHTML = '';
-      const ideas = pickVerbs(level, 5).map((v,i)=>`CLO${i+1}: ${v.verb} ${course.fullname || course.label || 'học phần'} theo yêu cầu ${plo} (${v.level}).`);
-      ideas.forEach(text=>{
-        const li = document.createElement('li'); li.textContent = text; aiSuggestions.appendChild(li);
-      });
-      console.warn('GPT suggest fallback:', err?.message || err);
+      }
+    } catch {
+      if (aiSuggestions) {
+        aiSuggestions.innerHTML = '';
+        const ideas = pickVerbs(level, 5).map((v,i)=>`CLO${i+1}: ${v.verb} ${course.fullname || course.label || 'học phần'} theo yêu cầu ${plo} (${v.level}).`);
+        ideas.forEach(t => { const li = document.createElement('li'); li.textContent = t; aiSuggestions.appendChild(li); });
+      }
     }
   }
 
-  // ĐÁNH GIÁ CLO ↔ PLO
   async function evaluateCLO() {
     const plo = evalPLO?.value; const cloText = (evalCLO?.value || '').trim();
     if (!plo || !cloText) return alert('Chọn PLO và nhập CLO.');
@@ -658,34 +575,33 @@
     if (evalResult) evalResult.textContent = 'Đang gọi GPT…';
     try {
       const gpt = await gptCall('evaluate', { plo, ploText, cloText });
-      if (gpt && gpt.text) { if (evalResult) evalResult.textContent = gpt.text; return; }
-      throw new Error('Empty GPT text');
-    } catch (err) {
-      // Fallback heuristic
-      function keywords(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').match(/[a-z0-9]+/g) || []; }
-      const kp = new Set(keywords(ploText));
-      const kc = keywords(cloText);
-      let overlap = 0; kc.forEach(w => { if (kp.has(w)) overlap++; });
-      const score = Math.min(100, Math.round((overlap / Math.max(4, kp.size || 1)) * 100));
-      const verdict = score >= 70 ? 'Rất phù hợp' : score >= 40 ? 'Tương đối phù hợp' : 'Chưa phù hợp';
-      if (evalResult) {
-        evalResult.textContent =
-          `Điểm tương đồng (heuristic): ${score}/100 → ${verdict}.
-Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom và tiêu chí đo lường.`;
-      }
-      console.warn('GPT evaluate fallback:', err?.message || err);
+      if (evalResult) evalResult.textContent = (gpt && gpt.text) ? gpt.text : '—';
+    } catch {
+      // simple fallback
+      if (evalResult) evalResult.textContent = 'Đánh giá nhanh: hãy tăng từ khoá trùng với PLO và làm rõ động từ Bloom.';
     }
   }
 
-  // ======= RENDER + WIRING =======
+  // ======= RENDER =======
   function rebuildAll() {
     rebuildFilters();
     createCy();
     rebuildTable();
   }
 
+  // ======= UTIL: download text =======
+  function __downloadText(filename, text) {
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 0);
+  }
+  window.__downloadText = __downloadText;
+
+  // ======= EVENTS =======
   document.addEventListener('DOMContentLoaded', () => {
-    // A. Build từ CSV
+    // A. Build từ CSV (PLO, COURSE, PLO-COURSE)
     btnBuild?.addEventListener('click', () => {
       onBuildFromCsv().catch(err => alert('Không đọc được CSV: ' + err));
     });
@@ -718,17 +634,13 @@ Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom v�
     btnAIEval?.addEventListener('click', evaluateCLO);
 
     // Fit & Screenshot (nếu có nút trong HTML)
-  document.getElementById('btnFit')?.addEventListener('click', () => {
-    window.cy?.fit();
-  });
-  document.getElementById('btnScreenshot')?.addEventListener('click', () => {
-    if (!window.cy) return;
-    const png64 = window.cy.png({ bg: 'white', full: true, scale: 2 });
-    const a = document.createElement('a');
-    a.href = png64; a.download = 'CLO-PLO-graph.png';
-    a.click();
-  });
-    
+    document.getElementById('btnFit')?.addEventListener('click', () => { if (window.cy) window.cy.fit(); });
+    document.getElementById('btnScreenshot')?.addEventListener('click', () => {
+      if (!window.cy) return;
+      const png64 = window.cy.png({ bg: 'white', full: true, scale: 2 });
+      const a = document.createElement('a'); a.href = png64; a.download = 'CLO-PLO-graph.png'; a.click();
+    });
+
     // Khởi tạo rỗng
     rebuildAll();
   });

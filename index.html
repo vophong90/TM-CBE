@@ -45,9 +45,8 @@
       }
     };
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     /* Hero: gradient + (tùy chọn) ảnh */
@@ -75,7 +74,7 @@
     .card{ border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:.2s }
     .card:hover{ box-shadow:0 8px 24px rgba(0,0,0,.08) }
     .card-body{ padding:1.25rem }
-    .btn{ display:inline-flex;align-items:center;justify-content:center;border-radius:0.75rem;padding:.5rem 1rem;font-weight:600 }
+    .btn{ display:inline-flex;align-items:center;justify-content:center;padding:.5rem 1rem;border-radius:.75rem;font-weight:600;gap:.5rem}
   </style>
 </head>
 <body class="bg-white text-gray-900 font-sans">
@@ -101,22 +100,22 @@
       <div class="grid lg:grid-cols-[1.3fr_.9fr] gap-10 items-center">
         <div class="space-y-6">
           <div class="flex items-center gap-4">
-            <div class="logo-badge"><img src="./assets/logo-ump.png" alt="ĐH Y Dược TP.HCM"></div>
-            <div class="logo-badge"><img src="./assets/logo-yhct.png" alt="Khoa Y học cổ truyền"></div>
+            <div class="logo-badge"><img src="./assets/logo-ump.png" alt="ĐẠI HỌC Y DƯỢC THÀNH PHỐ HỒ CHÍ MINH"></div>
+            <div class="logo-badge"><img src="./assets/logo-yhct.png" alt="KHOA Y HỌC CỔ TRUYỀN"></div>
           </div>
 
           <h1 class="text-3xl md:text-4xl font-bold leading-tight">
             Khoa Y học cổ truyền<br>
-            <span class="text-brand-700">Đại học Y Dược TP.HCM</span>
+            <span class="text-brand-700">ĐẠI HỌC Y DƯỢC THÀNH PHỐ HỒ CHÍ MINH</span>
           </h1>
 
           <p class="text-gray-700 md:text-lg">
-            Nền tảng quản trị ma trận chương trình đào tạo: PLO, Course, CLO và PI – hỗ trợ phân tích và xuất/nhập dữ liệu.
+            Nền tảng xây dựng khung chương trình đào tạo bác sỹ y học cổ truyền.
           </p>
 
           <div class="flex flex-wrap gap-3">
-            <a class="btn bg-brand-600 hover:bg-brand-700 text-white shadow-sm" href="./plo-course.html">Bắt đầu với PLO–Course</a>
-            <a class="btn border border-gray-300 hover:bg-gray-50" href="./plo-pi.html">Xem PLO–PI</a>
+            <a class="btn bg-brand-600 hover:bg-brand-700 text-white shadow-sm" href="./plo-pi.html">Bắt đầu với PLO–PI</a>
+            <a class="btn border border-gray-300 hover:bg-gray-50" href="./plo-pi.html">Hướng dẫn</a>
           </div>
         </div>
 
@@ -130,11 +129,11 @@
             <div class="mt-4 space-y-4 text-sm leading-relaxed text-gray-700">
               <div>
                 <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Sứ mạng</div>
-                <p class="mt-1">Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao…</p>
+                <p class="mt-1">Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.</p>
               </div>
               <div>
                 <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Tầm nhìn</div>
-                <p class="mt-1">Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam…</p>
+                <p class="mt-1">Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam, với chương trình giảng dạy và nghiên cứu khoa học về Y học cổ truyền kết hợp Y học hiện đại ngang tầm các đại học trong khu vực Châu Á - Thái Bình Dương.</p>
               </div>
               <div class="grid sm:grid-cols-2 gap-3">
                 <div class="rounded-xl border p-3">
@@ -143,7 +142,7 @@
                 </div>
                 <div class="rounded-xl border p-3">
                   <div class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Triết lý giáo dục</div>
-                  <p class="mt-1">“Phát huy nội lực và tăng cường hợp tác quốc tế… hội nhập”</p>
+                  <p class="mt-1">Phát huy nội lực và tăng cường hợp tác quốc tế nhằm tối ưu môi trường dạy và học, lấy người học làm trung tâm, xây dựng đội ngũ cán bộ y tế toàn diện, có đức có tài, có trách nhiệm, sẵn sàng thích ứng và hội nhập</p>
                 </div>
               </div>
             </div>
@@ -157,16 +156,16 @@
   <main class="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-10">
     <section>
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold">Đi tới ma trận & công cụ</h2>
+        <h2 class="text-xl font-semibold">Các chức năng</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <a href="./plo-pi.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold">PLO–PI</h3>
-              <span class="rounded-full bg-brand-50 text-brand-700 text-xs px-2 py-1 border">Phân tích</span>
+              <span class="rounded-full bg-brand-50 text-brand-700 text-xs px-2 py-1 border">Mapping</span>
             </div>
-            <p class="text-sm text-gray-600 mt-1">Liên kết PLO với PI.</p>
+            <p class="text-sm text-gray-600 mt-1">Liên kết chuẩn năng lực hành nghề với chuẩn đầu ra của chương trình đào tạo</p>
             <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
@@ -175,9 +174,9 @@
           <div class="card-body">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold">PLO–Course</h3>
-              <span class="rounded-full bg-yhct-50 text-yhct-700 text-xs px-2 py-1 border">CSV/JSON</span>
+              <span class="rounded-full bg-yhct-50 text-yhct-700 text-xs px-2 py-1 border">Mapping</span>
             </div>
-            <p class="text-sm text-gray-600 mt-1">Mapping học phần với PLO, ma trận &amp; I/R/M/A.</p>
+            <p class="text-sm text-gray-600 mt-1">Xây dựng ma trận chuẩn đầu ra và học phần trong chương trình đào tạo</p>
             <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
@@ -185,10 +184,10 @@
         <a href="./clo-plo.html" class="card group">
           <div class="card-body">
             <div class="flex items-center justify-between">
-              <h3 class="font-semibold">CLO–PLO</h3>
-              <span class="rounded-full bg-purple-50 text-purple-700 text-xs px-2 py-1 border">Mở rộng</span>
+              <h3 class="font-semibold">PLO-CLO</h3>
+              <span class="rounded-full bg-purple-50 text-purple-700 text-xs px-2 py-1 border">Phân tích</span>
             </div>
-            <p class="text-sm text-gray-600 mt-1">Liên kết CLO → PLO.</p>
+            <p class="text-sm text-gray-600 mt-1">Phân tích sự phù hợp theo thang Bloom giữa chuẩn đầu ra của chương trình đào tạo và chuẩn đầu ra của học phần.</p>
             <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>
@@ -199,7 +198,7 @@
               <h3 class="font-semibold">Phân bổ khung</h3>
               <span class="rounded-full bg-accent-50 text-accent-700 text-xs px-2 py-1 border">Kế hoạch</span>
             </div>
-            <p class="text-sm text-gray-600 mt-1">Phân bổ học phần, tín chỉ theo giai đoạn.</p>
+            <p class="text-sm text-gray-600 mt-1">Phân bổ học phần theo học kỳ</p>
             <div class="mt-3 text-brand-700 text-sm opacity-0 group-hover:opacity-100 transition">Mở ngay →</div>
           </div>
         </a>

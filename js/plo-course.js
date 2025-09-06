@@ -1,20 +1,27 @@
+/* =========================
+   PLO–Course logic (v2)
+   Khớp với plo-course.html mới
+   ========================= */
+
 let cy;                          // cytoscape instance
-let selectedEdge = null;         // selected edge
-let undoStack = [];              // for undo delete
+let selectedEdge = null;         // cạnh đang chọn
+let undoStack = [];              // hoàn tác xoá cạnh
 
-// Data after CSV load
-let PLO_LABELS = {};             // { "PLO1": "content...", ... }   key = PLO label
-let PLO_KEYS = [];               // ["PLO1", "PLO2", ...]
-let HP_INFO = {};                // { "C001": {label, fullname, group}, ... }   key = Course id
+// Dữ liệu sau khi nạp CSV
+let PLO_LABELS = {};             // { "PLO1": "content...", ... }
+let PLO_KEYS   = [];             // ["PLO1","PLO2",...]
+let HP_INFO    = {};             // { "HP001": {label, fullname, group, credit?}, ... }
+let centralityChart = null;
+let irmaPie = null;
 
-// Temp parsed rows
+// Tạm giữ dòng CSV đã parse
 let _ploRows = null, _courseRows = null;
 
-// Colors by Course group
+// Màu theo group học phần (tuỳ chỉnh nếu muốn)
 const groupColors = {
-  'Đại cương': '#90CAF9',
-  'Cơ sở ngành': '#A5D6A7',
-  'Ngành': '#FFCC80',
+  'Đại cương': '#BADBFF',
+  'Cơ sở ngành': '#B5E6C9',
+  'Ngành': '#FFE58A',
   'Định hướng chuyên ngành': '#CE93D8',
   'Tốt nghiệp': '#EF9A9A'
 };
@@ -30,20 +37,34 @@ function parseCsvFromInput(file) {
     });
   });
 }
+
+// Brand-ish màu edge theo level
 function levelColor(level) {
-  return { I: '#CCCCCC', R: '#2196F3', M: '#FFC107', A: '#F44336' }[level] || '#888';
+  // I: xám; R: brand; M: accent; A: đỏ
+  return {
+    I: '#94A3B8',     // slate-400
+    R: '#2D8FE8',     // brand-500
+    M: '#FFC21E',     // accent-400
+    A: '#EF4444'      // red-500
+  }[level] || '#888';
 }
+
 function csvQuote(v) {
   if (v == null) return '';
   const s = String(v).replace(/"/g,'""');
   return /[",\n]/.test(s) ? `"${s}"` : s;
 }
 
+function normalizeKey(s) {
+  if (s == null) return '';
+  return String(s).normalize('NFKC').trim().toLowerCase().replace(/\s+/g,' ');
+}
+
 // -------------------------- Build Graph --------------------------
 function buildElements() {
   const ploNodes = PLO_KEYS.map(p => ({ data: { id: p, label: p } }));
   const courseNodes = Object.keys(HP_INFO).map(cid => ({
-    data: { id: cid, label: HP_INFO[cid].label || HP_INFO[cid].fullname || cid },
+    data: { id: cid, label: HP_INFO[cid].label || cid },
     classes: HP_INFO[cid].group
   }));
   return [...ploNodes, ...courseNodes];
@@ -58,32 +79,46 @@ function createCy(elements) {
       { selector: 'node', style: {
         'label': 'data(label)',
         'text-valign': 'center',
-        'color': '#000',
+        'text-halign': 'center',
+        'color': '#0f172a', // slate-900
+        'font-size': '11px',
         'background-color': ele => {
           const id = ele.id();
-          if (PLO_LABELS[id]) return '#A3C4DC'; // PLO: light blue
-          if (HP_INFO[id])   return groupColors[HP_INFO[id].group] || '#ccc';
-          return '#ccc';
+          if (PLO_LABELS[id]) return '#D8ECFF'; // PLO: brand-100
+          if (HP_INFO[id])   return groupColors[HP_INFO[id].group] || '#EEF7FF';
+          return '#e5e7eb';
         },
-        'font-size': '11px'
+        'border-width': 1,
+        'border-color': '#e5e7eb'
       }},
       { selector: 'edge', style: {
         'width': 3,
         'label': 'data(level)',
+        'font-size': 12,
+        'color': '#0f172a',
         'line-color': ele => levelColor(ele.data('level')),
         'target-arrow-shape': 'triangle',
         'target-arrow-color': ele => levelColor(ele.data('level')),
         'curve-style': 'bezier',
-        'font-size': 12,
-        'text-background-color': '#fff',
+        'text-background-color': '#ffffff',
         'text-background-opacity': 1,
         'text-background-padding': 2
       }},
       { selector: '.node-dimmed', style: { 'opacity': 0.12 } },
       { selector: '.edge-dimmed', style: { 'opacity': 0.05 } },
-      { selector: '.edge.selected', style: { 'line-color': 'red', 'target-arrow-color': 'red', 'width': 4 } },
+      { selector: '.edge.selected', style: { 'line-color': '#ef4444', 'target-arrow-color': '#ef4444', 'width': 4 } },
     ],
-    layout: { name: 'cose', animate: true, nodeRepulsion: 12000, idealEdgeLength: 120, edgeElasticity: 0.2, gravity: 1, numIter: 2000, fit: true, padding: 40 }
+    layout: {
+      name: 'cose',
+      animate: true,
+      nodeRepulsion: 12000,
+      idealEdgeLength: 120,
+      edgeElasticity: 0.2,
+      gravity: 1,
+      numIter: 2000,
+      fit: true,
+      padding: 40
+    }
   });
 
   wireCyEvents();
@@ -127,7 +162,10 @@ function wireCyEvents() {
       tooltip.innerHTML = `<strong>${id}</strong><br>${PLO_LABELS[id]}`;
     } else if (HP_INFO[id]) {
       const { label, fullname, group } = HP_INFO[id];
-      tooltip.innerHTML = `<strong>${fullname || label || id}</strong><br>${label ? `Mã: ${id} — ${label}<br>` : `Mã: ${id}<br>`}Nhóm: ${group || ''}`;
+      tooltip.innerHTML =
+        `<strong>${fullname || label || id}</strong><br>` +
+        `Mã: ${id}${label ? ` — ${label}` : ''}<br>` +
+        `Nhóm: ${group || ''}`;
     }
     tooltip.style.display = 'block';
   });
@@ -139,17 +177,18 @@ function wireCyEvents() {
     }
   });
 
-  // Update tables/charts when edges change
+  // update bảng/biểu đồ khi có thay đổi
   cy.on('add remove data', () => refreshUIAfterGraphChange());
 }
 
-// -------------------------- UI Refresh (dropdowns + tables + charts + flow) --------------------------
+// -------------------------- UI Refresh --------------------------
 function refreshUIAfterGraphChange() {
   populateDropdowns();
   buildMatrixHeader();
   updateSummaryTable();
   updateMatrixTable();
-  // Charts / Flow (debounced)
+
+  // Charts / Flow (debounce ngắn)
   setTimeout(() => {
     analyzeCentrality();
     renderIrmaPieChart();
@@ -164,12 +203,13 @@ function populateDropdowns() {
 
   if (ploAdd) ploAdd.innerHTML = '';
   if (hpAdd)  hpAdd.innerHTML  = '';
+
   if (ploFlowSelect) {
     const cur = ploFlowSelect.value;
     ploFlowSelect.innerHTML = '<option value="">-- Chọn một PLO --</option>';
     PLO_KEYS.forEach(p => {
       const o = document.createElement('option');
-      o.value = p; o.textContent = p;
+      o.value = o.textContent = p;
       if (p === cur) o.selected = true;
       ploFlowSelect.appendChild(o);
     });
@@ -177,7 +217,7 @@ function populateDropdowns() {
 
   PLO_KEYS.forEach(p => {
     const o = document.createElement('option');
-    o.value = p; o.textContent = p;
+    o.value = o.textContent = p;
     ploAdd?.appendChild(o);
   });
 
@@ -192,15 +232,17 @@ function populateDropdowns() {
 function buildMatrixHeader() {
   const thead = document.querySelector('#matrixTable thead');
   if (!thead) return;
-  const cols = ['<th>Course (fullname)</th>'].concat(PLO_KEYS.map(p => `<th>${p}</th>`));
-  thead.innerHTML = `<tr>${cols.join('')}</tr>`;
+  const cols = ['<th class="border p-2">Course (fullname)</th>'].concat(
+    PLO_KEYS.map(p => `<th class="border p-2">${p}</th>`)
+  );
+  thead.innerHTML = `<tr class="text-left">${cols.join('')}</tr>`;
 }
 
-// Summary counts per course
+// Tổng hợp số I/R/M/A theo course
 function updateSummaryTable() {
   const counts = {};  // { courseId: {I,R,M,A} }
   cy?.edges().forEach(e => {
-    const cid = e.data('target'); // target = Course
+    const cid = e.data('target'); // target = Course id
     const level = e.data('level');
     if (!counts[cid]) counts[cid] = { I:0, R:0, M:0, A:0 };
     if (['I','R','M','A'].includes(level)) counts[cid][level]++;
@@ -226,12 +268,12 @@ function updateSummaryTable() {
   });
 }
 
-// Matrix PLO × Course (cell = level)
+// Ma trận PLO × Course (ô = level)
 function updateMatrixTable() {
   const matrix = {}; // { courseId: { PLO: level } }
   cy?.edges().forEach(e => {
-    const plo = e.data('source');   // source = PLO
-    const cid = e.data('target');   // target = Course
+    const plo = e.data('source');   // PLO
+    const cid = e.data('target');   // Course id
     const lv  = e.data('level');
     if (!matrix[cid]) matrix[cid] = {};
     matrix[cid][plo] = lv;
@@ -261,7 +303,7 @@ async function bootFromCsvInputs() {
   _ploRows = await parseCsvFromInput(fPlo);
   _courseRows = await parseCsvFromInput(fCourse);
 
-  // Build PLO
+  // PLO
   PLO_LABELS = {}; PLO_KEYS = [];
   _ploRows.forEach(r => {
     const label = (r.label || r.LABEL || '').trim();
@@ -269,7 +311,7 @@ async function bootFromCsvInputs() {
     if (label) { PLO_LABELS[label] = content; PLO_KEYS.push(label); }
   });
 
-  // Build COURSE
+  // COURSE
   HP_INFO = {};
   _courseRows.forEach(r => {
     const id = (r.id || r.ID || '').trim();
@@ -278,16 +320,13 @@ async function bootFromCsvInputs() {
       label:    (r.label || r.LABEL || '').trim(),
       fullname: (r.fullname || r.FULLNAME || '').trim(),
       group:    (r.group || r.GROUP || '').trim(),
-      // credit: optional – add your column if needed
+      credit:   (r.credit || r.CREDIT || '').toString().trim() || undefined
     };
   });
 
-  // Create graph
+  // Create graph (nodes only, chưa có edges)
   createCy(buildElements());
   document.getElementById('buildStatus').textContent = 'Đã dựng đồ thị từ CSV.';
-
-  // Auto-restore from LocalStorage if available
-  loadConnectionsFromStorage(true);
 }
 
 // -------------------------- Connection Ops --------------------------
@@ -295,24 +334,21 @@ function addConnection() {
   if (!cy) return;
   const plo = document.getElementById('plo-add').value; // PLO label
   const cid = document.getElementById('hp-add').value;  // Course id
-  const lvl = document.getElementById('level-add').value || 'I';
+  const lvl = (document.getElementById('level-add').value || 'I').toUpperCase();
   if (!plo || !cid) { alert('Chọn PLO và Course trước.'); return; }
 
   if (!PLO_LABELS[plo]) { alert('PLO không tồn tại.'); return; }
   if (!HP_INFO[cid])    { alert('Course không tồn tại.'); return; }
 
   const id = `e_${plo}_${cid}`;
-  if (cy.getElementById(id).length) {
-    alert('Kết nối đã tồn tại.');
-    return;
-  }
+  if (cy.getElementById(id).length) { alert('Kết nối đã tồn tại.'); return; }
   cy.add({ data: { id, source: plo, target: cid, level: lvl, label: lvl }});
   cy.layout({ name: 'cose', animate: true }).run();
 }
 
 function updateSelectedEdgeLevel() {
   if (!selectedEdge) { alert('Chưa chọn cạnh nào.'); return; }
-  const lv = document.getElementById('level-select').value || 'I';
+  const lv = (document.getElementById('level-select').value || 'I').toUpperCase();
   selectedEdge.data('level', lv);
   selectedEdge.data('label', lv);
 }
@@ -323,6 +359,7 @@ function deleteSelectedEdge() {
   selectedEdge.remove();
   selectedEdge = null;
 }
+
 function undoDelete() {
   const last = undoStack.pop();
   if (!last) { alert('Không có thao tác xoá gần đây.'); return; }
@@ -330,21 +367,15 @@ function undoDelete() {
   cy.layout({ name: 'cose', animate: true }).run();
 }
 
-function removeAllEdges() {
-  if (!cy) return;
-  if (!confirm('Xoá tất cả kết nối?')) return;
-  cy.edges().remove();
-}
-
 // -------------------------- Import/Export connections (CSV) --------------------------
 function exportConnectionsCSV() {
   if (!cy) return;
   const rows = cy.edges().map(e => ({
-    plo_label: e.data('source'),
-    course_id: e.data('target'),
-    level:     e.data('level') || ''
+    plo:    e.data('source'),   // PLO label
+    course: e.data('target'),   // Course id
+    level:  e.data('level') || ''
   }));
-  const heads = ['plo_label','course_id','level'];
+  const heads = ['plo','course','level'];
   const csv = '\ufeff' + [
     heads.join(','),
     ...rows.map(r => heads.map(h => csvQuote(r[h])).join(','))
@@ -362,111 +393,42 @@ async function importConnectionsCSV(file) {
   const data = await new Promise((resolve, reject) => {
     Papa.parse(file, { header: true, skipEmptyLines: true, complete: res => resolve(res.data), error: reject });
   });
-  // Clear edges
+
+  // Xoá edges cũ
   cy.edges().remove();
+
+  // Chuẩn bị map fullname->id (để chấp nhận CSV dùng fullname)
+  const fullnameToId = {};
+  Object.keys(HP_INFO).forEach(cid => {
+    const full = HP_INFO[cid]?.fullname || '';
+    if (full) fullnameToId[normalizeKey(full)] = cid;
+  });
+
   data.forEach(r => {
-    const plo = (r.plo_label || r.PLO || '').trim();
-    const cid = (r.course_id || r.COURSE || '').trim();
-    const lv  = (r.level || r.LEVEL || '').trim() || 'I';
+    const plo = (r.plo || r.PLO || r.plo_label || r.PLO_LABEL || '').trim();
+    // Ưu tiên id: course/course_id/id
+    let cid = (r.course || r.course_id || r.id || '').trim();
+    // nếu không có id, thử fullname
+    if (!cid) {
+      const fullname = (r.fullname || r.course_name || r['Tên Học phần'] || '').trim();
+      const key = normalizeKey(fullname);
+      if (key && fullnameToId[key]) cid = fullnameToId[key];
+    }
+    const lv  = (r.level || r.LEVEL || '').trim().toUpperCase() || 'I';
+
     if (!plo || !cid) return;
     if (!PLO_LABELS[plo] || !HP_INFO[cid]) return;
+
     const id = `e_${plo}_${cid}`;
     if (!cy.getElementById(id).length) {
       cy.add({ data: { id, source: plo, target: cid, level: lv, label: lv }});
     }
   });
+
   cy.layout({ name: 'cose', animate: true }).run();
 }
 
-// -------------------------- Import/Export connections (JSON) --------------------------
-function exportConnectionsJSON() {
-  if (!cy) return;
-  const edges = cy.edges().map(e => ({
-    source: e.data('source'),   // PLO label
-    target: e.data('target'),   // Course id
-    level:  e.data('level') || ''
-  }));
-  const file = new Blob([JSON.stringify({ edges }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(file);
-  a.download = 'plo_course_connections.json';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-function importConnectionsJSON(file) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const obj = JSON.parse(reader.result);
-      if (!obj || !Array.isArray(obj.edges)) throw new Error('JSON không đúng định dạng.');
-      cy.edges().remove();
-      obj.edges.forEach(ed => {
-        const plo = (ed.source || '').trim();
-        const cid = (ed.target || '').trim();
-        const lv  = (ed.level  || 'I').trim();
-        if (!plo || !cid) return;
-        if (!PLO_LABELS[plo] || !HP_INFO[cid]) return;
-        const id = `e_${plo}_${cid}`;
-        if (!cy.getElementById(id).length) {
-          cy.add({ data: { id, source: plo, target: cid, level: lv, label: lv }});
-        }
-      });
-      cy.layout({ name: 'cose', animate: true }).run();
-    } catch (e) {
-      alert('Không đọc được JSON: ' + e.message);
-    }
-  };
-  reader.readAsText(file, 'utf-8');
-}
-
-// Backward-compatible names (nếu bạn quen tên cũ)
-const downloadConnections = exportConnectionsJSON;
-const loadConnections = importConnectionsJSON;
-const exportData = exportConnectionsJSON;
-
-// -------------------------- LocalStorage --------------------------
-const LS_KEY = 'PLO_COURSE_CONNECTIONS_V1';
-
-function saveConnectionsToStorage() {
-  if (!cy) return;
-  const edges = cy.edges().map(e => ({
-    source: e.data('source'),
-    target: e.data('target'),
-    level:  e.data('level') || ''
-  }));
-  localStorage.setItem(LS_KEY, JSON.stringify({ edges }));
-  alert('Đã lưu kết nối vào trình duyệt.');
-}
-
-function loadConnectionsFromStorage(silent=false) {
-  const raw = localStorage.getItem(LS_KEY);
-  if (!raw) { if(!silent) alert('Không có dữ liệu trong trình duyệt.'); return; }
-  try {
-    const obj = JSON.parse(raw);
-    if (!obj || !Array.isArray(obj.edges)) throw new Error('Sai định dạng.');
-    cy.edges().remove();
-    obj.edges.forEach(ed => {
-      const plo = (ed.source || '').trim();
-      const cid = (ed.target || '').trim();
-      const lv  = (ed.level  || 'I').trim();
-      if (!plo || !cid) return;
-      if (!PLO_LABELS[plo] || !HP_INFO[cid]) return;
-      const id = `e_${plo}_${cid}`;
-      if (!cy.getElementById(id).length) {
-        cy.add({ data: { id, source: plo, target: cid, level: lv, label: lv }});
-      }
-    });
-    cy.layout({ name: 'cose', animate: true }).run();
-    if (!silent) alert('Đã khôi phục kết nối từ trình duyệt.');
-  } catch (e) {
-    if (!silent) alert('Dữ liệu LocalStorage hỏng: ' + e.message);
-  }
-}
-
 // -------------------------- Centrality (compute + chart) --------------------------
-let centralityChart = null;
-
-// Compute centrality on undirected version of the graph
 function analyzeCentrality() {
   if (!cy) return;
 
@@ -480,18 +442,18 @@ function analyzeCentrality() {
     adj[t]?.add(s);
   });
 
-  // Degree centrality
+  // Degree
   const degree = {};
   nodeIds.forEach(id => degree[id] = adj[id].size);
 
-  // Brandes betweenness centrality (normalized)
+  // Betweenness (Brandes)
   const betweenness = {};
   nodeIds.forEach(v => betweenness[v] = 0);
 
   nodeIds.forEach(s => {
-    const S = []; // stack
-    const P = {}; // predecessors
-    const sigma = {}; // # shortest paths
+    const S = [];
+    const P = {};
+    const sigma = {};
     const dist = {};
     nodeIds.forEach(v => { P[v] = []; sigma[v] = 0; dist[v] = -1; });
     sigma[s] = 1; dist[s] = 0;
@@ -501,14 +463,8 @@ function analyzeCentrality() {
       const v = Q.shift();
       S.push(v);
       adj[v].forEach(w => {
-        if (dist[w] < 0) {
-          dist[w] = dist[v] + 1;
-          Q.push(w);
-        }
-        if (dist[w] === dist[v] + 1) {
-          sigma[w] += sigma[v];
-          P[w].push(v);
-        }
+        if (dist[w] < 0) { dist[w] = dist[v] + 1; Q.push(w); }
+        if (dist[w] === dist[v] + 1) { sigma[w] += sigma[v]; P[w].push(v); }
       });
     }
 
@@ -516,38 +472,33 @@ function analyzeCentrality() {
     nodeIds.forEach(v => delta[v] = 0);
     while (S.length) {
       const w = S.pop();
-      P[w].forEach(v => {
-        delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w]);
-      });
+      P[w].forEach(v => { delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w]); });
       if (w !== s) betweenness[w] += delta[w];
     }
   });
 
   // Normalize betweenness
   const n = nodeIds.length;
-  const normBet = {};
   const denom = (n - 1) * (n - 2) / 2;
+  const normBet = {};
   nodeIds.forEach(v => { normBet[v] = denom > 0 ? betweenness[v] / denom : 0; });
 
-  // Closeness centrality (harmonic variant)
+  // Closeness (harmonic)
   const closeness = {};
   nodeIds.forEach(v => {
-    // BFS distances from v
     const dist = {};
     nodeIds.forEach(u => dist[u] = -1);
     const Q = [v]; dist[v] = 0;
     while (Q.length) {
       const x = Q.shift();
-      adj[x].forEach(y => {
-        if (dist[y] < 0) { dist[y] = dist[x] + 1; Q.push(y); }
-      });
+      adj[x].forEach(y => { if (dist[y] < 0) { dist[y] = dist[x] + 1; Q.push(y); } });
     }
     let sum = 0;
     nodeIds.forEach(u => { if (u !== v && dist[u] > 0) sum += 1 / dist[u]; });
-    closeness[v] = sum; // harmonic closeness (robust when graph disconnected)
+    closeness[v] = sum;
   });
 
-  // Eigenvector centrality (power iteration)
+  // Eigenvector (power iteration)
   const eigen = {};
   nodeIds.forEach(v => eigen[v] = 1);
   let delta = 1, iter = 0;
@@ -568,9 +519,10 @@ function analyzeCentrality() {
     iter++;
   }
 
-  // Pack results as array (for chart)
+  // Chuẩn bị dữ liệu cho chart
   const result = nodeIds.map(id => ({
     id,
+    // Hiển thị label ngắn cho chart để không quá dài
     label: cy.getElementById(id).data('label') || id,
     degree: degree[id] || 0,
     betweenness: normBet[id] || 0,
@@ -586,11 +538,13 @@ function renderCentralityChart() {
   const data = window.centralityData || [];
   const sel = document.getElementById('centrality-select');
   if (!sel) return;
-  const type = sel.value || 'degree';
-  const ctx = document.getElementById('centrality-chart')?.getContext('2d');
-  if (!ctx) return;
+  const metric = sel.value || 'degree';
 
-  if (window.centralityChart) window.centralityChart.destroy();
+  const canvas = document.getElementById('centrality-chart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  if (centralityChart) centralityChart.destroy();
 
   const labels = data.map(d => d.label);
   const buildDS = (key, label) => ({
@@ -600,7 +554,7 @@ function renderCentralityChart() {
   });
 
   let datasets = [];
-  if (type === 'all') {
+  if (metric === 'all') {
     datasets = [
       buildDS('degree','degree'),
       buildDS('betweenness','betweenness'),
@@ -608,23 +562,30 @@ function renderCentralityChart() {
       buildDS('eigenvector','eigenvector'),
     ];
   } else {
-    datasets = [buildDS(type, type)];
+    datasets = [buildDS(metric, metric)];
   }
 
-  window.centralityChart = new Chart(ctx, {
+  // Gọi hàm đặt min-width để có scrollbar ngang (đã khai báo trong HTML)
+  if (typeof window.resizeCentralityCanvas === 'function') {
+    window.resizeCentralityCanvas(labels.length);
+  }
+
+  centralityChart = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { position: 'top' }, title: { display: false } },
-      scales: { y: { beginAtZero: true } }
+      scales: {
+        x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 0 } },
+        y: { beginAtZero: true }
+      }
     }
   });
 }
 
 // -------------------------- IRMA Pie --------------------------
-let irmaPie = null;
 function renderIrmaPieChart() {
   const counts = { I:0, R:0, M:0, A:0 };
   cy?.edges().forEach(e => {
@@ -634,7 +595,7 @@ function renderIrmaPieChart() {
 
   const ctx = document.getElementById('irma-pie')?.getContext('2d');
   if (!ctx) return;
-  if (irmaPie) { irmaPie.destroy(); }
+  if (irmaPie) irmaPie.destroy();
 
   irmaPie = new Chart(ctx, {
     type: 'pie',
@@ -646,7 +607,7 @@ function renderIrmaPieChart() {
   });
 }
 
-// -------------------------- Flow by PLO --------------------------
+// -------------------------- Flow theo PLO --------------------------
 function renderFlowDiagram() {
   const plo = document.getElementById('plo-flow-select')?.value || '';
   const container = document.getElementById('flow-diagram');
@@ -679,33 +640,37 @@ function renderFlowDiagram() {
 
 // -------------------------- Wire DOM --------------------------
 document.addEventListener('DOMContentLoaded', () => {
+  // Build graph từ CSV
   document.getElementById('btnBuild')?.addEventListener('click', bootFromCsvInputs);
+
+  // Thêm / sửa / xoá kết nối
   document.getElementById('btnAdd')?.addEventListener('click', addConnection);
   document.getElementById('btnUpdateLevel')?.addEventListener('click', updateSelectedEdgeLevel);
   document.getElementById('btnDelete')?.addEventListener('click', deleteSelectedEdge);
   document.getElementById('btnUndo')?.addEventListener('click', undoDelete);
 
-  document.getElementById('btnExportCSV')?.addEventListener('click', exportConnectionsCSV);
+  // Xuất / Nhập CSV kết nối
+  document.getElementById('btnExportConnCSV')?.addEventListener('click', exportConnectionsCSV);
   document.getElementById('connCsvInput')?.addEventListener('change', (e) => {
     const f = e.target.files?.[0]; if (!f) return;
-    if (!cy) { alert('Hãy dựng đồ thị từ CSV trước.'); return; }
-    importConnectionsCSV(f).catch(err => alert('Không đọc được CSV kết nối: ' + err));
+    if (!cy) { alert('Hãy dựng đồ thị từ CSV trước.'); e.target.value=''; return; }
+    importConnectionsCSV(f)
+      .catch(err => alert('Không đọc được CSV kết nối: ' + err))
+      .finally(() => { e.target.value=''; });
   });
 
-  document.getElementById('btnExportJSON')?.addEventListener('click', exportConnectionsJSON);
-  document.getElementById('btnImportJSON')?.addEventListener('click', () => {
-    document.getElementById('jsonInput')?.click();
-  });
-  document.getElementById('jsonInput')?.addEventListener('change', (e) => {
-    const f = e.target.files?.[0]; if (!f) return;
-    if (!cy) { alert('Hãy dựng đồ thị từ CSV trước.'); return; }
-    importConnectionsJSON(f);
-  });
-
-  document.getElementById('btnSaveLS')?.addEventListener('click', saveConnectionsToStorage);
-  document.getElementById('btnLoadLS')?.addEventListener('click', () => loadConnectionsFromStorage(false));
-  document.getElementById('btnRemoveAll')?.addEventListener('click', removeAllEdges);
-
+  // Centrality metric selector
   document.getElementById('centrality-select')?.addEventListener('change', renderCentralityChart);
+
+  // Flow selector
   document.getElementById('plo-flow-select')?.addEventListener('change', renderFlowDiagram);
+
+  // Các nút tiện ích đồ thị (nếu có)
+  document.getElementById('btnFit')?.addEventListener('click', ()=> { if (window.cy) window.cy.fit(); });
+  document.getElementById('btnScreenshot')?.addEventListener('click', ()=> {
+    if (window.cy){
+      const png64 = window.cy.png({bg:'white', full:true, scale:2});
+      const a = document.createElement('a'); a.href = png64; a.download = 'PLO-Course-graph.png'; a.click();
+    }
+  });
 });

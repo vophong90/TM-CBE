@@ -46,12 +46,15 @@
     :root{
       --brand-600:#0E7BD0; --brand-700:#0B66AA;
       --yhct-600:#228C5C;  --accent-600:#F59F00;
+      /* Màu động cho about-panel (sẽ thay bằng JS) */
+      --panel-from:#EEF7FF; --panel-to:#FFFFFF; --panel-border:#BADBFF; --panel-accent:#0E7BD0; --panel-text:#0b253a;
     }
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:.625rem 1.1rem;
          border-radius:.75rem;font-weight:700;gap:.5rem;transition:.2s}
     .btn-primary{background:var(--brand-600);color:#fff}
     .btn-primary:hover{background:var(--brand-700)}
     .btn-outline{border:1px solid #d1d5db;background:#fff}
+
     .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06);transition:.2s}
     .card:hover{box-shadow:0 16px 32px rgba(0,0,0,.10);transform:translateY(-1px)}
     .logo-badge{width:88px;height:88px;border-radius:9999px;background:#fff;border:1px solid rgba(0,0,0,.08);
@@ -72,12 +75,14 @@
       width: 180px; height: 180px; border-radius: 9999px;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       color:#0b253a;text-align:center; padding:18px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.35);
-      border:1px solid rgba(255,255,255,.7);
-      transition: transform .18s ease, box-shadow .18s ease;
-      backdrop-filter: blur(0.5px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.35);
+      border:1px solid rgba(255,255,255,.75);
+      transition: transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
+      outline:2px solid transparent; outline-offset:3px; cursor:pointer;
+      user-select:none;
     }
-    .medallion:hover{ transform: translateY(-2px) scale(1.02); box-shadow:0 16px 40px rgba(0,0,0,.12) }
+    .medallion:hover{ transform: translateY(-2px) scale(1.02); box-shadow:0 18px 40px rgba(0,0,0,.14) }
+    .medallion[aria-pressed="true"]{ transform:translateY(-2px) scale(1.03); outline-color: rgba(14,123,208,.35) }
     .medallion small{ display:block; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-size:.7rem; opacity:.9 }
     .medallion span{ display:block; font-weight:600; margin-top:6px; line-height:1.15 }
     .medallion--brand{ background: radial-gradient(120px 90px at 30% 30%, rgba(255,255,255,.9), rgba(238,247,255,.95)) , linear-gradient(135deg, #BADBFF 0%, #5AA9F7 60%, #2D8FE8 100%); color:#073b78 }
@@ -85,8 +90,29 @@
     .medallion--accent{ background: radial-gradient(120px 90px at 30% 30%, rgba(255,255,255,.92), rgba(255,250,232,.96)) , linear-gradient(135deg, #FFE58A 0%, #FFC21E 60%, #FFB000 100%); color:#5b3600 }
     .medallion--brand2{ background: radial-gradient(120px 90px at 30% 30%, rgba(255,255,255,.9), rgba(237,246,255,.95)) , linear-gradient(135deg, #8EC4FF 0%, #2D8FE8 60%, #0E7BD0 100%); color:#082e5e }
 
-    /* Thẻ nội dung ngắn gọn, dễ đọc */
-    .about-card p{ font-size: .95rem; line-height: 1.55 }
+    /* Panel nội dung động (đồng bộ brand) */
+    .about-panel{
+      position:relative;
+      background: linear-gradient(135deg, var(--panel-from), var(--panel-to));
+      border: 1px solid var(--panel-border);
+      color: var(--panel-text);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem 1.1rem 1.25rem;
+      box-shadow: 0 18px 48px rgba(14,123,208,.15);
+      overflow:hidden;
+    }
+    .about-panel::before{
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(400px 220px at -10% 0%, rgba(255,255,255,.55), transparent 40%);
+      pointer-events:none;
+    }
+    .about-panel::after{
+      content:""; position:absolute; left:0; top:0; bottom:0; width:6px;
+      background: var(--panel-accent);
+      opacity:.9;
+    }
+    .about-panel h3{ font-size:.9rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700 }
+    .about-panel p{ font-size: .95rem; line-height: 1.6; margin-top:.5rem }
     @media (max-width: 1024px){
       .medallion{ width:160px; height:160px }
     }
@@ -141,56 +167,31 @@
           </div>
         </div>
 
-        <!-- Phải: Vòng tròn + nội dung đầy đủ -->
+        <!-- Phải: 4 vòng tròn + 1 card nội dung động -->
         <div class="space-y-6">
           <!-- Lưới vòng tròn -->
           <div class="grid grid-cols-2 gap-4 justify-items-center">
-            <div class="medallion medallion--brand" aria-label="Sứ mạng">
-              <small>Sứ mạng</small>
-              <span>Mission</span>
-            </div>
-            <div class="medallion medallion--yhct" aria-label="Tầm nhìn">
-              <small>Tầm nhìn</small>
-              <span>Vision</span>
-            </div>
-            <div class="medallion medallion--accent" aria-label="Giá trị cốt lõi">
-              <small>Giá trị cốt lõi</small>
-              <span>Core Values</span>
-            </div>
-            <div class="medallion medallion--brand2" aria-label="Triết lý giáo dục">
-              <small>Triết lý giáo dục</small>
-              <span>Philosophy</span>
-            </div>
+            <button class="medallion medallion--brand" data-id="mission" aria-pressed="true">
+              <small>Sứ mạng</small><span>Mission</span>
+            </button>
+            <button class="medallion medallion--yhct" data-id="vision" aria-pressed="false">
+              <small>Tầm nhìn</small><span>Vision</span>
+            </button>
+            <button class="medallion medallion--accent" data-id="values" aria-pressed="false">
+              <small>Giá trị cốt lõi</small><span>Core Values</span>
+            </button>
+            <button class="medallion medallion--brand2" data-id="philosophy" aria-pressed="false">
+              <small>Triết lý giáo dục</small><span>Philosophy</span>
+            </button>
           </div>
 
-          <!-- Nội dung đầy đủ (hiển thị luôn) -->
-          <div class="grid sm:grid-cols-2 gap-4">
-            <article class="about-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-              <h3 class="text-sm font-semibold tracking-wide text-brand-700 uppercase">Sứ mạng</h3>
-              <p class="mt-2 text-gray-800">
-                Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.
-              </p>
-            </article>
-
-            <article class="about-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-              <h3 class="text-sm font-semibold tracking-wide text-yhct-700 uppercase">Tầm nhìn</h3>
-              <p class="mt-2 text-gray-800">
-                Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam, với chương trình giảng dạy và nghiên cứu khoa học về Y học cổ truyền kết hợp Y học hiện đại ngang tầm các đại học trong khu vực Châu Á – Thái Bình Dương.
-              </p>
-            </article>
-
-            <article class="about-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-              <h3 class="text-sm font-semibold tracking-wide text-accent-700 uppercase">Giá trị cốt lõi</h3>
-              <p class="mt-2 text-gray-800">Chuyên nghiệp • Chất lượng • Năng động • Sáng tạo.</p>
-            </article>
-
-            <article class="about-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-              <h3 class="text-sm font-semibold tracking-wide text-brand-700 uppercase">Triết lý giáo dục</h3>
-              <p class="mt-2 text-gray-800">
-                Phát huy nội lực và tăng cường hợp tác quốc tế nhằm tối ưu môi trường dạy và học, lấy người học làm trung tâm, xây dựng đội ngũ cán bộ y tế toàn diện, có đức có tài, có trách nhiệm, sẵn sàng thích ứng và hội nhập.
-              </p>
-            </article>
-          </div>
+          <!-- Card nội dung (chỉ 1 thẻ) -->
+          <article id="about-panel" class="about-panel">
+            <h3 id="about-title" class="text-brand-800">Sứ mạng</h3>
+            <p id="about-text">
+              Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.
+            </p>
+          </article>
         </div>
       </div>
     </div>
@@ -261,7 +262,69 @@
     </div>
   </footer>
 
+  <!-- JS -->
   <script src="./js/common.js"></script>
+  <script>
+    // Dữ liệu nội dung + màu cho panel
+    const ABOUT = {
+      mission: {
+        title: "Sứ mạng",
+        text: "Đào tạo nguồn nhân lực Y học cổ truyền chất lượng cao; nghiên cứu khoa học, ứng dụng và chuyển giao các kỹ thuật trong lĩnh vực Y học cổ truyền kết hợp Y học hiện đại, đóng góp hiệu quả vào sự nghiệp bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân.",
+        colors: { from:'#EEF7FF', to:'#FFFFFF', border:'#BADBFF', accent:'#0E7BD0', text:'#0b253a' }
+      },
+      vision: {
+        title: "Tầm nhìn",
+        text: "Phát triển thành trường chuyên ngành Y học cổ truyền hàng đầu Việt Nam, với chương trình giảng dạy và nghiên cứu khoa học về Y học cổ truyền kết hợp Y học hiện đại ngang tầm các đại học trong khu vực Châu Á – Thái Bình Dương.",
+        colors: { from:'#EFFAF3', to:'#FFFFFF', border:'#B5E6C9', accent:'#228C5C', text:'#0c3326' }
+      },
+      values: {
+        title: "Giá trị cốt lõi",
+        text: "Chuyên nghiệp • Chất lượng • Năng động • Sáng tạo.",
+        colors: { from:'#FFFAE8', to:'#FFFFFF', border:'#FFE58A', accent:'#F59F00', text:'#4a3000' }
+      },
+      philosophy: {
+        title: "Triết lý giáo dục",
+        text: "Phát huy nội lực và tăng cường hợp tác quốc tế nhằm tối ưu môi trường dạy và học, lấy người học làm trung tâm, xây dựng đội ngũ cán bộ y tế toàn diện, có đức có tài, có trách nhiệm, sẵn sàng thích ứng và hội nhập.",
+        colors: { from:'#EEF6FF', to:'#FFFFFF', border:'#8EC4FF', accent:'#0E7BD0', text:'#0a274b' }
+      }
+    };
+
+    const panel = document.getElementById('about-panel');
+    const titleEl = document.getElementById('about-title');
+    const textEl  = document.getElementById('about-text');
+    const buttons = Array.from(document.querySelectorAll('.medallion'));
+
+    function applyPanel(id){
+      const {title, text, colors} = ABOUT[id];
+      titleEl.textContent = title;
+      textEl.textContent  = text;
+      // Đồng bộ màu bằng CSS variables
+      panel.style.setProperty('--panel-from',   colors.from);
+      panel.style.setProperty('--panel-to',     colors.to);
+      panel.style.setProperty('--panel-border', colors.border);
+      panel.style.setProperty('--panel-accent', colors.accent);
+      panel.style.setProperty('--panel-text',   colors.text);
+    }
+
+    // Khởi tạo theo mặc định (mission đã active)
+    applyPanel('mission');
+
+    // Sự kiện click/keyboard
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-id');
+        buttons.forEach(b=>b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed','true');
+        applyPanel(id);
+      });
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
+  </script>
   <script>window.__setActive && window.__setActive("");</script>
 </body>
 </html>

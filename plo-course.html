@@ -78,7 +78,7 @@
         <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
         <span>Curriculum Matrices</span>
       </a>
-    <ul class="flex gap-4 text-sm" id="topnav">
+      <ul class="flex gap-4 text-sm" id="topnav">
         <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link hover:text-brand-700">PLO-PI</a></li>
         <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link text-brand-700">PLO-Course</a></li>
         <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link hover:text-brand-700">CLO-PLO</a></li>
@@ -197,22 +197,6 @@
             </div>
             <p class="text-xs text-gray-500">Định dạng: <code>plo,course,level</code> — ví dụ: <code>PLO1,HP0123,I</code></p>
           </div>
-
-          <hr class="border-gray-200">
-
-          <!-- LocalStorage -->
-          <div class="space-y-2">
-            <h3 class="font-semibold flex items-center gap-2">
-              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
-              Lưu/Khôi phục (trình duyệt)
-            </h3>
-            <div class="flex flex-wrap gap-2 text-sm">
-              <button id="btnSaveLS" class="btn btn-outline">Lưu vào trình duyệt</button>
-              <button id="btnLoadLS" class="btn btn-outline">Khôi phục từ trình duyệt</button>
-              <button id="btnRemoveAll" class="btn" style="background:rgba(245,159,0,.12);color:#7a4a00">🧹 Xoá tất cả kết nối</button>
-            </div>
-            <p class="text-xs text-gray-500">Lưu ý: LocalStorage lưu trên máy người dùng; khi đổi máy/trình duyệt sẽ không còn.</p>
-          </div>
         </section>
 
         <!-- RIGHT: Graph & charts -->
@@ -249,15 +233,16 @@
                   <option value="all">all</option>
                 </select>
               </div>
-              <!-- FIX: wrapper giữ chiều cao cố định -->
-              <div class="relative h-64">
-                <canvas id="centrality-chart" class="w-full h-full"></canvas>
+              <!-- Thanh cuộn ngang + auto width theo số nhãn -->
+              <div class="overflow-x-auto">
+                <div id="centrality-inner" class="relative h-64 min-w-[960px]">
+                  <canvas id="centrality-chart" class="w-full h-full"></canvas>
+                </div>
               </div>
             </div>
 
             <div class="card p-4">
               <h3 class="font-semibold mb-2">Tỉ lệ I–R–M–A</h3>
-              <!-- (khuyến nghị) Dùng cùng wrapper để đồng nhất hành vi -->
               <div class="relative h-64">
                 <canvas id="irma-pie" class="w-full h-full"></canvas>
               </div>
@@ -329,13 +314,38 @@
   <script src="./js/common.js"></script>
   <script src="./js/plo-course.js"></script>
   <script>
-    // Global fix cho Chart.js: giữ tỉ lệ theo khung wrapper (h-64) thay vì aspect-ratio mặc định
+    // Chart.js defaults & plugin: fit theo khung + không autoskip nhãn + auto rộng để có scrollbar ngang
     document.addEventListener('DOMContentLoaded', () => {
       if (window.Chart) {
         Chart.defaults.maintainAspectRatio = false;
         Chart.defaults.responsive = true;
+        Chart.defaults.scale = Chart.defaults.scale || {};
+        Chart.defaults.scale.ticks = Object.assign({}, Chart.defaults.scale.ticks, { autoSkip: false, maxRotation: 45 });
+
+        // Plugin: tính bề rộng theo số label của Centrality
+        Chart.register({
+          id: 'centralitySizer',
+          beforeInit(chart) {
+            try {
+              if (chart?.canvas?.id === 'centrality-chart') {
+                const labels = chart.config?.data?.labels || [];
+                window.resizeCentralityCanvas(labels.length);
+              }
+            } catch (e) {}
+          }
+        });
       }
     });
+
+    // Helper: đặt min-width cho vùng vẽ centrality để có thanh cuộn ngang
+    window.resizeCentralityCanvas = function(labelCount){
+      const inner = document.getElementById('centrality-inner');
+      if (!inner) return;
+      const BAR_WIDTH = 50;   // px mỗi cột
+      const PADDING   = 160;  // chừa lề trục/ticks/legend
+      const minWidth = Math.max(960, labelCount * BAR_WIDTH + PADDING);
+      inner.style.minWidth = minWidth + 'px';
+    };
 
     // Công cụ đồ thị
     document.getElementById('btnFit')?.addEventListener('click', ()=> { if(window.cy){ window.cy.fit(); }});

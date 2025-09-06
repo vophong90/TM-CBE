@@ -3,14 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ma trận CLO-PLO</title>
+  <title>CLO–PLO (PLO–COURSE–CLO) | Curriculum Matrices</title>
+
+  <!-- App icons / favicon -->
+  <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="/assets/brand/site.webmanifest">
+  <meta name="theme-color" content="#0E7BD0">
+
+  <!-- Font & Tailwind (CDN) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    /* Brand palette đã dùng thống nhất toàn app */
+    const brand = {
+      50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+      500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'
+    };
+    const yhct = {
+      50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+      500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'
+    };
+    const accent = {
+      50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+      500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'
+    };
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand, yhct, herb: yhct, accent },
+          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] }
+        }
+      }
+    };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="stylesheet" href="./css/styles.css" />
+
+  <!-- Libs -->
+  <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
-  <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-3 font-bold">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+        <span>Curriculum Matrices</span>
+      </a>
       <ul class="flex gap-4 text-sm" id="topnav">
         <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
         <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
@@ -20,33 +65,177 @@
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
+    <!-- Title -->
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ma trận PLO-Course</h1>
-      <div class="text-sm text-gray-500">/plo-course.html</div>
+      <h1 class="text-2xl font-semibold">CLO–PLO (mạng PLO → COURSE → CLO)</h1>
+      <div class="text-xs md:text-sm text-gray-500">/clo-plo.html</div>
     </div>
 
-    <!-- Khu vực bạn “cắm” chức năng đã có -->
-    <div id="app-plo-course" class="card p-4">
-      <!-- Gợi ý: nếu logic của bạn tạo bảng, hãy mount vào đây -->
-      <div id="toolbar" class="flex gap-2 mb-3">
-        <button id="btn-load" class="btn">Nạp dữ liệu</button>
-        <button id="btn-export" class="btn">Xuất CSV</button>
+    <!-- 1) Nguồn dữ liệu -->
+    <section class="card p-4 space-y-3">
+      <h2 class="font-semibold">Nguồn dữ liệu</h2>
+
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <!-- A. Tự nạp từ PLO–COURSE (localStorage) -->
+        <div class="rounded-xl border p-4 bg-white">
+          <div class="font-semibold mb-1">A. Tự nạp từ bước PLO–COURSE</div>
+          <p class="text-gray-600 text-sm mb-2">Dữ liệu đã lưu ở trình duyệt (localStorage). Gồm: PLO, Course & liên kết I/R/M/A.</p>
+          <div class="text-xs" id="lsSummary">—</div>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button id="btnLoadFromLS" class="btn bg-brand-600 hover:bg-brand-700 text-white">Nạp lại</button>
+            <button id="btnClearLS" class="btn btn-ghost">Xoá cache CLO</button>
+          </div>
+        </div>
+
+        <!-- B. COURSE–CLO CSV -->
+        <div class="rounded-xl border p-4 bg-white">
+          <div class="font-semibold mb-1">B. COURSE–CLO.csv</div>
+          <p class="text-gray-600 text-sm mb-2">
+            Định dạng: <code>label, fullname, tong, clo, content</code>.<br>
+            <span class="text-xs text-gray-500">label = mã học phần (ví dụ C041 hay “Y học gia đình”).</span>
+          </p>
+          <label class="block">
+            <input id="csvCourseCLO" type="file" accept=".csv" class="w-full">
+          </label>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <button id="btnExportCLO" class="btn border hover:bg-gray-50">Xuất CSV</button>
+          </div>
+          <div id="cloStatus" class="text-xs text-gray-500 mt-2">—</div>
+        </div>
+
+        <!-- C. Bloom verbs -->
+        <div class="rounded-xl border p-4 bg-white">
+          <div class="font-semibold mb-1">C. Bloom verbs.csv</div>
+          <p class="text-gray-600 text-sm mb-2">Định dạng: <code>verb, level</code> (Remember…Create).</p>
+          <label class="block">
+            <input id="csvBloom" type="file" accept=".csv" class="w-full">
+          </label>
+          <div id="bloomStatus" class="text-xs text-gray-500 mt-2">—</div>
+        </div>
       </div>
-      <div id="matrix-container" class="overflow-auto">
-        <!-- JS sẽ render ma trận vào đây -->
+    </section>
+
+    <!-- 2) Bộ lọc -->
+    <section class="card p-4">
+      <div class="flex flex-wrap gap-3 items-end">
+        <div>
+          <label class="block text-xs text-gray-600">Lọc theo PLO</label>
+          <select id="filter-plo" class="border rounded-lg p-2 text-sm min-w-[220px] focus:ring-2 focus:ring-brand-300">
+            <option value="">— Tất cả PLO —</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-600">Lọc theo Course</label>
+          <select id="filter-course" class="border rounded-lg p-2 text-sm min-w-[240px] focus:ring-2 focus:ring-brand-300">
+            <option value="">— Tất cả Course —</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-600">Lọc theo CLO</label>
+          <select id="filter-clo" class="border rounded-lg p-2 text-sm min-w-[200px] focus:ring-2 focus:ring-brand-300">
+            <option value="">— Tất cả CLO —</option>
+          </select>
+        </div>
+        <button id="btnClearFilters" class="btn btn-ghost">Xoá bộ lọc</button>
       </div>
-    </div>
+    </section>
+
+    <!-- 3) Network + legend -->
+    <section class="card p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-semibold">Mạng PLO → COURSE → CLO</h3>
+        <div class="text-xs flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-sky-400"></i> I</span>
+          <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-emerald-400"></i> R</span>
+          <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-amber-400"></i> M</span>
+          <span class="inline-flex items-center gap-1"><i class="w-3 h-3 inline-block rounded bg-red-500"></i> A</span>
+        </div>
+      </div>
+      <div id="cy" class="w-full h-[560px] border rounded-2xl bg-white"></div>
+      <p class="text-xs text-gray-500 mt-2">Gợi ý: bấm node để làm nổi các kết nối; rê chuột để xem nội dung PLO/CLO.</p>
+    </section>
+
+    <!-- 4) Bảng chi tiết -->
+    <section class="card p-4">
+      <h3 class="font-semibold mb-2">Bảng ghép PLO – COURSE – CLO</h3>
+      <div class="overflow-auto">
+        <table id="resultTable" class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+          <thead class="bg-gray-100 sticky top-0">
+            <tr>
+              <th class="border p-2 text-left">PLO</th>
+              <th class="border p-2 text-left">Course</th>
+              <th class="border p-2 text-left">I/R/M/A</th>
+              <th class="border p-2 text-left">CLO</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5) GPT tools -->
+    <section class="card p-4 space-y-4">
+      <h3 class="font-semibold">GPT trợ giúp (gợi ý & đánh giá)</h3>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <!-- Suggest CLO -->
+        <div class="rounded-xl border p-4 bg-white">
+          <div class="font-semibold mb-2">Gợi ý CLO theo PLO–COURSE & Bloom</div>
+          <div class="grid gap-2 text-sm">
+            <label>PLO
+              <select id="ai-plo" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
+            </label>
+            <label>Course
+              <select id="ai-course" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
+            </label>
+            <label>Mức liên kết (I/R/M/A)
+              <select id="ai-level" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300">
+                <option>I</option><option>R</option><option>M</option><option>A</option>
+              </select>
+            </label>
+            <button id="btnAISuggest" class="btn bg-brand-600 hover:bg-brand-700 text-white">Gợi ý CLO</button>
+            <div class="text-xs text-gray-500">* Nếu chưa cấu hình GPT backend, hệ thống sẽ sinh gợi ý offline theo Bloom.</div>
+          </div>
+          <div class="mt-3">
+            <label class="text-sm font-semibold">Kết quả:</label>
+            <ul id="aiSuggestions" class="list-disc ml-5 text-sm space-y-1"></ul>
+          </div>
+        </div>
+
+        <!-- Evaluate CLO fit -->
+        <div class="rounded-xl border p-4 bg-white">
+          <div class="font-semibold mb-2">Đánh giá CLO ↔ PLO</div>
+          <div class="grid gap-2 text-sm">
+            <label>PLO
+              <select id="eval-plo" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300"></select>
+            </label>
+            <label>CLO (nhập nội dung)
+              <textarea id="eval-clo" rows="4" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-brand-300" placeholder="Nhập nội dung CLO cần đánh giá..."></textarea>
+            </label>
+            <button id="btnAIEval" class="btn btn-ghost">Đánh giá</button>
+          </div>
+          <div id="evalResult" class="text-sm mt-3 text-gray-800 whitespace-pre-wrap"></div>
+        </div>
+      </div>
+
+      <details class="text-xs text-gray-500">
+        <summary class="cursor-pointer">Cấu hình GPT (tuỳ chọn)</summary>
+        <p class="mt-2">
+          Trang là static (GitHub Pages) nên không nên nhúng API key trên client. Hãy dùng backend riêng (Render/Vercel) và sửa hàm <code>gptCall()</code> trong <code>./js/clo-plo.js</code> trỏ về backend của bạn.
+        </p>
+      </details>
+    </section>
   </main>
 
   <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500">
       © 2025 — Curriculum Matrices
     </div>
   </footer>
 
   <script src="./js/common.js"></script>
   <script src="./js/clo-plo.js"></script>
-  <script>window.__setActive && window.__setActive("plo-course");</script>
+  <script>window.__setActive && window.__setActive("clo-plo");</script>
 </body>
 </html>

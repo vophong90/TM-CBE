@@ -86,24 +86,27 @@
           </div>
 
           <hr>
-
+          
           <div class="space-y-2">
-            <h3 class="font-semibold">Nhập/Xuất kết nối</h3>
-            <div class="flex flex-col gap-2 text-sm">
-              <button id="btnExportCSV" class="btn">Xuất CSV (plo_label,course_id,level)</button>
-              <label>Nhập CSV kết nối
-                <input type="file" id="connCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
-              </label>
+            <h3 class="font-semibold flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+              Nhập / Xuất CSV kết nối
+            </h3>
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="btnExportConnCSV"
+                class="btn btn-primary shadow-sm">
+                <!-- download icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/>
+                </svg>
+                Xuất CSV (plo,pi)
+              </button>
+              <input type="file" id="connCsvInput" accept=".csv"
+                class="input text-sm" />
             </div>
-            <div class="flex flex-col gap-2 text-sm">
-              <div class="flex flex-wrap gap-2">
-                <button id="btnExportJSON" class="btn">Xuất JSON</button>
-                <button id="btnImportJSON" class="btn">Nhập JSON</button>
-                <input type="file" id="jsonInput" accept=".json" class="hidden">
-              </div>
-            </div>
+            <p class="text-xs text-gray-500">Định dạng: <code>plo,pi</code> — ví dụ: <code>PLO1,PI2</code></p>
           </div>
-
+          
           <hr>
 
           <div class="space-y-2">

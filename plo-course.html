@@ -3,134 +3,245 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ma trận PLO-Course</title>
+  <title>Ma trận PLO–Course</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind config (đặt TRƯỚC CDN) -->
+  <script>
+    const brand = {50:'#EEF7FF',100:'#D8ECFF',200:'#BADBFF',300:'#8EC4FF',400:'#5AA9F7',
+                   500:'#2D8FE8',600:'#0E7BD0',700:'#0B66AA',800:'#0D5186',900:'#0E436F'};
+    const yhct  = {50:'#EFFAF3',100:'#D7F2E2',200:'#B5E6C9',300:'#86D6AA',400:'#53C48B',
+                   500:'#2BAE72',600:'#228C5C',700:'#1C734C',800:'#165B3D',900:'#124B33'};
+    const accent= {50:'#FFFAE8',100:'#FFF3C4',200:'#FFE58A',300:'#FFD34D',400:'#FFC21E',
+                   500:'#FFB000',600:'#F59F00',700:'#D97706',800:'#B45309',900:'#92400E'};
+    window.tailwind = { config: {
+      theme:{ extend:{ colors:{ brand, yhct, herb:yhct, accent },
+                        fontFamily:{ sans:['Inter','ui-sans-serif','system-ui'] } } }
+    }};
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- App styles -->
   <link rel="stylesheet" href="./css/styles.css" />
 
-  <!-- Thư viện cần dùng -->
+  <!-- Favicon (đường dẫn tương đối như index) -->
+  <link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="./assets/brand/favicon.ico">
+  <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png">
+  <link rel="mask-icon" href="./assets/brand/safari-pinned-tab.svg" color="#0E7BD0">
+  <link rel="manifest" href="./assets/brand/site.webmanifest">
+  <meta name="theme-color" content="#0E7BD0">
+
+  <!-- Libs -->
   <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --brand-600:#0E7BD0; --brand-700:#0B66AA;
+      --yhct-600:#228C5C;  --accent-600:#F59F00;
+    }
+    /* Buttons đồng bộ */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:.75rem;
+         font-weight:700; padding:.6rem 1rem; transition:.2s}
+    .btn svg{width:1rem;height:1rem}
+    .btn-primary{background:var(--brand-600);color:#fff}
+    .btn-primary:hover{background:var(--brand-700)}
+    .btn-outline{border:1px solid #d1d5db;background:#fff}
+    .btn-outline:hover{background:#f8fafc}
+    .btn-soft{background:rgba(14,123,208,.08); color:#0B66AA}
+    .btn-soft:hover{background:rgba(14,123,208,.12)}
+    /* Inputs */
+    .input{border:1px solid #d1d5db;border-radius:.75rem;padding:.55rem .9rem}
+    .input:focus{outline:none;box-shadow:0 0 0 2px rgba(14,123,208,.35);border-color:#8EC4FF}
+    /* Card & page tint */
+    .card{border-radius:1rem;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+    .page{
+      background:
+        radial-gradient(1100px 520px at -10% -10%, rgba(14,123,208,.06), transparent 60%),
+        radial-gradient(1100px 520px at 110% -10%, rgba(43,174,114,.06), transparent 60%),
+        linear-gradient(180deg,#fff 0%, #f7fafc 100%);
+    }
+    table thead th{background:#f8fafc}
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <header class="sticky top-0 bg-white/90 backdrop-blur border-b">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="./index.html" class="font-bold text-lg">Curriculum Matrices</a>
-      <ul class="flex gap-4 text-sm" id="topnav">
-        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link">PLO-PI</a></li>
-        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link">PLO-Course</a></li>
-        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link">CLO-PLO</a></li>
-        <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link">Phân bổ khung</a></li>
+
+<body class="bg-white text-gray-900 font-sans">
+  <!-- NAV -->
+  <header class="sticky top-0 bg-white border-b border-gray-200">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-3 font-bold">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+        <span>Curriculum Matrices</span>
+      </a>
+    <ul class="flex gap-4 text-sm" id="topnav">
+        <li><a href="./plo-pi.html" data-nav="plo-pi" class="nav-link hover:text-brand-700">PLO-PI</a></li>
+        <li><a href="./plo-course.html" data-nav="plo-course" class="nav-link text-brand-700">PLO-Course</a></li>
+        <li><a href="./clo-plo.html" data-nav="clo-plo" class="nav-link hover:text-brand-700">CLO-PLO</a></li>
+        <li><a href="./phan-bo-khung.html" data-nav="phan-bo-khung" class="nav-link hover:text-brand-700">Phân bổ khung</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ma trận PLO-Course</h1>
-      <div class="text-sm text-gray-500">/plo-course.html</div>
-    </div>
+  <!-- PAGE -->
+  <main class="page">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-semibold">Ma trận <span class="text-brand-700">PLO–Course</span></h1>
+          <p class="text-sm text-gray-600 mt-1">Nạp PLO/Course từ CSV, vẽ mạng lưới, thao tác kết nối, phân tích và xuất/nhập CSV kết nối.</p>
+        </div>
+        <div class="text-xs text-gray-500">/plo-course.html</div>
+      </div>
 
-    <div id="app-plo-course" class="card p-4 space-y-6">
-      <div class="grid lg:grid-cols-3 gap-4">
-        <!-- Panel trái: nạp CSV + thao tác kết nối + lưu/khôi phục -->
-        <div class="space-y-4">
-          <div class="space-y-2">
-            <h3 class="font-semibold">Nạp dữ liệu CSV</h3>
+      <div class="grid lg:grid-cols-3 gap-5">
+        <!-- LEFT: CSV + Actions -->
+        <section class="card p-4 space-y-5">
+          <!-- CSV -->
+          <div class="space-y-3">
+            <h3 class="font-semibold flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+              Nạp dữ liệu CSV
+            </h3>
             <label class="block text-sm">PLO.csv (label,content)
-              <input type="file" id="ploCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+              <input type="file" id="ploCsvInput" accept=".csv" class="input mt-1 w-full">
             </label>
             <label class="block text-sm">COURSE.csv (id,label,fullname,group)
-              <input type="file" id="courseCsvInput" accept=".csv" class="mt-1 block w-full text-sm">
+              <input type="file" id="courseCsvInput" accept=".csv" class="input mt-1 w-full">
             </label>
-            <button id="btnBuild" class="btn">Xây đồ thị</button>
+            <button id="btnBuild" class="btn btn-primary shadow-lg ring-1 ring-black/5">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Xây đồ thị
+            </button>
             <div id="buildStatus" class="text-xs text-gray-500"></div>
           </div>
 
-          <hr>
+          <hr class="border-gray-200">
 
-          <div class="space-y-2">
-            <h3 class="font-semibold">Thêm kết nối PLO → Course</h3>
-            <div class="grid grid-cols-1 gap-2 text-sm">
-              <label>PLO (label)
-                <select id="plo-add" class="mt-1 w-full border rounded p-1"></select>
-              </label>
-              <label>Course (id — label/fullname)
-                <select id="hp-add" class="mt-1 w-full border rounded p-1"></select>
-              </label>
-              <label>Mức độ (I/R/M/A)
-                <select id="level-add" class="mt-1 w-full border rounded p-1">
-                  <option>I</option><option>R</option><option>M</option><option>A</option>
-                </select>
-              </label>
-              <button id="btnAdd" class="btn">Thêm kết nối</button>
-            </div>
+          <!-- Add connection -->
+          <div class="space-y-3">
+            <h3 class="font-semibold flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+              Thêm kết nối PLO → Course
+            </h3>
+            <label class="block text-sm">PLO (label)
+              <select id="plo-add" class="input mt-1 w-full"></select>
+            </label>
+            <label class="block text-sm">Course (id — label/fullname)
+              <select id="hp-add" class="input mt-1 w-full"></select>
+            </label>
+            <label class="block text-sm">Mức độ (I/R/M/A)
+              <select id="level-add" class="input mt-1 w-full">
+                <option>I</option><option>R</option><option>M</option><option>A</option>
+              </select>
+            </label>
+            <button id="btnAdd" class="btn btn-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14m-7-7h14" stroke-linecap="round"/>
+              </svg>
+              Thêm kết nối
+            </button>
           </div>
 
-          <hr>
+          <hr class="border-gray-200">
 
+          <!-- Edit selected -->
           <div class="space-y-2">
-            <h3 class="font-semibold">Chỉnh sửa kết nối đang chọn</h3>
+            <h3 class="font-semibold flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+              Chỉnh sửa kết nối đang chọn
+            </h3>
             <div class="grid grid-cols-1 gap-2 text-sm">
               <label>Mức độ
-                <select id="level-select" class="mt-1 w-full border rounded p-1">
+                <select id="level-select" class="input mt-1 w-full">
                   <option>I</option><option>R</option><option>M</option><option>A</option>
                 </select>
               </label>
               <div class="flex flex-wrap gap-2">
-                <button id="btnUpdateLevel" class="btn">Cập nhật mức độ</button>
-                <button id="btnDelete" class="btn">Xoá kết nối</button>
-                <button id="btnUndo" class="btn">Hoàn tác xoá</button>
+                <button id="btnUpdateLevel" class="btn btn-outline">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M12 3v18"/></svg>
+                  Cập nhật mức độ
+                </button>
+                <button id="btnDelete" class="btn btn-outline">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
+                  Xoá kết nối
+                </button>
+                <button id="btnUndo" class="btn btn-outline">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M20 20a8 8 0 0 0-8-8H4"/></svg>
+                  Hoàn tác xoá
+                </button>
               </div>
             </div>
           </div>
 
-          <hr>
-          
+          <hr class="border-gray-200">
+
+          <!-- Import/Export CSV connections -->
           <div class="space-y-2">
             <h3 class="font-semibold flex items-center gap-2">
               <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
               Nhập / Xuất CSV kết nối
             </h3>
             <div class="flex flex-wrap items-center gap-3">
-              <button id="btnExportConnCSV"
-                class="btn btn-primary shadow-sm">
-                <!-- download icon -->
+              <button id="btnExportConnCSV" class="btn btn-primary shadow-sm">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/>
                 </svg>
-                Xuất CSV (plo,pi)
+                Xuất CSV (plo,course,level)
               </button>
-              <input type="file" id="connCsvInput" accept=".csv"
-                class="input text-sm" />
+              <input type="file" id="connCsvInput" accept=".csv" class="input text-sm" />
             </div>
-            <p class="text-xs text-gray-500">Định dạng: <code>plo,pi</code> — ví dụ: <code>PLO1,PI2</code></p>
+            <p class="text-xs text-gray-500">Định dạng: <code>plo,course,level</code> — ví dụ: <code>PLO1,HP0123,I</code></p>
           </div>
-          
-          <hr>
 
+          <hr class="border-gray-200">
+
+          <!-- LocalStorage -->
           <div class="space-y-2">
-            <h3 class="font-semibold">Lưu/Khôi phục (trình duyệt)</h3>
+            <h3 class="font-semibold flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+              Lưu/Khôi phục (trình duyệt)
+            </h3>
             <div class="flex flex-wrap gap-2 text-sm">
-              <button id="btnSaveLS" class="btn">Lưu vào trình duyệt</button>
-              <button id="btnLoadLS" class="btn">Khôi phục từ trình duyệt</button>
-              <button id="btnRemoveAll" class="btn">🧹 Xoá tất cả kết nối</button>
+              <button id="btnSaveLS" class="btn btn-outline">Lưu vào trình duyệt</button>
+              <button id="btnLoadLS" class="btn btn-outline">Khôi phục từ trình duyệt</button>
+              <button id="btnRemoveAll" class="btn" style="background:rgba(245,159,0,.12);color:#7a4a00">🧹 Xoá tất cả kết nối</button>
             </div>
             <p class="text-xs text-gray-500">Lưu ý: LocalStorage lưu trên máy người dùng; khi đổi máy/trình duyệt sẽ không còn.</p>
           </div>
-        </div>
+        </section>
 
-        <!-- Panel phải (span 2 cột): Graph + Tooltip -->
-        <div class="lg:col-span-2 space-y-4">
-          <div id="cy" class="w-full rounded-xl border" style="height: 520px;"></div>
-          <div id="tooltip"
-               style="position:absolute; display:none; background:#fff; border:1px solid #ddd; padding:6px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); font-size:12px; max-width:420px; z-index:50;"></div>
+        <!-- RIGHT: Graph & charts -->
+        <section class="lg:col-span-2 space-y-4">
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold">Đồ thị PLO–Course</h3>
+              <div class="flex flex-wrap gap-2">
+                <button id="btnFit" class="btn btn-outline" title="Fit to view">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8V5a2 2 0 0 1 2-2h3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg>
+                  Fit
+                </button>
+                <button id="btnScreenshot" class="btn btn-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/></svg>
+                  Chụp ảnh
+                </button>
+              </div>
+            </div>
+            <div id="cy" class="w-full rounded-xl border border-gray-200 bg-white" style="height:520px;"></div>
+            <div id="tooltip"
+                 style="position:absolute; display:none; background:#fff; border:1px solid #e5e7eb; padding:8px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.08); font-size:12px; max-width:480px; z-index:50;"></div>
+            <p class="text-xs text-gray-600 mt-2">Gợi ý: bấm vào cạnh để chọn (xoá/hoàn tác). Bấm nền để bỏ chọn. Bấm vào node để làm nổi các kết nối liên quan.</p>
+          </div>
 
           <div class="grid md:grid-cols-2 gap-4">
-            <div class="card">
-              <div class="flex items-center justify-between">
+            <div class="card p-4">
+              <div class="flex items-center justify-between mb-2">
                 <h3 class="font-semibold">Centrality</h3>
-                <select id="centrality-select" class="border rounded p-1 text-sm">
+                <select id="centrality-select" class="input text-sm">
                   <option value="degree">degree</option>
                   <option value="betweenness">betweenness</option>
                   <option value="closeness">closeness</option>
@@ -138,43 +249,61 @@
                   <option value="all">all</option>
                 </select>
               </div>
-              <canvas id="centrality-chart" style="height:260px"></canvas>
+              <!-- FIX: wrapper giữ chiều cao cố định -->
+              <div class="relative h-64">
+                <canvas id="centrality-chart" class="w-full h-full"></canvas>
+              </div>
             </div>
-            <div class="card">
-              <h3 class="font-semibold">Tỉ lệ I–R–M–A</h3>
-              <canvas id="irma-pie" style="height:260px"></canvas>
+
+            <div class="card p-4">
+              <h3 class="font-semibold mb-2">Tỉ lệ I–R–M–A</h3>
+              <!-- (khuyến nghị) Dùng cùng wrapper để đồng nhất hành vi -->
+              <div class="relative h-64">
+                <canvas id="irma-pie" class="w-full h-full"></canvas>
+              </div>
             </div>
           </div>
 
-          <div class="card">
+          <div class="card p-4">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold">Flow theo PLO (I → R → M → A)</h3>
-              <select id="plo-flow-select" class="border rounded p-1 text-sm">
+              <select id="plo-flow-select" class="input text-sm">
                 <option value="">-- Chọn một PLO --</option>
               </select>
             </div>
             <div id="flow-diagram" class="mt-3"></div>
           </div>
-        </div>
+        </section>
       </div>
 
-      <!-- Bảng ma trận & tóm tắt -->
+      <!-- MATRIX + SUMMARY -->
       <div class="grid md:grid-cols-2 gap-4">
-        <div class="card">
+        <div class="card p-4">
           <h3 class="font-semibold mb-2">Ma trận PLO × Course</h3>
           <div class="overflow-auto">
-            <table id="matrixTable" class="min-w-full text-sm border border-gray-200">
-              <thead class="bg-gray-100 sticky top-0"><tr><th>Course (fullname)</th></tr></thead>
+            <table id="matrixTable" class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+              <thead class="sticky top-0 bg-gray-50">
+                <tr class="text-left">
+                  <th class="border p-2">Course (fullname)</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
-        <div class="card">
+        <div class="card p-4">
           <h3 class="font-semibold mb-2">Tổng hợp số lượng I/R/M/A theo Course</h3>
           <div class="overflow-auto">
-            <table id="summaryTable" class="min-w-full text-sm border border-gray-200">
-              <thead class="bg-gray-100 sticky top-0">
-                <tr><th>Course (fullname)</th><th>TC</th><th>I</th><th>R</th><th>M</th><th>A</th></tr>
+            <table id="summaryTable" class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+              <thead class="sticky top-0 bg-gray-50">
+                <tr class="text-left">
+                  <th class="border p-2">Course (fullname)</th>
+                  <th class="border p-2">TC</th>
+                  <th class="border p-2">I</th>
+                  <th class="border p-2">R</th>
+                  <th class="border p-2">M</th>
+                  <th class="border p-2">A</th>
+                </tr>
               </thead>
               <tbody></tbody>
             </table>
@@ -185,14 +314,39 @@
     </div>
   </main>
 
-  <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-gray-500">
-      © 2025 — Curriculum Matrices
+  <!-- FOOTER -->
+  <footer class="border-t bg-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-xs text-gray-500 flex items-center justify-between">
+      <div>© 2025 — Curriculum Matrices</div>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-600"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-yhct-600"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-accent-500"></span>
+      </div>
     </div>
   </footer>
 
   <script src="./js/common.js"></script>
   <script src="./js/plo-course.js"></script>
-  <script>window.__setActive && window.__setActive("plo-course");</script>
+  <script>
+    // Global fix cho Chart.js: giữ tỉ lệ theo khung wrapper (h-64) thay vì aspect-ratio mặc định
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.Chart) {
+        Chart.defaults.maintainAspectRatio = false;
+        Chart.defaults.responsive = true;
+      }
+    });
+
+    // Công cụ đồ thị
+    document.getElementById('btnFit')?.addEventListener('click', ()=> { if(window.cy){ window.cy.fit(); }});
+    document.getElementById('btnScreenshot')?.addEventListener('click', ()=> {
+      if(window.cy){
+        const png64 = window.cy.png({bg:'white', full:true, scale:2});
+        const a = document.createElement('a'); a.href = png64; a.download = 'PLO-Course-graph.png'; a.click();
+      }
+    });
+
+    window.__setActive && window.__setActive("plo-course");
+  </script>
 </body>
 </html>

@@ -1,15 +1,16 @@
 // ========================= PLO–PI Mapping (CSV-driven) =========================
-// Người dùng upload:
+// Upload:
 //   - PLO.csv: label,content
 //   - PI.csv:  label,content
 //
-// Chức năng:
+// Features:
 //   - Vẽ mạng lưới PLO ↔ PI (Cytoscape)
-//   - Thêm / Xoá kết nối giữa PLO và PI (click edge để chọn, rồi Xoá/Hoàn tác)
+//   - Thêm / Xoá / Hoàn tác xóa kết nối
 //   - Tooltip hiển thị content khi rê chuột vào node
-//   - Bảng kết quả (PLO, PI) + bộ lọc theo PLO/PI
+//   - Bảng kết quả có bộ lọc (PLO/PI) và HIỂN THỊ CẢ label + content
+//   - Nhập / Xuất CSV các kết nối (2 cột: plo, pi)
 //
-// Phụ thuộc: Cytoscape 3.x, PapaParse 5.x
+// Libs: Cytoscape 3.x, PapaParse 5.x
 
 let cy;                       // cytoscape instance
 let selectedEdge = null;      // cạnh đang chọn
@@ -29,6 +30,19 @@ function parseCsvFromInput(file) {
       complete: res => resolve(res.data), error: reject
     });
   });
+}
+function esc(s) {
+  return String(s ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+function csvQuote(v) {
+  if (v == null) return '';
+  const s = String(v).replace(/"/g,'""');
+  return /[",\n]/.test(s) ? `"${s}"` : s;
 }
 function buildElements() {
   const ploNodes = PLO_KEYS.map(l => ({ data: { id: `PLO::${l}`, type: 'PLO', label: l } }));
@@ -104,10 +118,10 @@ function wireCyEvents() {
 
   // Tooltip
   cy.on('mouseover', 'node', (evt) => {
-    const id = evt.target.id(); // e.g., "PLO::PLO1"
+    const id = evt.target.id(); // "PLO::PLO1"
     const [kind, label] = id.split('::');
     const content = (kind === 'PLO') ? PLO[label] : PIs[label];
-    tooltip.innerHTML = `<strong>${label}</strong><br>${content || ''}`;
+    tooltip.innerHTML = `<strong>${esc(label)}</strong><br>${esc(content || '')}`;
     tooltip.style.display = 'block';
   });
   cy.on('mouseout', 'node', () => tooltip.style.display = 'none');
@@ -180,18 +194,28 @@ function updateTable() {
 
   const rows = [];
   cy?.edges().forEach(e => {
-    const s = e.source().data('label'); // PLO label
-    const t = e.target().data('label'); // PI label
-    if ((fPlo && s !== fPlo) || (fPi && t !== fPi)) return;
-    rows.push([s, t]);
+    const sLbl = e.source().data('label'); // PLO label
+    const tLbl = e.target().data('label'); // PI label
+    if ((fPlo && sLbl !== fPlo) || (fPi && tLbl !== fPi)) return;
+    rows.push([sLbl, tLbl]);
   });
 
   // sort để dễ đọc
   rows.sort((a,b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
 
-  rows.forEach(([s,t]) => {
+  rows.forEach(([ploLbl, piLbl]) => {
+    const ploCt = PLO[ploLbl] || '';
+    const piCt  = PIs[piLbl]  || '';
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="border p-2">${s}</td><td class="border p-2">${t}</td>`;
+    tr.innerHTML = `
+      <td class="border p-2 align-top">
+        <div class="font-medium">${esc(ploLbl)}</div>
+        <div class="text-xs text-gray-600">${esc(ploCt)}</div>
+      </td>
+      <td class="border p-2 align-top">
+        <div class="font-medium">${esc(piLbl)}</div>
+        <div class="text-xs text-gray-600">${esc(piCt)}</div>
+      </td>`;
     tbody.appendChild(tr);
   });
 
@@ -237,18 +261,76 @@ function undoDelete() {
   cy.layout({ name: 'cose', animate: true }).run();
 }
 
+// --------- Export / Import connections CSV (2 cột: plo, pi) ---------
+function exportConnectionsCSV() {
+  if (!cy) { alert('Chưa có đồ thị.'); return; }
+  const rows = cy.edges().map(e => ({
+    plo: e.source().data('label'),
+    pi:  e.target().data('label')
+  }));
+  const heads = ['plo','pi'];
+  const csv = '\ufeff' + [
+    heads.join(','),
+    ...rows.map(r => heads.map(h => csvQuote(r[h])).join(','))
+  ].join('\r\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'plo_pi_connections.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+async function importConnectionsCSV(file) {
+  if (!cy) { alert('Hãy dựng đồ thị từ CSV trước.'); return; }
+  const data = await new Promise((resolve, reject) => {
+    Papa.parse(file, { header: true, skipEmptyLines: true, complete: res => resolve(res.data), error: reject });
+  });
+
+  // Xóa các cạnh hiện tại
+  cy.edges().remove();
+
+  data.forEach(r => {
+    const plo = (r.plo || r.PLO || r.Plo || '').trim();
+    const pi  = (r.pi  || r.PI  || r.Pi  || '').trim();
+    if (!plo || !pi) return;
+    if (!PLO[plo] || !PIs[pi]) return; // bỏ nếu node chưa tồn tại
+    const id = `e_${plo}__${pi}`;
+    if (!cy.getElementById(id).length) {
+      cy.add({ data: { id, source: `PLO::${plo}`, target: `PI::${pi}` } });
+    }
+  });
+
+  cy.layout({ name: 'cose', animate: true }).run();
+}
+
 // --------- Wire DOM ---------
 document.addEventListener('DOMContentLoaded', () => {
+  // Build
   document.getElementById('btnBuild')?.addEventListener('click', bootFromCsvInputs);
+
+  // Connections
   document.getElementById('btnAdd')?.addEventListener('click', addConnection);
   document.getElementById('btnDelete')?.addEventListener('click', deleteSelectedEdge);
   document.getElementById('btnUndo')?.addEventListener('click', undoDelete);
 
+  // Filters
   document.getElementById('filter-plo')?.addEventListener('change', updateTable);
   document.getElementById('filter-pi')?.addEventListener('change', updateTable);
   document.getElementById('btnClearFilters')?.addEventListener('click', () => {
     const a = document.getElementById('filter-plo'); if (a) a.value = '';
     const b = document.getElementById('filter-pi');  if (b) b.value = '';
     updateTable();
+  });
+
+  // Import/Export CSV connections (support 2 id variants)
+  const exportBtn = document.getElementById('btnExportConnCSV') || document.getElementById('btnExportCSV');
+  exportBtn?.addEventListener('click', exportConnectionsCSV);
+
+  const connInput = document.getElementById('connCsvInput') || document.getElementById('piConnCsvInput');
+  connInput?.addEventListener('change', (e) => {
+    const f = e.target.files?.[0]; if (!f) return;
+    importConnectionsCSV(f).catch(err => alert('Không đọc được CSV kết nối: ' + err));
   });
 });

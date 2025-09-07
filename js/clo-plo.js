@@ -224,13 +224,40 @@
 
   const elements = buildElementsByFilters();
 
-  // Chẩn đoán nhẹ (không lọc gì thêm)
-  const nodesCount = elements.filter(el => el.data && !('source' in el.data) && !('target' in el.data)).length;
-  const edgesCount = elements.length - nodesCount;
+  // Phân loại CHÍNH XÁC node / edge rồi tiền kiểm orphan
+  const nodes = [];
+  const nodeIds = new Set();
+  const rawEdges = [];
+
+  for (const el of elements){
+    const d = el?.data || {};
+    if (typeof d.source === 'string' && typeof d.target === 'string') {
+      rawEdges.push(el); // edge
+    } else if (typeof d.id === 'string') {
+      nodes.push(el); nodeIds.add(d.id); // node
+    }
+  }
+
+  const goodEdges = [];
+  const badEdges = [];
+  for (const e of rawEdges){
+    const s = e.data.source, t = e.data.target;
+    if (nodeIds.has(s) && nodeIds.has(t)) goodEdges.push(e);
+    else badEdges.push(e);
+  }
+
+  if (badEdges.length){
+    console.warn('[GRAPH] drop orphan edges:',
+      badEdges.slice(0,10).map(x=>x.data.id || JSON.stringify(x.data)), '... total:', badEdges.length);
+  }
+
+  const safeElements = nodes.concat(goodEdges);
+
+  // Log chẩn đoán
   console.log('[GRAPH]', {
-    elements: elements.length,
-    nodes: nodesCount,
-    edges: edgesCount,
+    elements: safeElements.length,
+    nodes: nodes.length,
+    edges: goodEdges.length,
     edgesPC: EDGES_PC.length,
     cloItems: CLO_ITEMS.length,
     courses: Object.keys(COURSES).length,
@@ -241,59 +268,58 @@
     }
   });
 
-  cy = cytoscape({
-    container,
-    elements, // KHÔNG lọc orphan nữa
-    style: [
-      // PLO
-      { selector: 'node[kind="PLO"]', style: {
-        'shape': 'round-rectangle',
-        'background-color': '#CFE8FF',
-        'border-color': '#0E7BD0', 'border-width': 1.2,
-        'label': 'data(label)', 'font-size': 10, 'color': '#0B253A',
-        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 160
-      }},
-      // COURSE
-      { selector: 'node[kind="COURSE"]', style: {
-        'shape': 'round-rectangle',
-        'background-color': '#FFE7A8',
-        'border-color': '#B7791F', 'border-width': 1.2,
-        'label': 'data(label)', 'font-size': 10, 'color': '#3B2F0A',
-        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 180
-      }},
-      // CLO
-      { selector: 'node[kind="CLO"]', style: {
-        'shape': 'ellipse',
-        'background-color': '#E5E7EB',
-        'border-color': '#6B7280', 'border-width': 1,
-        'label': 'data(clo)', 'font-size': 10, 'color': '#111827'
-      }},
-      // Edge PLO–COURSE (lấy màu từ data(color))
-      { selector: 'edge[kind="PC"]', style: {
-        'width': 3, 'curve-style': 'bezier',
-        'line-color': 'data(color)',
-        'target-arrow-color': 'data(color)',
-        'target-arrow-shape': 'triangle',
-        'line-opacity': 1
-      }},
-      // Edge COURSE–CLO
-      { selector: 'edge[kind="CC"]', style: {
-        'width': 2, 'curve-style': 'bezier',
-        'line-color': 'data(color)',
-        'target-arrow-color': 'data(color)',
-        'target-arrow-shape': 'triangle',
-        'line-opacity': 1
-      }},
-      { selector: '.dim', style: { 'opacity': 0.12 } },
-      { selector: '.hl',  style: { 'border-width': 2, 'background-blacken': -0.1 } }
-    ],
-    layout: { name: 'cose', animate: true, nodeRepulsion: 14000, idealEdgeLength: 120, padding: 30 }
-  });
+  try{
+    cy = cytoscape({
+      container,
+      elements: safeElements,
+      style: [
+        // PLO
+        { selector: 'node[kind="PLO"]', style: {
+          'shape':'round-rectangle','background-color':'#CFE8FF',
+          'border-color':'#0E7BD0','border-width':1.2,
+          'label':'data(label)','font-size':10,'color':'#0B253A',
+          'text-valign':'center','text-wrap':'wrap','text-max-width':160
+        }},
+        // COURSE
+        { selector: 'node[kind="COURSE"]', style: {
+          'shape':'round-rectangle','background-color':'#FFE7A8',
+          'border-color':'#B7791F','border-width':1.2,
+          'label':'data(label)','font-size':10,'color':'#3B2F0A',
+          'text-valign':'center','text-wrap':'wrap','text-max-width':180
+        }},
+        // CLO
+        { selector: 'node[kind="CLO"]', style: {
+          'shape':'ellipse','background-color':'#E5E7EB',
+          'border-color':'#6B7280','border-width':1,
+          'label':'data(clo)','font-size':10,'color':'#111827'
+        }},
+        // Edge PLO–COURSE & COURSE–CLO (lấy màu từ data(color))
+        { selector: 'edge[kind="PC"]', style: {
+          'width':3,'curve-style':'bezier',
+          'line-color':'data(color)','target-arrow-color':'data(color)',
+          'target-arrow-shape':'triangle','line-opacity':1
+        }},
+        { selector: 'edge[kind="CC"]', style: {
+          'width':2,'curve-style':'bezier',
+          'line-color':'data(color)','target-arrow-color':'data(color)',
+          'target-arrow-shape':'triangle','line-opacity':1
+        }},
+        { selector: '.dim', style: { 'opacity': 0.12 } },
+        { selector: '.hl',  style: { 'border-width': 2, 'background-blacken': -0.1 } }
+      ],
+      layout: { name: 'cose', animate: true, nodeRepulsion: 14000, idealEdgeLength: 120, padding: 30 }
+    });
 
-  window.cy = cy;
-  bindCyEvents();
+    window.cy = cy;
+    bindCyEvents();
+  }catch(err){
+    console.error('Cytoscape init failed:', err);
+    // Tránh “chết” app: vẫn hiển thị message thay vì nổ
+    container.innerHTML =
+      `<div class="p-3 text-sm text-red-600">Không thể khởi tạo đồ thị: ${esc(err.message || err)}</div>`;
+  }
 }
-
+  
   function bindCyEvents(){
     const tip = el('tooltip');
     function showTip(html){ if(tip){ tip.innerHTML = html; tip.style.display = 'block'; } }

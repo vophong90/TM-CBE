@@ -109,7 +109,10 @@
               <select id="prereq-to" class="w-full border rounded p-1"></select>
             </label>
           </div>
-          <button id="btnAddPrereq" class="btn border hover:bg-gray-50">Thêm tiên quyết</button>
+          <div class="flex flex-wrap gap-2">
+            <button id="btnAddPrereq" class="btn border hover:bg-gray-50">Thêm tiên quyết</button>
+            <button id="btnDelPrereq" class="btn border hover:bg-gray-50">Xóa tiên quyết</button>
+          </div>
 
           <hr class="my-2">
           <div class="grid sm:grid-cols-2 gap-2">
@@ -120,7 +123,10 @@
               <select id="coreq-b" class="w-full border rounded p-1"></select>
             </label>
           </div>
-          <button id="btnAddCoreq" class="btn border hover:bg-gray-50">Thêm song hành</button>
+          <div class="flex flex-wrap gap-2">
+            <button id="btnAddCoreq" class="btn border hover:bg-gray-50">Thêm song hành</button>
+            <button id="btnDelCoreq" class="btn border hover:bg-gray-50">Xóa song hành</button>
+          </div>
 
           <div id="violations" class="text-xs text-red-600 mt-2"></div>
         </div>

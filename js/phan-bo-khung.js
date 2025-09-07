@@ -261,6 +261,32 @@
     }
   }
 
+  function delPrereq() {
+  const from = prereqFrom.value, to = prereqTo.value;
+  if (!from || !to || from === to) return alert('Chọn đúng 2 học phần (khác nhau).');
+
+  const idx = prerequisites.findIndex(x => x.from === from && x.to === to);
+  if (idx === -1) return alert('Không tìm thấy ràng buộc tiên quyết cần xóa.');
+
+  prerequisites.splice(idx, 1);
+  validateConstraints();
+  rebuildGraph();
+}
+
+function delCoreq() {
+  const a = coreqA.value, b = coreqB.value;
+  if (!a || !b || a === b) return alert('Chọn đúng 2 học phần (khác nhau).');
+
+  const idx = corequisites.findIndex(x =>
+    (x.a === a && x.b === b) || (x.a === b && x.b === a)
+  );
+  if (idx === -1) return alert('Không tìm thấy ràng buộc song hành cần xóa.');
+
+  corequisites.splice(idx, 1);
+  validateConstraints();
+  rebuildGraph();
+}
+
   function validateConstraints() {
     const lines = [];
     prerequisites.forEach(({from, to}) => {
@@ -521,6 +547,8 @@
 
   btnAddPrereq?.addEventListener('click', addPrereq);
   btnAddCoreq?.addEventListener('click', addCoreq);
+  document.getElementById('btnDelPrereq')?.addEventListener('click', delPrereq);
+  document.getElementById('btnDelCoreq')?.addEventListener('click', delCoreq);
 
   btnRefreshCharts?.addEventListener('click', () => rebuildCharts());
 

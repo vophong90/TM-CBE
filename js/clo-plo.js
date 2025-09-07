@@ -142,7 +142,7 @@
   }
 
   // =================== BUILD GRAPH ELEMENTS ===================
-function buildElementsByFilters(){
+  function buildElementsByFilters(){
   const fP = el('filter-plo')?.value || '';
   const fC = el('filter-course')?.value || '';
   const fL = el('filter-clo')?.value || '';
@@ -176,7 +176,7 @@ function buildElementsByFilters(){
     const course = COURSES[e.courseId];
     if (!course) return;
 
-    // Add nodes
+    // nodes
     addNode(`PLO::${e.plo}`, {
       kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
     });
@@ -185,8 +185,8 @@ function buildElementsByFilters(){
       fullname: course.fullname || '', tong: course.tong || 0
     });
 
-    // Add edge PLO -> COURSE (đặt sẵn màu vào data để stylesheet lấy data(color))
-    const lvl = e.level || 'I';
+    // edge PLO -> COURSE (đặt sẵn màu vào data)
+    const lvl = (e.level || 'I').toUpperCase();
     addEdge(`E_PC::${e.plo}__${course.id}`, {
       kind: 'PC',
       source: `PLO::${e.plo}`,
@@ -195,11 +195,13 @@ function buildElementsByFilters(){
       color: colorForLevel(lvl)
     });
 
-    // Add CLOs for this course (filter by CLO nếu có)
+    // CLO của course này
     const list = cloMap[course.id] || [];
     list.forEach(ci=>{
       if (fL && ci.clo !== fL) return;
-      addNode(`CLO::${course.id}::${ci.clo}`, { kind:'CLO', clo: ci.clo, content: ci.content || '' });
+      addNode(`CLO::${course.id}::${ci.clo}`, {
+        kind:'CLO', clo: ci.clo, content: ci.content || ''
+      });
       addEdge(`E_CC::${course.id}__${ci.clo}`, {
         kind: 'CC',
         source: `COURSE::${course.id}`,
@@ -211,7 +213,7 @@ function buildElementsByFilters(){
 
   return elements;
 }
-
+  
   // =================== CYTOSCAPE ===================
 function createCy(){
     const container = el('cy');

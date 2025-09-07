@@ -103,6 +103,7 @@ function createCy(elements) {
 
   wireCyEvents();
   refreshUI();
+  window.cy = cy;
 }
 
 // --------- Events ---------
@@ -289,6 +290,26 @@ function undoDelete() {
   cy.layout({ name: 'cose', animate: true }).run();
 }
 
+// --------- View ops: Fit & Screenshot ---------
+function fitGraph() {
+  if (!cy) { alert('Chưa có đồ thị.'); return; }
+  cy.fit();
+  setStatus('Đã fit đồ thị vào khung xem.');
+}
+
+function screenshotGraph() {
+  if (!cy) { alert('Chưa có đồ thị.'); return; }
+  // Xuất PNG nền trắng, full view, scale 2x cho nét
+  const png64 = cy.png({ bg: 'white', full: true, scale: 2 });
+  const a = document.createElement('a');
+  a.href = png64;
+  a.download = 'PLO-PI-graph.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setStatus('Đã xuất ảnh PNG của đồ thị.');
+}
+
 // --------- Export / Import connections CSV (2 cột: plo, pi) ---------
 function exportConnectionsCSV() {
   if (!cy) { alert('Chưa có đồ thị.'); return; }
@@ -353,6 +374,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const b = document.getElementById('filter-pi');  if (b) b.value = '';
     updateTable();
   });
+
+  // View: Fit & Screenshot
+  document.getElementById('btnFit')?.addEventListener('click', fitGraph);
+  document.getElementById('btnScreenshot')?.addEventListener('click', screenshotGraph);
 
   // Import/Export CSV connections
   document.getElementById('btnExportConnCSV')?.addEventListener('click', exportConnectionsCSV);

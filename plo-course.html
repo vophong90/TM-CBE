@@ -347,15 +347,6 @@
       inner.style.minWidth = minWidth + 'px';
     };
 
-    // Công cụ đồ thị
-    document.getElementById('btnFit')?.addEventListener('click', ()=> { if(window.cy){ window.cy.fit(); }});
-    document.getElementById('btnScreenshot')?.addEventListener('click', ()=> {
-      if(window.cy){
-        const png64 = window.cy.png({bg:'white', full:true, scale:2});
-        const a = document.createElement('a'); a.href = png64; a.download = 'PLO-Course-graph.png'; a.click();
-      }
-    });
-
     window.__setActive && window.__setActive("plo-course");
   </script>
 </body>

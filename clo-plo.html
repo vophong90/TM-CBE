@@ -130,9 +130,36 @@
             <div class="font-semibold text-sm">C. Bloom verbs.csv</div>
             <input id="csvBloom" type="file" accept=".csv" class="input w-full">
             <div id="bloomStatus" class="text-xs text-gray-500"></div>
+            
+            <!-- 🔹 Bộ lọc + Bảng Bloom -->
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-end gap-2">
+                <div>
+                  <label class="block text-xs text-gray-600">Lọc theo Level</label>
+                  <select id="bloom-level-filter" class="input mt-1 min-w-[160px]">
+                    <option value="">— Tất cả level —</option>
+                  </select>
+                </div>
+                <button id="bloomClear" class="btn btn-outline">
+                  <!-- x icon -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 6-12 12M6 6l12 12"/></svg>
+                  Xoá lọc</button>
+                <div id="bloomCount" class="text-xs text-gray-500"></div>
+              </div>
+              
+              <div class="overflow-auto max-h-[260px] border rounded-lg">
+                <table id="bloomTable" class="min-w-full text-sm">
+                  <thead class="sticky top-0 bg-gray-50">
+                    <tr class="text-left">
+                      <th class="border p-2 w-32">Level</th>
+                      <th class="border p-2">Verb</th>
+                    </tr>
+                  </thead>
+                  <tbody><!-- render bằng JS --></tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
       <!-- 2) Bộ lọc -->
       <section class="card p-4">

@@ -153,19 +153,42 @@
     (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
   });
 
-  const elements = [];
-  const nodeSet = new Set();
-  const edgeSet = new Set();
+  // Danh sách phần tử tách riêng node/edge để kiểm soát
+  const nodes = [];
+  const edges = [];
+  const nodeIds = new Set();
 
-  function addNode(id, data){
-    if (nodeSet.has(id)) return;
-    nodeSet.add(id);
-    elements.push({ data: { id, ...data } });
+  function addNodeOnce(id, data){
+    if (nodeIds.has(id)) return;
+    nodeIds.add(id);
+    nodes.push({ data: { id, ...data } });
   }
-  function addEdge(id, data){
-    if (edgeSet.has(id)) return;
-    edgeSet.add(id);
-    elements.push({ data: { id, ...data } });
+  function ensureNode(id){
+    if (nodeIds.has(id)) return;
+
+    // Suy ra kiểu node từ tiền tố id
+    if (id.startsWith('PLO::')){
+      const plo = id.slice('PLO::'.length);
+      addNodeOnce(id, { kind:'PLO', label: plo, content: PLO[plo] || '' });
+    } else if (id.startsWith('COURSE::')){
+      const cid = id.slice('COURSE::'.length);
+      const c = COURSES[cid] || { id: cid, label: cid, fullname: '', tong: 0 };
+      addNodeOnce(id, { kind:'COURSE', id: c.id, label: c.label || c.id, fullname: c.fullname || '', tong: c.tong || 0 });
+    } else if (id.startsWith('CLO::')){
+      // CLO::<courseId>::<clo>
+      const rest = id.slice('CLO::'.length);
+      const [cid, cloCode] = rest.split('::');
+      addNodeOnce(id, { kind:'CLO', clo: cloCode || 'CLO?', content: '' });
+    } else {
+      // fallback an toàn
+      addNodeOnce(id, { kind:'UNKNOWN', label: id });
+    }
+  }
+  function addEdgeSafe(id, source, target, extraData){
+    // tự chữa: đảm bảo 2 đầu mút tồn tại
+    ensureNode(source);
+    ensureNode(target);
+    edges.push({ data: { id, source, target, ...extraData } });
   }
 
   // Với mỗi cạnh PLO–COURSE thoả bộ lọc
@@ -174,44 +197,39 @@
     if (fC && e.courseId !== fC) return;
 
     const course = COURSES[e.courseId];
-    if (!course) return;
+    if (!course) return; // course này không thuộc "tập cuối" → bỏ im lặng
+
+    // Tạo id các node/edge một lần để tái dùng
+    const ploId = `PLO::${e.plo}`;
+    const courseNodeId = `COURSE::${course.id}`;
 
     // Nodes
-    addNode(`PLO::${e.plo}`, {
-      kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
-    });
-    addNode(`COURSE::${course.id}`, {
-      kind: 'COURSE', id: course.id, label: course.label || course.id,
+    addNodeOnce(ploId, { kind:'PLO', label:e.plo, content: PLO[e.plo] || '' });
+    addNodeOnce(courseNodeId, {
+      kind:'COURSE', id:course.id, label:course.label || course.id,
       fullname: course.fullname || '', tong: course.tong || 0
     });
 
     // Edge PLO -> COURSE (gán màu ngay trong data)
     const lvl = (e.level || 'I').toUpperCase();
-    addEdge(`E_PC::${e.plo}__${course.id}`, {
-      kind: 'PC',
-      source: `PLO::${e.plo}`,
-      target: `COURSE::${course.id}`,
-      level: lvl,
-      color: colorForLevel(lvl)
+    addEdgeSafe(`E_PC::${e.plo}__${course.id}`, ploId, courseNodeId, {
+      kind:'PC', level:lvl, color: colorForLevel(lvl)
     });
 
-    // Edges COURSE -> CLO
+    // Edges COURSE -> CLO (theo filter CLO nếu có)
     const list = cloMap[course.id] || [];
     list.forEach(ci=>{
       if (fL && ci.clo !== fL) return;
-      addNode(`CLO::${course.id}::${ci.clo}`, {
-        kind:'CLO', clo: ci.clo, content: ci.content || ''
-      });
-      addEdge(`E_CC::${course.id}__${ci.clo}`, {
-        kind: 'CC',
-        source: `COURSE::${course.id}`,
-        target: `CLO::${course.id}::${ci.clo}`,
-        color: '#94A3B8' // cố định
+      const cloNodeId = `CLO::${course.id}::${ci.clo}`;
+      addNodeOnce(cloNodeId, { kind:'CLO', clo: ci.clo, content: ci.content || '' });
+      addEdgeSafe(`E_CC::${course.id}__${ci.clo}`, courseNodeId, cloNodeId, {
+        kind:'CC', color:'#94A3B8'
       });
     });
   });
 
-  return elements;
+  // Trả về mảng elements đã tự-chữa (nodes trước, edges sau)
+  return [...nodes, ...edges];
 }
   
   // =================== CYTOSCAPE ===================
@@ -224,42 +242,12 @@
 
   const elements = buildElementsByFilters();
 
-  // Phân loại CHÍNH XÁC node / edge rồi tiền kiểm orphan
-  const nodes = [];
-  const nodeIds = new Set();
-  const rawEdges = [];
-
-  for (const el of elements){
-    const d = el?.data || {};
-    if (typeof d.source === 'string' && typeof d.target === 'string') {
-      rawEdges.push(el); // edge
-    } else if (typeof d.id === 'string') {
-      nodes.push(el); nodeIds.add(d.id); // node
-    }
-  }
-
-  const goodEdges = [];
-  const badEdges = [];
-  for (const e of rawEdges){
-    const s = e.data.source, t = e.data.target;
-    if (nodeIds.has(s) && nodeIds.has(t)) goodEdges.push(e);
-    else badEdges.push(e);
-  }
-
-  if (badEdges.length){
-    console.warn('[GRAPH] drop orphan edges:',
-      badEdges.slice(0,10).map(x=>x.data.id || JSON.stringify(x.data)), '... total:', badEdges.length);
-  }
-
-  const safeElements = nodes.concat(goodEdges);
-
-  // Log chẩn đoán
+  // Chẩn đoán: đếm node/edge gửi vào Cytoscape
+  const nodesCount = elements.filter(el => el?.data && !('source' in el.data) && !('target' in el.data)).length;
+  const edgesCount = elements.length - nodesCount;
   console.log('[GRAPH]', {
-    elements: safeElements.length,
-    nodes: nodes.length,
-    edges: goodEdges.length,
-    edgesPC: EDGES_PC.length,
-    cloItems: CLO_ITEMS.length,
+    elements: elements.length, nodes: nodesCount, edges: edgesCount,
+    edgesPC: EDGES_PC.length, cloItems: CLO_ITEMS.length,
     courses: Object.keys(COURSES).length,
     filters: {
       plo: el('filter-plo')?.value || '',
@@ -271,34 +259,32 @@
   try{
     cy = cytoscape({
       container,
-      elements: safeElements,
+      elements, // đã tự-chữa → KHÔNG thể còn orphan
       style: [
-        // PLO
         { selector: 'node[kind="PLO"]', style: {
           'shape':'round-rectangle','background-color':'#CFE8FF',
           'border-color':'#0E7BD0','border-width':1.2,
           'label':'data(label)','font-size':10,'color':'#0B253A',
           'text-valign':'center','text-wrap':'wrap','text-max-width':160
         }},
-        // COURSE
         { selector: 'node[kind="COURSE"]', style: {
           'shape':'round-rectangle','background-color':'#FFE7A8',
           'border-color':'#B7791F','border-width':1.2,
           'label':'data(label)','font-size':10,'color':'#3B2F0A',
           'text-valign':'center','text-wrap':'wrap','text-max-width':180
         }},
-        // CLO
         { selector: 'node[kind="CLO"]', style: {
           'shape':'ellipse','background-color':'#E5E7EB',
           'border-color':'#6B7280','border-width':1,
           'label':'data(clo)','font-size':10,'color':'#111827'
         }},
-        // Edge PLO–COURSE & COURSE–CLO (lấy màu từ data(color))
+        // Edge PLO–COURSE
         { selector: 'edge[kind="PC"]', style: {
           'width':3,'curve-style':'bezier',
           'line-color':'data(color)','target-arrow-color':'data(color)',
           'target-arrow-shape':'triangle','line-opacity':1
         }},
+        // Edge COURSE–CLO
         { selector: 'edge[kind="CC"]', style: {
           'width':2,'curve-style':'bezier',
           'line-color':'data(color)','target-arrow-color':'data(color)',
@@ -314,9 +300,7 @@
     bindCyEvents();
   }catch(err){
     console.error('Cytoscape init failed:', err);
-    // Tránh “chết” app: vẫn hiển thị message thay vì nổ
-    container.innerHTML =
-      `<div class="p-3 text-sm text-red-600">Không thể khởi tạo đồ thị: ${esc(err.message || err)}</div>`;
+    container.innerHTML = `<div class="p-3 text-sm text-red-600">Không thể khởi tạo đồ thị: ${esc(err.message || err)}</div>`;
   }
 }
   

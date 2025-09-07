@@ -139,6 +139,8 @@
     setOpts(aiP, Object.keys(PLO).map(x=>({value:x,label:x})), '— chọn PLO —');
     setOpts(aiC, courseOpts, '— chọn Course —');
     setOpts(evP, Object.keys(PLO).map(x=>({value:x,label:x})), '— chọn PLO —');
+    const evC = el('eval-course');
+    setOpts(evC, courseOpts, '— chọn Course —');
   }
 
   // =================== BUILD GRAPH ELEMENTS ===================
@@ -750,31 +752,46 @@ function rebuildBloomTable(){
   }
 
   async function evaluateCLO(){
-    const plo = el('eval-plo')?.value;
-    const cloText = (el('eval-clo')?.value || '').trim();
-    const out = el('evalResult');
-    if (!plo || !cloText){ alert('Chọn PLO và nhập CLO.'); return; }
-    if (out) out.textContent = 'Đang gọi GPT…';
+  const plo = el('eval-plo')?.value;
+  const courseId = el('eval-course')?.value;
+  const linkLevel = el('eval-level')?.value || 'I';
+  const cloText = (el('eval-clo')?.value || '').trim();
+  const out = el('evalResult');
 
-    const ploText = PLO[plo] || '';
-    try{
-      const gpt = await gptCall('evaluate', { plo, ploText, cloText });
-      if (gpt && gpt.text){ if (out) out.textContent = gpt.text; return; }
-      throw new Error('Empty GPT text');
-    }catch(e){
-      // Heuristic fallback
-      function kw(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9]+/g) || []; }
-      const kp = new Set(kw(ploText));
-      const kc = kw(cloText);
-      let overlap = 0; kc.forEach(w=>{ if (kp.has(w)) overlap++; });
-      const score = Math.min(100, Math.round((overlap / Math.max(4, kp.size||1)) * 100));
-      const verdict = score>=70 ? 'Rất phù hợp' : score>=40 ? 'Tương đối phù hợp' : 'Chưa phù hợp';
-      if (out) out.textContent =
-        `Điểm tương đồng (heuristic): ${score}/100 → ${verdict}.
-Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom và tiêu chí đo lường.`;
-      console.warn('GPT evaluate fallback:', e.message || e);
-    }
+  if (!plo || !courseId || !cloText){
+    alert('Chọn PLO, Course và nhập CLO trước khi đánh giá.');
+    return;
   }
+  if (out) out.textContent = 'Đang gọi GPT…';
+
+  const ploText = PLO[plo] || '';
+  const course = COURSES[courseId] || {};
+
+  try{
+    const gpt = await gptCall('evaluate', {
+      plo,
+      ploText,
+      course,            // {id,label,fullname,group,tong}
+      linkLevel,         // I/R/M/A
+      cloText,
+      bloomVerbs: BLOOM  // danh sách Bloom người dùng tải lên
+    });
+    if (gpt && gpt.text){ if (out) out.textContent = gpt.text; return; }
+    throw new Error('Empty GPT text');
+  }catch(e){
+    // Fallback đơn giản khi backend không phản hồi
+    function kw(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9]+/g) || []; }
+    const kp = new Set(kw(ploText + ' ' + (course.fullname || course.label || '')));
+    const kc = kw(cloText);
+    let overlap = 0; kc.forEach(w=>{ if (kp.has(w)) overlap++; });
+    const score = Math.min(100, Math.round((overlap / Math.max(6, kp.size||1)) * 100));
+    const verdict = score>=70 ? 'Rất phù hợp' : score>=40 ? 'Tương đối phù hợp' : 'Chưa phù hợp';
+    if (out) out.textContent =
+`(Fallback) Điểm tương đồng: ${score}/100 → ${verdict}.
+Gợi ý: làm rõ động từ Bloom mức ${linkLevel}, nhắc thuật ngữ/ca lâm sàng đúng với "${course.label || courseId}", kèm tiêu chí đo lường (≥80%, thời gian, thước đo...).`;
+    console.warn('GPT evaluate fallback:', e.message || e);
+  }
+}
 
   // =================== RENDER ALL ===================
   function rebuildAll(){

@@ -112,9 +112,113 @@
         <h2 class="text-xl font-semibold">1. Các thuật ngữ chính</h2>
         <span class="badge bg-brand-50 text-brand-700">Glossary</span>
       </div>
-      <p class="text-gray-700 mt-2">
-        (Placeholder) Sẽ bổ sung bảng thuật ngữ: PLO, CLO, PI, Bloom, Mapping, Alignment, v.v.
+      <div class="mt-3 space-y-6 text-gray-800">
+  <!-- Định nghĩa cốt lõi -->
+  <dl class="space-y-4">
+    <div>
+      <dt class="font-semibold text-gray-900">Năng lực (Competence)</dt>
+      <dd class="mt-1">
+        Là khả năng tổng hợp và liên tục phát triển của người hành nghề y, thể hiện qua việc thực hiện đúng đắn,
+        an toàn và hiệu quả các nhiệm vụ chuyên môn trong những hoàn cảnh khác nhau.
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-semibold text-gray-900">Năng lực cụ thể (Competency)</dt>
+      <dd class="mt-1">
+        Là khả năng có thể quan sát và đánh giá được, phản ánh sự kết hợp giữa kiến thức, kỹ năng và thái độ,
+        nhằm thực hiện thành công một nhiệm vụ chuyên môn trong bối cảnh lâm sàng.
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-semibold text-gray-900">
+        Giáo dục y khoa dựa trên năng lực (CBME – Competency-based Medical Education)
+      </dt>
+      <dd class="mt-1">
+        Là mô hình đào tạo y khoa tập trung vào kết quả đầu ra, trong đó sinh viên phải chứng minh được các năng lực
+        cụ thể có thể quan sát, nhằm đảm bảo họ đủ khả năng hành nghề an toàn, hiệu quả và đáp ứng nhu cầu chăm sóc
+        sức khỏe của xã hội.
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-semibold text-gray-900">PLO (Program Learning Outcomes – Chuẩn đầu ra chương trình)</dt>
+      <dd class="mt-1">
+        Là tập hợp các năng lực mà người học phải đạt được sau khi hoàn thành toàn bộ chương trình đào tạo. PLO thường
+        bao gồm kiến thức, kỹ năng, thái độ và năng lực nghề nghiệp phù hợp với chuẩn quốc gia, khu vực và nhu cầu xã hội.
+        Đây là “đích đến” của chương trình, định hướng thiết kế toàn bộ học phần và hoạt động giảng dạy.
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-semibold text-gray-900">CLO (Course Learning Outcomes – Chuẩn đầu ra học phần)</dt>
+      <dd class="mt-1">
+        Là các năng lực cụ thể mà sinh viên đạt được sau khi hoàn tất một học phần (môn học). CLO được thiết kế để
+        đóng góp trực tiếp vào việc đạt được các PLO, và thường diễn đạt bằng động từ theo thang Bloom.
+      </dd>
+    </div>
+  </dl>
+
+  <!-- Hai khối: Bloom & Miller -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Thang Bloom -->
+    <section class="rounded-xl border border-gray-200 p-4">
+      <h3 class="font-semibold text-lg">Thang Bloom (Bloom’s Taxonomy)</h3>
+      <p class="mt-2">
+        Được Benjamin Bloom và cộng sự giới thiệu năm 1956, là mô hình phân loại các mức độ nhận thức trong học tập,
+        thường biểu diễn dạng kim tự tháp gồm 6 bậc từ thấp đến cao:
       </p>
+      <ol class="list-decimal pl-5 mt-2 space-y-1">
+        <li><strong>Nhớ (Remember)</strong>: Ghi nhớ, nhận diện thông tin đã học.</li>
+        <li><strong>Hiểu (Understand)</strong>: Giải thích, diễn đạt ý nghĩa kiến thức.</li>
+        <li><strong>Vận dụng (Apply)</strong>: Sử dụng kiến thức vào tình huống mới.</li>
+        <li><strong>Phân tích (Analyze)</strong>: Tách biệt, so sánh, xác định mối quan hệ.</li>
+        <li><strong>Đánh giá (Evaluate)</strong>: Đưa ra nhận định, lập luận và quyết định.</li>
+        <li><strong>Sáng tạo (Create)</strong>: Kết hợp và phát triển ý tưởng mới.</li>
+      </ol>
+
+      <figure class="mt-4">
+        <img
+          src="./assets/bloom.PNG"
+          alt="Minh họa thang phân bậc nhận thức Bloom"
+          class="w-full rounded-lg border border-gray-200 shadow-sm"
+          loading="lazy"
+        />
+        <figcaption class="text-xs text-gray-500 mt-1">
+          Hình: Thang Bloom (6 bậc nhận thức từ Nhớ → Sáng tạo).
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- Tháp Miller -->
+    <section class="rounded-xl border border-gray-200 p-4">
+      <h3 class="font-semibold text-lg">Tháp Miller (Miller’s Pyramid)</h3>
+      <p class="mt-2">
+        Do George Miller (1990) đề xuất để mô tả các mức độ năng lực lâm sàng của người học y khoa, nhấn mạnh tiến
+        triển từ kiến thức đến năng lực hành nghề thực tiễn. Gồm 4 tầng từ thấp đến cao:
+      </p>
+      <ul class="list-disc pl-5 mt-2 space-y-1">
+        <li><strong>Knows (Biết)</strong>: Nắm vững kiến thức lý thuyết.</li>
+        <li><strong>Knows How (Biết cách)</strong>: Vận dụng kiến thức giải quyết vấn đề, lý luận lâm sàng, ra quyết định.</li>
+        <li><strong>Shows How (Thể hiện được)</strong>: Chứng minh năng lực thực hành trong mô phỏng hoặc tình huống được giám sát.</li>
+        <li><strong>Does (Thực hiện)</strong>: Hành nghề độc lập, thực hiện hiệu quả và an toàn trong bối cảnh thực tế.</li>
+      </ul>
+
+      <figure class="mt-4">
+        <img
+          src="./assets/miller.PNG"
+          alt="Minh họa Tháp Miller gồm bốn tầng Knows → Does"
+          class="w-full rounded-lg border border-gray-200 shadow-sm"
+          loading="lazy"
+        />
+        <figcaption class="text-xs text-gray-500 mt-1">
+          Hình: Tháp Miller (Knows → Knows How → Shows How → Does).
+        </figcaption>
+      </figure>
+    </section>
+  </div>
+</div>
     </section>
 
     <!-- 2. Nguyên tắc CBE -->

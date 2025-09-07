@@ -216,6 +216,8 @@
   function createCy(){
     const container = el('cy');
     if (!container) return;
+    if (!container.style.height) container.style.height = '640px';
+    if (!container.style.minHeight) container.style.minHeight = '480px';
     if (cy) { cy.destroy(); cy = null; }
 
     const elements = buildElementsByFilters();

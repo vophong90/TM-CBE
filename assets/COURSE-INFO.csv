@@ -1,0 +1,133 @@
+﻿id,label,fullname,tong,lt,th,khoi,group,type
+C001,Mac,Triết học Mác-Lênin,3,2,1,Tây y,Đại cương,Ethics
+C002,KTCT,Kinh tế chính trị Mác-Lênin,2,1,1,Tây y,Đại cương,Ethics
+C003,CNXHKH,Chủ nghĩa xã hội khoa học,2,1,1,Tây y,Đại cương,Ethics
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics
+C005,LSĐ,Lịch sử Đảng Cộng sản Việt Nam,2,1,1,Tây y,Đại cương,Ethics
+A001,GDTC1,Giáo dục thể chất 1,1,0,1,Tây y,Đại cương,Health Promotion
+A002,GDTC2,Giáo dục thể chất 2,1,0,1,Tây y,Đại cương,Health Promotion
+A003,GDTC3,Giáo dục thể chất 3,1,0,1,Tây y,Đại cương,Health Promotion
+A004,GPAN,Giáo dục quốc phòng – an ninh ,7,7,0,Tây y,Đại cương,Health Promotion
+A005,THQPAN,Thực hành Giáo dục quốc phòng – an ninh ,2,0,2,Tây y,Đại cương,Health Promotion
+C006,PL,Pháp luật đại cương,1,1,0,Tây y,Đại cương,Ethics
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods
+C008,VLLS,Vật lý – Lý sinh ,1,1,0,Tây y,Đại cương,Clinical Methods
+C009,Hóa,Hóa đại cương và hữu cơ  ,2,2,0,Tây y,Đại cương,Clinical Methods
+C010,Sinh,Sinh học và di truyền ,2,2,0,Tây y,Đại cương,Clinical Methods
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods
+C012,YĐ,Đạo đức y học ,1,1,0,Tây y,Đại cương,Ethics
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics
+C014,NN1,Ngoại ngữ chuyên ngành 1,4,4,0,Tây y,Đại cương,Clinical Methods
+C015,NN2,Ngoại ngữ chuyên ngành 2,4,4,0,Tây y,Đại cương,Clinical Methods
+C016,GPI,Giải phẫu I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C017,THGP,Thực hành Giải phẫu I,1,0,1,Tây y,Cơ sở ngành,Clinical Methods
+C018,GPII,Giải phẫu II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C019,THGPII,Thực hành Giải phẫu II,1,0,1,Tây y,Cơ sở ngành,Clinical Methods
+C020,Mô,Mô phôi ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C021,HSLS,Hoá sinh lâm sàng,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C022,VS,Vi sinh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods
+C023,KS,Ký sinh trùng,1,1,0,Tây y,Cơ sở ngành,Clinical Methods
+C024,SLI,Sinh lý I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C025,SLII,Sinh lý II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C026,THSL,Thực hành Sinh lý,1,0,1,Tây y,Cơ sở ngành,Clinical Methods
+C027,GPB,Giải phẫu bệnh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods
+C028,SLB,Sinh lý bệnh – Miễn dịch ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C029,CDHA,Chẩn đoán hình ảnh ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods
+C032,TVD,Thực vật dược ,1,1,0,Đông y,Cơ sở ngành,Clinical Methods
+C033,THTVD,Thực hành Thực vật dược,1,0,1,Đông y,Cơ sở ngành,Clinical Methods
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods
+C035,DL,Dược lý ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods
+C036,THDL,Thực hành Dược lý  ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods
+C038,THĐDCB,Thực hành Điều dưỡng cơ bản ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods
+C039,CCBĐ,Cấp cứu ban đầu,1,1,0,Tây y,Ngành,Clinical Methods
+C040,THCCBĐ,Thực hành Cấp cứu ban đầu,2,0,2,Tây y,Ngành,Clinical Methods
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods
+C043,Nội,Nội YHHĐ,3,3,0,Tây y,Ngành,Clinical Methods
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods
+C045,Kỹ năng LS,Kỹ năng khám lâm sàng YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods
+C046,Nội tiết,Nội tiết YHHĐ,2,1,1,Tây y,Ngành,Clinical Methods
+C047,Ngoại TY,Ngoại YHHĐ,1,1,0,Tây y,Ngành,Clinical Methods
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods
+C050,TH Phụ TY,Thực hành Phụ sản YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods
+C051,Nhi TY,Nhi khoa YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods
+C052,TH Nhi TY,Thực hành Nhi khoa YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods
+C053,Tâm thần,Tâm thần,1,1,0,Tây y,Ngành,Clinical Methods
+C054,Lao,Lao,1,1,0,Tây y,Ngành,Clinical Methods
+C055,Da liễu,Da liễu YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods
+C056,TH Da,Thực hành Da liễu YHHĐ  ,1,0,1,Tây y,Ngành,Clinical Methods
+C057,YHCC,Y học chứng cứ,1,1,0,Tây y,Ngành,Clinical Methods
+C058,PHCN,Phục hồi chức năng  ,1,1,0,Tây y,Ngành,Clinical Methods
+C059,THPHCN,Thực hành Phục hồi chức năng  ,1,0,1,Tây y,Ngành,Clinical Methods
+C060,UT,Ung thư ,1,1,0,Tây y,Ngành,Clinical Methods
+C061,THUT,Thực hành Ung thư ,1,0,1,Tây y,Ngành,Clinical Methods
+C062,CĐ YHCT,Chẩn đoán YHCT ,2,2,0,Đông y,Ngành,Clinical Methods
+C063,TH CĐ YHCT,Thực hành Chẩn đoán YHCT,2,0,2,Đông y,Ngành,Clinical Methods
+C064,BH YHCT,Bệnh học YHCT,2,2,0,Đông y,Ngành,Clinical Methods
+C065,Lão YHCT,Lão khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C066,TH Lão YHCT,TH Lão khoa YHCT ,2,0,2,Kết hợp,Ngành,Clinical Methods
+C067,Nhiễm,Truyền nhiễm,1,1,0,Tây y,Ngành,Clinical Methods
+C068,TH Nhiễm,Thực hành Truyền nhiễm ,2,0,2,Tây y,Ngành,Clinical Methods
+C069,Phụ YHCT,Phụ sản YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C070,TH Phụ YHCT,Thực hành Phụ sản YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods
+C071,TPKĐ,Tác phẩm kinh điển YHCT ,2,2,0,Đông y,Ngành,Clinical Methods
+C072,Nhi YHCT,Nhi khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C073,TH Nhi YHCT,Thực hành Nhi khoa YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods
+C074,DL YHCT,Da liễu YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C075,TH DL YHCT,Thực hành Da liễu YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods
+C076,Ngoại YHCT,Ngoại YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C077,TH Ngoại YHCT,Thực hành Ngoại YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods
+C078,Ngũ quan,Ngũ quan ,1,1,0,Kết hợp,Ngành,Clinical Methods
+C079,TH NQ,Thực hành Ngũ quan,1,0,1,Kết hợp,Ngành,Clinical Methods
+C080,CBDL,Chế biến dược liệu ,1,1,0,Đông y,Ngành,Clinical Methods
+C081,TH CBDL,Thực hành Chế biến dược liệu  ,2,0,2,Đông y,Ngành,Clinical Methods
+C082,Thuốc YHCT,Thuốc YHCT ,3,3,0,Đông y,Ngành,Clinical Methods
+C083,TH Thuốc YHCT,Thực hành Thuốc YHCT ,2,0,2,Đông y,Ngành,Clinical Methods
+C084,Kinh mạch,Kinh mạch học,2,2,0,Đông y,Ngành,Clinical Methods
+C085,TH Kinh mạch,Thực hành Kinh mạch học,2,0,2,Đông y,Ngành,Clinical Methods
+C086,Châm 1,Châm cứu 1,1,1,0,Đông y,Ngành,Clinical Methods
+C087,TH Châm 1,Thực hành Châm cứu 1,2,0,2,Đông y,Ngành,Clinical Methods
+C088,Châm 2,Châm cứu 2,1,1,0,Đông y,Ngành,Clinical Methods
+C089,TH Châm 2,Thực hành Châm cứu 2,2,0,2,Đông y,Ngành,Clinical Methods
+C090,Thực dưỡng,Thực dưỡng,2,2,0,Đông y,Ngành,Health Promotion
+C091,TH Thực dưỡng,Thực hành Thực dưỡng ,1,0,1,Đông y,Ngành,Health Promotion
+C092,TT Cộng đồng,Thực tập cộng đồng ,1,0,1,Tây y,Ngành,Health Promotion
+C093,Ôn bệnh,Ôn bệnh,1,1,0,Đông y,Ngành,Clinical Methods
+C094,Dưỡng sinh,Dưỡng sinh ,1,1,0,Đông y,Ngành,Health Promotion
+C095,TH DS,Thực hành Dưỡng sinh,1,0,1,Đông y,Ngành,Health Promotion
+C096,XBBH,Xoa bóp – Bấm huyệt,1,1,0,Đông y,Ngành,Health Promotion
+C097,TH XBBH,Thực hành Xoa bóp – Bấm huyệt,2,0,2,Đông y,Ngành,Health Promotion
+C098,Dược LS,Dược lâm sàng kết hợp ,2,2,0,Kết hợp,Ngành,Clinical Methods
+C099,TH Dược LS,Thực hành Dược lâm sàng kết hợp  ,1,0,1,Kết hợp,Ngành,Clinical Methods
+C100,PT 1,Phương tễ I,2,2,0,Đông y,Ngành,Clinical Methods
+C101,PT 2,Phương tễ II ,1,1,0,Đông y,Ngành,Clinical Methods
+C102,TH PT,Thực hành Phương tễ ,1,0,1,Đông y,Ngành,Clinical Methods
+C103,TMHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,2,0,Kết hợp,Ngành,Clinical Methods
+C104,TH TMHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,0,2,Kết hợp,Ngành,Clinical Methods
+C105,TK,Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,2,0,Kết hợp,Ngành,Clinical Methods
+C106,TH TK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,0,2,Kết hợp,Ngành,Clinical Methods
+C107,CXK,Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,2,0,Kết hợp,Ngành,Clinical Methods
+C108,TH CXK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,0,2,Kết hợp,Ngành,Clinical Methods
+C109,NTHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,2,0,Kết hợp,Ngành,Clinical Methods
+C110,TH NTHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,0,2,Kết hợp,Ngành,Clinical Methods
+C111,THGM,Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,2,0,Kết hợp,Ngành,Clinical Methods
+C112,TH THGM,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,0,2,Kết hợp,Ngành,Clinical Methods
+C113,Khởi nghiệp,Tư duy khởi nghiệp và đổi mới sáng tạo ,1,0,1,Kết hợp,Định hướng chuyên ngành,Health Promotion
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion
+C116,SKCĐ, Truyền thông sức khỏe cộng đồng,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship
+C118,NTC1,HP ngành tự chọn 1,1,1,0,Kết hợp,Ngành,Clinical Methods
+C119,NTC2,HP ngành tự chọn 2,1,1,0,Kết hợp,Ngành,Clinical Methods
+C120,NTC3,HP ngành tự chọn 3,1,1,0,Kết hợp,Ngành,Clinical Methods
+C121,NTC4,HP ngành tự chọn 4,1,0,1,Kết hợp,Ngành,Clinical Methods
+C122,NTC5,HP ngành tự chọn 5,1,0,1,Kết hợp,Ngành,Clinical Methods
+C125,NTC6,HP ngành tự chọn 6,1,0,1,Kết hợp,Ngành,Clinical Methods
+C132,ĐHTC1,HP định hướng tự chọn 1,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods
+C133,ĐHTC2,HP định hướng tự chọn 2,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods
+C134,ĐHTC3,HP định hướng tự chọn 3,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods
+C135,ĐHTC4,HP định hướng tự chọn 4,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods

@@ -1,0 +1,392 @@
+﻿id,label,fullname,tong,lt,th,khoi,group,type,clo,content,plo,level
+C001,Mac,Triết học Mác-Lênin,3,2,1,Tây y,Đại cương,Ethics,CLO1,Xây dựng được thế giới quan duy vật và phương pháp luận biện chứng duy vật làm nền tảng lý luận cho việc nhận thức các vấn đề nội dung của các học phần khác,PLO4,I
+C001,Mac,Triết học Mác-Lênin,3,2,1,Tây y,Đại cương,Ethics,CLO2,"Nhận thức được giá trị ,bản chất khoa học, cách mạng của Triết học Mác- Lê nin để từ đó tiếp cận các khoa học chuyên ngành được đào tạo",PLO4,I
+C001,Mac,Triết học Mác-Lênin,3,2,1,Tây y,Đại cương,Ethics,CLO3,"Góp phần xây dựng lập trường, ý thức hệ tư tưởng Mác – Lênin đối với sinh viên",PLO2,I
+C001,Mac,Triết học Mác-Lênin,3,2,1,Tây y,Đại cương,Ethics,CLO4,Vận dụng phép biện chứng duy vật vào thực tiễn trong học thuyết âm dương và học thuyết ngũ hành của YHCT,PLO4,I
+C002,KTCT,Kinh tế chính trị Mác-Lênin,2,1,1,Tây y,Đại cương,Ethics,CLO1,"Trình bày được những tri thức cơ bản, cốt lõi của Kinh tế chính trị Mác – Lênin trong bối cảnh phát triển kinh tế của đất nước và thế giới ngày nay đảm bảo tính cơ bản, hệ thống, khoa học, cập nhật tri thức mới, gắn với thực tiễn, tính sáng tạo, kỹ năng, tư duy, phẩm chất người học",PLO2,I
+C002,KTCT,Kinh tế chính trị Mác-Lênin,2,1,1,Tây y,Đại cương,Ethics,CLO1,"Trình bày được những tri thức cơ bản, cốt lõi của Kinh tế chính trị Mác – Lênin trong bối cảnh phát triển kinh tế của đất nước và thế giới ngày nay đảm bảo tính cơ bản, hệ thống, khoa học, cập nhật tri thức mới, gắn với thực tiễn, tính sáng tạo, kỹ năng, tư duy, phẩm chất người học",PLO4,I
+C002,KTCT,Kinh tế chính trị Mác-Lênin,2,1,1,Tây y,Đại cương,Ethics,CLO2,"Hình thành tư duy, kỹ năng phân tích, đánh giá và nhận diện bản chất của các quan hệ lợi ích kinh tế trong phát triển kinh tế - xã hội của đất nước và góp phần xây dựng trách nhiệm xã hội phù hợp trong vị trí việc làm và cuộc sống sau khi ra trường",PLO2,I
+C002,KTCT,Kinh tế chính trị Mác-Lênin,2,1,1,Tây y,Đại cương,Ethics,CLO3,"Góp phần xây dựng lập trường, ý thức hệ tư tưởng Mác – Lênin đối với sinh viên",PLO4,I
+C003,CNXHKH,Chủ nghĩa xã hội khoa học,2,1,1,Tây y,Đại cương,Ethics,CLO1,"Trình bày được những tri thức cơ bản, cốt lõi nhất về CNXKH, một trong ba bộ phận hợp thành CN Mác – Lênin",PLO4,R
+C003,CNXHKH,Chủ nghĩa xã hội khoa học,2,1,1,Tây y,Đại cương,Ethics,CLO2,"Vận dụng được các tri thức đã học vào việc xem xét, đánh giá những vấn đề chính trị - xã hội của đất nước liên quan đến CNXH và con đường lên CNXH ở nước ta nói chung ",PLO4,R
+C003,CNXHKH,Chủ nghĩa xã hội khoa học,2,1,1,Tây y,Đại cương,Ethics,CLO3,"Vận dụng các tri thức đã học vào việc xây dựng, phát triển nền YHCT VN kết hợp YHHĐ trong chăm sóc sức khỏe nhân dân",PLO4,R
+C003,CNXHKH,Chủ nghĩa xã hội khoa học,2,1,1,Tây y,Đại cương,Ethics,CLO4,"Có thái độ chính trị, tư tưởng đúng đắn về học phần nói riêng và nền tảng tư tưởng của Đảng ta nói riêng",PLO4,R
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics,CLO1,"Trình bày được có tính hệ thống về tư tưởng, đạo đức, giá trị văn hóa, Hồ Chí Minh",PLO1,R
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics,CLO2,Hiểu được thêm những kiến thức cơ bản về chủ nghĩa Mác – Lênin,PLO1,R
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics,CLO3,"Hiểu được về nền tảng tư tưởng, kim chỉ nam hành động của Đảng và của cách mạng nước ta",PLO1,R
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics,CLO4,Phân tích được những phẩm chất đạo đức cách mạng nhằm góp phần xây dựng nền tảng đạo đức con người mới,PLO1,R
+C004,TTHCM,Tư tưởng Hồ Chí Minh,2,1,1,Tây y,Đại cương,Ethics,CLO5,Hiểu rõ được tư tưởng Hồ Chí Minh về kết hợp YHHĐ và YHCT,PLO4,R
+C005,LSĐ,Lịch sử Đảng Cộng sản Việt Nam,2,1,1,Tây y,Đại cương,Ethics,CLO1,Trình bày được sự ra đời của Đảng Cộng sản Việt Nam là tất yếu lịch sử,PLO4,R
+C005,LSĐ,Lịch sử Đảng Cộng sản Việt Nam,2,1,1,Tây y,Đại cương,Ethics,CLO2,"Trình bày được những nội dung cơ bản của Đảng Cộng sản Việt Nam, trong đó chủ yếu tập trung vào thời kỳ đấu tranh giành chính quyền và giải phóng dân tộc thống nhất đất nước của Đảng",PLO4,R
+C005,LSĐ,Lịch sử Đảng Cộng sản Việt Nam,2,1,1,Tây y,Đại cương,Ethics,CLO3,"Vận dụng kiến thức chuyên ngành để chủ động, tích cực trong giải quyết các vấn đề kinh tế, chính trị, văn hóa, xã hội theo đường lối, chính sách, pháp luật của Đảng và Nhà nước đề ra",PLO4,R
+C005,LSĐ,Lịch sử Đảng Cộng sản Việt Nam,2,1,1,Tây y,Đại cương,Ethics,CLO4,Trình bày được đường lối của Đảng về YHCT qua các thời kỳ,PLO4,R
+A001,GDTC1,Giáo dục thể chất 1,1,0,1,Tây y,Đại cương,Health Promotion,CLO1,"Trình bày được lịch sử phát triển, quá trình phát triển; ý nghĩa và hiệu quả rèn luyện thể chất sau khi tập luyện môn cầu lông",,
+A001,GDTC1,Giáo dục thể chất 1,1,0,1,Tây y,Đại cương,Health Promotion,CLO2,"Thực hiện được các kỹ thuật: giao cầu, đập cầu, đỡ cầu, bỏ nhỏ… phương pháp trọng tài và phương pháp tổ chức thi đấu",,
+A002,GDTC2,Giáo dục thể chất 2,1,0,1,Tây y,Đại cương,Health Promotion,CLO1,Trình bày được lịch sử phát triển của môn bóng rổ; ý nghĩa và hiệu quả rèn luyện thể chất sau khi tập luyện môn bóng rổ,,
+A002,GDTC2,Giáo dục thể chất 2,1,0,1,Tây y,Đại cương,Health Promotion,CLO2,"Thực hiện được các kỹ thuật: chuyền bóng, dẫn bóng, ném rổ và phương pháp trọng tài và phương pháp tổ chức thi đấu",,
+A003,GDTC3,Giáo dục thể chất 3,1,0,1,Tây y,Đại cương,Health Promotion,CLO1,Trình bày được lịch sử phát triển của môn bóng chuyền; ý nghĩa và hiệu quả rèn luyện thể chất sau khi tập luyện môn bóng chuyền,,
+A003,GDTC3,Giáo dục thể chất 3,1,0,1,Tây y,Đại cương,Health Promotion,CLO2,"Thực hiện được các kỹ thuật: chuyền bóng, đệm bóng, phát bóng và phương pháp trọng tài và thi đấu",,
+A004,GPAN,Giáo dục quốc phòng – an ninh ,7,7,0,Tây y,Đại cương,Health Promotion,CLO1,"Hiểu biết cơ bản về chủ trương, đường lối quốc phòng an ninh của Đảng, Nhà nước về xây dựng nền quốc phòng toàn dân, an ninh nhân dân",,
+A004,GPAN,Giáo dục quốc phòng – an ninh ,7,7,0,Tây y,Đại cương,Health Promotion,CLO2,Nắm được kiến thức cơ bản về công tác quốc phòng và an ninh trong tình hình mới,,
+A004,GPAN,Giáo dục quốc phòng – an ninh ,7,7,0,Tây y,Đại cương,Health Promotion,CLO3,"Rèn luyện phẩm chất, bản lĩnh chính trị vững vàng, lòng yêu nước, yêu CNXH, xây dựng tác phong nhanh nhẹn, hình thành nếp sống có kỷ luật trong sinh hoạt tập thể, ý thức cộng đồng ở lớp, trường",,
+A004,GPAN,Giáo dục quốc phòng – an ninh ,7,7,0,Tây y,Đại cương,Health Promotion,CLO4,"Xây dựng tinh thần ”giữ tốt, dùng bền, an toàn và tiết kiệm” trong sử dụng vũ khí, trang bị",,
+A005,THQPAN,Thực hành Giáo dục quốc phòng – an ninh ,2,0,2,Tây y,Đại cương,Health Promotion,CLO1,"Thành thạo điều lệnh đội ngũ từng người có súng, biết đội ngũ đơn vị; có hiểu biết chung về các quân binh chủng trong quân đội nhân dân Việt Nam; có hiểu biết ban đầu về bản đồ quân sự; biết cách phòng tránh địch tiến công hỏa lực bằng vũ khí công nghệ cao",,
+A005,THQPAN,Thực hành Giáo dục quốc phòng – an ninh ,2,0,2,Tây y,Đại cương,Health Promotion,CLO2,"Thực hiện được kỹ năng cơ bản về kỹ thuật chiến đấu bộ binh, chiến thuật từng người trong chiến đấu tiến công, phòng ngự và làm nhiệm vụ canh gác, biết sử dụng súng tiểu liên AK, lựu đạn",,
+C006,PL,Pháp luật đại cương,1,1,0,Tây y,Đại cương,Ethics,,,,
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO1,Sử dụng được các phương pháp tính xác suất trong tính toán độ chính xác của xét nghiệm và phân tích quyết định,PLO2,I
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO2,"Nhớ được ý nghĩa các mô hình xác suất,  khái niệm giả thuyết thống kê, sai lầm loại 1 và 2, giá trị p",PLO2,I
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO3,"Sử dụng được một số biểu đồ và các phép kiểm thường dùng z, t, χ2, F thường dùng",PLO2,I
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO4,"Nhớ kiến thức cơ bản về lấy mẫu và thiết kế thí nghiệm, khái niệm phân phối mẫu và các đặc trưng của mẫu",PLO8,I
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO5,Đánh giá được sai số ước lượng và cỡ mẫu cần thiết,PLO2,I
+C007,XSTK,Xác suất Thống kê y học ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO6,Chọn được các phương pháp kiểm định thích hợp,PLO2,I
+C008,VLLS,Vật lý – Lý sinh ,1,1,0,Tây y,Đại cương,Clinical Methods,CLO1,"Giải thích được các hiện tượng về cơ học, cơ học chất lưu, nhiệt động lực học, ánh sáng và điện học trong cơ thẻ sống",PLO4,I
+C008,VLLS,Vật lý – Lý sinh ,1,1,0,Tây y,Đại cương,Clinical Methods,CLO1,"Giải thích được các hiện tượng về cơ học, cơ học chất lưu, nhiệt động lực học, ánh sáng và điện học trong cơ thẻ sống",PLO7,I
+C008,VLLS,Vật lý – Lý sinh ,1,1,0,Tây y,Đại cương,Clinical Methods,CLO2,"Trình bày các tác động của dòng điện lên cơ thể sống để ứng dụng trong trị liệu, Điện châm",PLO4,I
+C009,Hóa,Hóa đại cương và hữu cơ  ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO1,"Giải thích được các nguyên lý chuyển hóa năng lượng, cơ chế, tốc độ và cân bằng của các phản ứng hóa học",PLO4,I
+C009,Hóa,Hóa đại cương và hữu cơ  ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO2,"Trình bày được định nghĩa, đặc điểm, tính chất và ứng dụng của: dung dịch, nồng độ, pH, áp suất thẩm thấu, độ tan",PLO4,I
+C009,Hóa,Hóa đại cương và hữu cơ  ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO3,Giải thích được tính chất hóa học cơ bản và một số ứng dụng của các nguyên tố hóa học trong y học,PLO4,I
+C009,Hóa,Hóa đại cương và hữu cơ  ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO4,Trình bày được mối liên quan giữa cấu trúc và tác dụng sinh học của các hợp chất hữu cơ,PLO4,I
+C010,Sinh,Sinh học và di truyền ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO1,"Trình bày được đặc điểm các quá trình sinh học ở mức tế bào, phân tử, đặc điểm của sự điều hòa biểu hiện gen",PLO4,I
+C010,Sinh,Sinh học và di truyền ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO2,"Giải thích được cơ chế di truyền của các tính trạng trong cơ thể bình thường, bệnh lý và nguyên tắc của một số kỹ thuật chẩn đoán bệnh di truyền",PLO4,I
+C010,Sinh,Sinh học và di truyền ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO3,Vận dụng kiến thức sinh học di truyền để giải thích các tác động và vai trò của các yếu tố ảnh hưởng lên cơ thể theo YHHĐ và YHCT ,PLO4,I
+C010,Sinh,Sinh học và di truyền ,2,2,0,Tây y,Đại cương,Clinical Methods,CLO3,Vận dụng kiến thức sinh học di truyền để giải thích các tác động và vai trò của các yếu tố ảnh hưởng lên cơ thể theo YHHĐ và YHCT ,PLO7,I
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO1,Trình bày những kiến thức cơ bản về công nghệ thông tin ứng dụng trong y khoa,PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO2,"Trình bày những kiến thức cần thiết để sử dụng tốt máy tính phục vụ cho hoạt động học tập, nâng cao chất lượng học tập",PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO3,Liệt kê được một số ứng dụng CNTT trong y khoa,PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO4,"Vận dụng những kiến thức cần thiết để sử dụng tốt máy tính phục vụ cho hoạt động học tập, nâng cao chất lượng học tập",PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO5,"Vận dụng những kiến thức cần thiết để sử dụng tốt máy tính trong hoạt động hàng ngày (internet, email, …)",PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO6,"Vận dụng kiến thức tin học để định dạng luận văn, bài báo, đề tài nghiên cứu khoa học đúng yêu cầu, có trích dẫn tài liệu tham khảo theo quy định.",PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO7,"Vận dụng kiến thức tin học trong phân tích, thống kê, tổng hợp và quản lý dữ liệu y tế.",PLO3,M
+C011,Tin,Tin học ,2,0,2,Tây y,Đại cương,Clinical Methods,CLO8,Tìm kiếm được thông tin y tế trực tuyến.,PLO3,M
+C012,YĐ,Đạo đức y học ,1,1,0,Tây y,Đại cương,Ethics,CLO1,Vận dụng những nguyên lý y đức vào các mối quan hệ thầy thuốc – bệnh nhân,PLO1,M
+C012,YĐ,Đạo đức y học ,1,1,0,Tây y,Đại cương,Ethics,CLO2,Vận dụng những nguyên lý y đức vào các mối quan hệ thầy thuốc – đồng nghiệp,PLO1,M
+C012,YĐ,Đạo đức y học ,1,1,0,Tây y,Đại cương,Ethics,CLO3,Vận dụng những nguyên lý y đức vào các mối quan hệ thầy thuốc – cộng đồng,PLO1,M
+C012,YĐ,Đạo đức y học ,1,1,0,Tây y,Đại cương,Ethics,CLO4,Giải thích tính chuyên nghiệp trong thực hành y khoa,PLO1,M
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO1,Mô tả được các khái niệm cơ bản tâm lý y học,PLO8,I
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO2,"Vân dụng được các yếu tố tâm lý, hành vi, văn hóa, xã hội để phân tích sự ảnh hưởng của chúng đến sức khỏe, bệnh tật của cá nhân, cộng đồng",PLO8,I
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO3,Nhận dạng và gọi được tên các rối loạn tâm lý ở bệnh nhân ,PLO6,I
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO4,Xác định các yếu tố tâm lý gây ảnh hưởng trầm trọng hơn cho bệnh lý,PLO4,I
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO5,Phân tích được tương quan giữa thực thể và tâm lý ảnh hưởng đến mức độ bệnh,PLO4,I
+C013,Tâm lý,Tâm lý y học ,1,1,0,Tây y,Đại cương,Ethics,CLO6,Vận dụng được can thiệp tâm lý – nhận thức – hành vi trên cá nhân người bệnh,PLO6,I
+C014,NN1,Ngoại ngữ chuyên ngành 1,4,4,0,Tây y,Đại cương,Clinical Methods,,,,
+C015,NN2,Ngoại ngữ chuyên ngành 2,4,4,0,Tây y,Đại cương,Clinical Methods,,,,
+C016,GPI,Giải phẫu I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Trình bày được 3 vấn đề cơ bản của giải phẫu: mặt phẳng quy chiếu và các khái niệm chỉ tương quan vị trí, danh pháp giải phẫu trong y khoa",PLO4,I
+C016,GPI,Giải phẫu I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Mô tả được cấu trúc giải phẫu và mối liên quan từng bộ phận trong các hệ thống, các cơ quan trong cơ thể (chi trên, chi dưới, đầu mặt cổ, giác quan)",PLO4,I
+C016,GPI,Giải phẫu I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,"Giải thích được các áp dụng của giải phẫu học trong các môn chuyên ngành như Ngoại, Sản, Y học cổ truyền, Chẩn đoán hình ảnh, …",PLO4,I
+C017,THGP,Thực hành Giải phẫu I,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Chỉ ra được trên xác, hình vẽ, các phương tiện chẩn đoán hình ảnh, trên người sống, trên tiêu bản… các chi tiết giải phẫu đã học (chi trên, chi dưới, đầu mặt cổ, giác quan)",PLO4,R
+C018,GPII,Giải phẫu II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Mô tả được cấu trúc giải phẫu và mối liên quan từng bộ phận trong các hệ thống, các cơ quan trong cơ thể (các tạng ngực, bụng và hệ thần kinh)",PLO4,I
+C018,GPII,Giải phẫu II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Giải thích được các áp dụng của giải phẫu học trong các môn chuyên ngành như Y học Cổ truyền, Chẩn đoán hình ảnh, Ngoại khoa, Sản khoa, …",PLO4,I
+C019,THGPII,Thực hành Giải phẫu II,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Chỉ ra được trên xác, hình vẽ, các phương tiện chẩn đoán hình ảnh, trên người sống, trên tiêu bản… các chi tiết giải phẫu các tạng ngực, bụng và hệ thần kinh.",PLO4,R
+C020,Mô,Mô phôi ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Mô tả được cấu tạo mô học bình thường của các cơ quan và hệ thống cơ quan,PLO4,I
+C020,Mô,Mô phôi ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Phân tích được chức năng chủ yếu của các thành phần cấu tạo mô học của các cơ quan và hệ thống cơ quan trong điều kiện bình thường,PLO4,I
+C020,Mô,Mô phôi ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,Giải thích sự liên quan giữa cấu tạo và chức năng trong từng mô và cơ quan,PLO4,I
+C020,Mô,Mô phôi ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO4,"Mô tả quá trình của sự tạo giao tử, sự thụ tinh, sự làm tổ, sự tạo phôi ba lá, sự hình thành và phát triển của một số hệ cơ quan",PLO4,I
+C021,HSLS,Hoá sinh lâm sàng,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Giải thích được những kiến thức cơ bản về Hóa sinh đại cương và Hóa sinh chuyển hóa các chất,PLO4,I
+C021,HSLS,Hoá sinh lâm sàng,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Áp dụng được các kiến thức xét nghiệm Hóa sinh thông thường vào chẩn đoán bệnh lý lâm sàng và nghiên cứu về y sinh học,PLO5,R
+C022,VS,Vi sinh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Trình bày đặc điểm vi sinh của một số tác nhân vi khuẩn và virus gây ra các bệnh nhiễm khuẩn thường gặp ở Việt Nam,PLO4,I
+C022,VS,Vi sinh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Giải thích khả năng gây bệnh của một số tác nhân vi khuẩn và virus gây ra các bệnh nhiễm khuẩn thường gặp ở Việt Nam,PLO4,I
+C022,VS,Vi sinh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,"Trình bày chỉ định và cách lấy bệnh phẩm đúng cách (máu, nước tiểu, dịch não tủy, đàm, phân, dịch các loại...)",PLO5,R
+C023,KS,Ký sinh trùng,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Trình bày được hình thể, chu kỳ, dịch tễ, khả năng gây bệnh một số bệnh thường gặp do ký sinh trùng gây ra",PLO4,I
+C023,KS,Ký sinh trùng,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Giải thích được mối liên quan giữa chu kỳ của ký sinh trùng với diễn biến bệnh do chúng gây ra,PLO4,I
+C023,KS,Ký sinh trùng,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,"Trình bày chỉ định và cách lấy bệnh phẩm đúng cách (máu, nước tiểu, dịch não tủy, đàm, phân, dịch các loại...)",PLO5,R
+C024,SLI,Sinh lý I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Giải thích được sự điều hòa hoạt động của các cơ quan và hệ cơ quan (máu, tuần hoàn, hô hấp, tiêu hóa, sinh sản) trong cơ thể người bình thường",PLO4,I
+C024,SLI,Sinh lý I,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Vận dụng những kiến thức cơ bản sinh lý học (hệ máu, tuần hoàn, hô hấp, tiêu hóa, sinh sản) để giải thích một số bệnh lý, rối loạn chức năng thường gặp trên lâm sàng",PLO4,R
+C025,SLII,Sinh lý II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Giải thích được sự điều hòa hoạt động của các tế bào, các cơ quan và hệ cơ quan (thận, nội tiết, thần kinh trung ương, giác quan, thần kinh cơ và sinh lý vận động) trong cơ thể người bình thường",PLO4,I
+C025,SLII,Sinh lý II,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Giải thích được một số rối loạn chức năng thường gặp trên lâm sàng dựa vào những kiến thức cơ bản sinh lý học (thận, nội tiết, thần kinh trung ương, giác quan, thần kinh cơ và sinh lý vận động)",PLO4,I
+C026,THSL,Thực hành Sinh lý,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Giải thích được ý nghĩa của các chỉ số bình thường trong tổng phân tích tế bào máu ngoại vi, điện tâm đồ 12 chuyển đạo, hô hấp ký",PLO5,I
+C026,THSL,Thực hành Sinh lý,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Thực hiện và đánh giá được kết quả của nghiệm pháp dung nạp glucose, xác định nhóm máu theo hệ ABO",PLO5,R
+C026,THSL,Thực hành Sinh lý,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO3,Thực hiện thuần thục đo và đánh giá được huyết áp trên người mẫu bằng huyết áp kế đồng hồ,PLO5,R
+C027,GPB,Giải phẫu bệnh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Trình bày nguyên tắc định danh và phân loại u theo danh pháp quốc tế,PLO4,I
+C027,GPB,Giải phẫu bệnh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Mô tả các đặc điểm đại thể và vi thể chính của những tổn thương thường gặp,PLO4,I
+C027,GPB,Giải phẫu bệnh ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,Giải thích được mối liên quan giữa đặc điểm đại thể và vi thể tổn thương và cơ chế bệnh sinh của một số bệnh lý,PLO4,R
+C028,SLB,Sinh lý bệnh – Miễn dịch ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Giải thích được cơ chế bệnh sinh  của các quá trình bệnh lý thường gặp của các hệ cơ quan,PLO4,R
+C028,SLB,Sinh lý bệnh – Miễn dịch ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Giải thích một số bệnh lý do bất thường của hệ thống miễn dịch,PLO4,R
+C029,CDHA,Chẩn đoán hình ảnh ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Trình bày được sơ lược về chuyên ngành chẩn đoán hình ảnh,PLO5,I
+C029,CDHA,Chẩn đoán hình ảnh ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Trình bày được nguyên lý tạo ảnh và ứng dụng lâm sàng của phương pháp chụp XQ, siêu âm, CCLVT, CHT, y học hạt nhân",PLO5,I
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Chỉ định đúng các cận lâm sàng X quang, siêu âm, CCLVT, CHT, Y học hạt nhân trong hỗ trợ chẩn đoán lâm sàng",PLO5,R
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Phân tích được các bước đọc XQ cơ bản về tim phổi (thẳng, nghiêng), XQ xoang, XQ cột sống cổ, cột sống thắt lưng, XQ khớp vai, khớp gối, khớp háng.",PLO5,R
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods,CLO3,"Chẩn đoán được một số bệnh thường gặp trên XQ ngực, XQ xoang, XQ cột sống cổ, cột sống thắt lưng, XQ khớp vai, khớp gối, khớp háng.",PLO5,R
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods,CLO4,Nhận diện được các tạng trên siêu âm bụng tổng quát.,PLO5,R
+C030,THCDHA,Thực hành Chẩn đoán hình ảnh ,2,0,2,Tây y,Cơ sở ngành,Clinical Methods,CLO5,Hợp tác làm việc nhóm,PLO2,I
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods,CLO1,Trình bày được đặc điểm nổi bật của lịch sử YHCT Việt Nam và các nền YHCT lớn trên thế giới,PLO4,R
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods,CLO2,"Giải thích được cơ sở lý luận một số vấn đề cơ bản trong YHCT bằng các học thuyết âm dương, ngũ hành, thiên nhân hợp nhất, học thuyết kinh lạc, lý luận về hình thể và các quan khiếu",PLO4,R
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods,CLO3,Ứng dụng được học thuyết tạng tượng trong giải thích cơ sở lý luận các vấn đề sức khỏe thường gặp,PLO4,M
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods,CLO4,"Trình bày được nguồn gốc và chức năng của tinh, khí, thần, tân dịch, huyết",PLO4,R
+C031,LLCB,Lý luận cơ bản YHCT  ,3,3,0,Đông y,Cơ sở ngành,Clinical Methods,CLO5,"Trình bày được đặc điểm các nguyên nhân gây bệnh YHCT, cách phân loại theo Bát Cương, Bát Pháp",PLO4,R
+C032,TVD,Thực vật dược ,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO1,"Giải thích được đặc điểm hình thái thực vật, cấu tạo, các cơ quan dinh 
+dưỡng và sinh sản của thực vật bậc cao",PLO4,R
+C032,TVD,Thực vật dược ,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO2,Giải thích được đặc điểm của 30 họ cây thuốc thường sử dụng trong y học cổ truyền,PLO4,R
+C033,THTVD,Thực hành Thực vật dược,1,0,1,Đông y,Cơ sở ngành,Clinical Methods,CLO1,"Thực hiện phân tích được đặc điểm hình thái thực vật, cấu tạo, các cơ quan dinh dưỡng và sinh sản của thực vật bậc cao",PLO4,I
+C033,THTVD,Thực hành Thực vật dược,1,0,1,Đông y,Cơ sở ngành,Clinical Methods,CLO2,Thực hiện phân tích được đặc điểm của 11 họ thực vật đại diện.,PLO4,I
+C033,THTVD,Thực hành Thực vật dược,1,0,1,Đông y,Cơ sở ngành,Clinical Methods,CLO3,Thực hiện tra cứu đúng họ thực vật cây thuốc.,PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO1,"Giải thích được các khái niệm Dịch liên quan các học thuyết cơ bản YHCT (âm dương, ngũ hành, tạng tượng, 8 quẻ đơn, 16 quẻ kép, Hà Đồ, Lạc Thư) để giải quyết một số vấn đề trong YHCT",PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO2,Trình bày được các khái niệm Dịch liên quan sinh lý và bệnh lý theo YHCT (bát pháp) trong kê đơn thuốc YHCT.,PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO3,"Giải thích được các khái niệm Dịch liên quan Tinh – Khí – Thần, các học thuyết cơ bản YHCT trong việc chỉ định, thực hiện Châm cứu, xoa bóp bấm huyệt, đánh gió, giác hơi.",PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO4,Trình bày được các khái niệm Dịch liên quan sinh lý và bệnh lý theo YHCT (bát pháp) trong kê đơn thuốc YHCT.,PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO5,"Giải thích được các khái niệm Dịch liên quan Tinh – Khí – Thần, các học thuyết cơ bản YHCT trong việc chỉ định, thực hiện Châm cứu, xoa bóp bấm huyệt, đánh gió, giác hơi.",PLO4,I
+C034,Dịch,Y dịch,1,1,0,Đông y,Cơ sở ngành,Clinical Methods,CLO6,Trình bày được kiến thức liên quan đến Y dịch khi tham gia các nghiên cứu khoa học trong lĩnh vực YHCT và/ hoặc YHCT kết hợp YHHĐ.,PLO2,I
+C035,DL,Dược lý ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Phân tích được các nguyên tắc điều trị của các nhóm thuốc thường dùng,PLO6,R
+C035,DL,Dược lý ,2,2,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Vận dụng được các kiến thức y sinh để giải thích cơ chế tác dụng của các nhóm thuốc thường dùng,PLO4,R
+C036,THDL,Thực hành Dược lý  ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Phân tích được một số kỹ thuật cơ bản trong nghiên cứu dược lý,PLO2,R
+C036,THDL,Thực hành Dược lý  ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Viết được một báo cáo dược lý đúng quy định,PLO2,R
+C036,THDL,Thực hành Dược lý  ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO3,Hiểu được đặc điểm của các nhóm thuốc thường dùng.,PLO6,R
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO1,"Trình bày được vai trò, trách nhiệm và vị trí của người điều dưỡng trong hệ thống chăm sóc sức khỏe.",PLO1,I
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO2,Trình bày được nhu cầu cơ bản của con người và gia đình của họ,PLO8,I
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO3,Giải thích được các mục đích và nguyên tắc áp dụng các kỹ thuật điều dưỡng cơ sở để kiểm soát nhiễm khuẩn,PLO4,R
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO4,"Trình bày cách phòng ngừa tai biến, biến chứng và cách xử trí trong, và sau quá trình thực hiện các kỹ thuật điều dưỡng cơ sở trên người bệnh",PLO7,I
+C037,ĐDCB,Điều dưỡng cơ bản ,1,1,0,Tây y,Cơ sở ngành,Clinical Methods,CLO5,Phân tích các nguyên tắc giữ an toàn cho người bệnh trong việc dùng thuốc,PLO7,R
+C038,THĐDCB,Thực hành Điều dưỡng cơ bản ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO1,Áp dụng các quy định về kiểm soát nhiễm khuẩn trong thực hành chăm sóc người bệnh ,PLO7,R
+C038,THĐDCB,Thực hành Điều dưỡng cơ bản ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO2,"Giao tiếp hiệu quả với người bệnh thể hiện qua lời nói, cử chỉ động viên khuyến khích người bệnh an tâm hợp tác trong quá trình thực hiện kỹ thuật",PLO1,R
+C038,THĐDCB,Thực hành Điều dưỡng cơ bản ,1,0,1,Tây y,Cơ sở ngành,Clinical Methods,CLO3,"Thực hiện các kỹ thuật điều dưỡng cơ bản đúng quy trình, an toàn và hiệu quả ",PLO7,R
+C039,CCBĐ,Cấp cứu ban đầu,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Giải thích được các triệu chứng lâm sàng giúp chẩn đoán các tình trạng cấp cứu thường gặp,PLO5,R
+C039,CCBĐ,Cấp cứu ban đầu,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Phân tích nguyên nhân và cơ chế bệnh sinh của các bệnh cấp cứu ban đầu thường gặp.,PLO4,I
+C039,CCBĐ,Cấp cứu ban đầu,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,Giải thích được những bước xử trí cấp cứu ban đầu đối với một số bệnh cấp cứu cơ bản tại phòng cấp cứu và nguyên tắc chuyển viện an toàn cho các trường hợp cần phải chuyển viện của các bệnh cấp cứu thường gặp,PLO7,M
+C040,THCCBĐ,Thực hành Cấp cứu ban đầu,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,Đánh giá được các triệu chứng lâm sàng giúp chẩn đoán các tình trạng cấp cứu thường gặp,PLO5,R
+C040,THCCBĐ,Thực hành Cấp cứu ban đầu,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Thực hiện được một số kĩ năng cấp cứu ban đầu thường gặp,PLO7,M
+C040,THCCBĐ,Thực hành Cấp cứu ban đầu,2,0,2,Tây y,Ngành,Clinical Methods,CLO3,Thực hiện được những bước xử trí cấp cứu ban đầu đối với một số bệnh cấp cứu cơ bản theo phác đồ của Bộ y tế,PLO8,M
+C040,THCCBĐ,Thực hành Cấp cứu ban đầu,2,0,2,Tây y,Ngành,Clinical Methods,CLO4,"Phối hợp hiệu quả trong vấn đề chăm sóc sơ cứu, cấp cứu",PLO9,M
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO1,Trình bày các nguyên tắc của Y Đức trong mối quan hệ Thầy thuốc và bệnh nhân,PLO1,I
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được các nguyên tắc cơ bản của hỏi bệnh sử và thăm khám lâm sàng các hệ cơ quan,PLO4,R
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO3,Trình bày được các phần cơ bản của một bệnh án y khoa,PLO4,R
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO4,Giải thích được cơ chế sinh bệnh học và ý nghĩa của các dấu hiệu và triệu chứng bất thường,PLO4,R
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO5,Trình bày được các nguyên tắc cơ bản về giao tiếp trong quan hệ thầy thuốc – người nhân – gia đình người nhân,PLO1,I
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO6,Trình bày được các nguyên tắc thảo luận nhóm,PLO2,I
+C041,YHGĐ,Y học gia đình ,2,2,0,Tây y,Ngành,Clinical Methods,CLO6,Thực hiện đúng nội quy viện – trường khi học thực hành lâm sàng tại các cơ sở y tế,PLO1,I
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,Thực hiện đúng kỹ thuật các bước thăm khám cơ bản của các hệ cơ quan,PLO5,R
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Phát hiện được các triệu chứng thực thể bất thường và giải thích được cơ chế sinh bệnh học của chúng,PLO5,R
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods,CLO3,Viết bệnh án và trình bày bệnh án,PLO4,R
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods,CLO4,"Giao tiếp tốt với bệnh nhân, gia đình bệnh nhân, đồng nghiệp và cộng sự",PLO1,R
+C042,THYHGĐ,Thực hành Y học gia đình ,2,0,2,Tây y,Ngành,Clinical Methods,CLO5,"Thể hiện tính chuyên nghiệp (Tôn trọng, thấu cảm, trung thực) với bệnh nhân, gia đình bệnh nhân, đồng nghiệp và cộng sự",PLO1,R
+C043,Nội,Nội YHHĐ,3,3,0,Tây y,Ngành,Clinical Methods,CLO1,Trình bày được tiêu chuẩn chẩn đoán các bệnh lý nội khoa thường gặp,PLO4,R
+C043,Nội,Nội YHHĐ,3,3,0,Tây y,Ngành,Clinical Methods,CLO2,Vận dụng các cơ sở lý luận theo YHHĐ để phân tích nguyên nhân và cơ chế bệnh sinh của các bệnh lý nội khoa thường gặp,PLO4,R
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,"Nhận biết những than phiền chính, trường hợp khẩn cấp cần giải quyết trên bệnh nhân nội trú",PLO5,R
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Khám và nhận biết các dấu hiệu thực thể quan trọng của các bệnh lý nội khoa thường gặp,PLO5,R
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods,CLO3,Chẩn đoán xác định và chẩn đoán phân biệt được các bệnh lý nội khoa thường gặp theo YHHĐ,PLO5,R
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods,CLO4,Có khả năng trình bày bài viết đúng quy định về hình thức và thuật ngữ chuyên ngành,PLO5,R
+C044,TH Nội,Thực hành Nội YHHĐ,2,0,2,Tây y,Ngành,Clinical Methods,CLO5,Đề nghị và phân tích kết quả các cận lâm sàng quan trọng trong các bệnh lý nội khoa thường gặp,PLO5,R
+C045,Kỹ năng LS,Kỹ năng khám lâm sàng YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO1,"Thực hiện đúng kỹ thuật khám lâm sàng các hệ tim mạch, hô hấp, tiêu hóa, thần kinh, cơ xương khớp và đầu mặt cổ trên người bệnh",PLO5,R
+C045,Kỹ năng LS,Kỹ năng khám lâm sàng YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO2,Nhận biết và mô tả được các dấu hiệu lâm sàng bất thường đặc trưng của từng hệ cơ quan thông qua thăm khám,PLO5,R
+C046,Nội tiết,Nội tiết YHHĐ,2,1,1,Tây y,Ngành,Clinical Methods,CLO1,"Đưa ra chẩn đoán xác định và chẩn đoán phân biệt một số bệnh nội tiết (đái tháo đường, cường giáp, suy giáp, biến chứng của corticoid)",PLO5,R
+C046,Nội tiết,Nội tiết YHHĐ,2,1,1,Tây y,Ngành,Clinical Methods,CLO2,Áp dụng các tiêu chuẩn chẩn đoán hiện hành vào các tình huống lâm sàng cụ thể,PLO5,R
+C046,Nội tiết,Nội tiết YHHĐ,2,1,1,Tây y,Ngành,Clinical Methods,CLO3,"Xác định được các nguyên tắc điều trị một số bệnh nội tiết (đái tháo đường, cường giáp, suy giáp, biến chứng của corticoid)",PLO6,R
+C047,Ngoại TY,Ngoại YHHĐ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,"Vận dụng kiến thức khoa học y sinh để giải thích nguyên nhân, yếu tố nguy cơ và cơ chế bệnh sinh của các bệnh lý ngoại khoa thường gặp",PLO4,R
+C047,Ngoại TY,Ngoại YHHĐ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được các cận lâm sàng cần thiết và cách tiếp cận chẩn đoán các bệnh ngoại khoa thường gặp,PLO5,I
+C047,Ngoại TY,Ngoại YHHĐ,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,"Trình bày được nguyên tắc xử trí, chuyển viện các bệnh ngoại khoa thường gặp",PLO7,I
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO1,"Khai thác được bệnh sử, tiền căn và các yếu tố nguy cơ trên người bệnh mắc bệnh ngoại khoa thường gặp",PLO5,R
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO2,"Thăm khám phát hiện các triệu chứng, dấu hiệu lâm sàng của người bệnh",PLO5,R
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO3,"Biện luận các triệu chứng lâm sàng để đưa ra chẩn đoán sơ bộ, chẩn đoán phân biệt",PLO5,R
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO4,Chỉ định được các cận lâm sàng trên người bệnh mắc bệnh ngoại khoa thường gặp,PLO5,R
+C048,TH Ngoại TY,Thực hành Ngoại YHHĐ,1,0,1,Tây y,Ngành,Clinical Methods,CLO5,"Hợp tác tốt với người bệnh, thân nhân, nhân viên y tế, cộng đồng",PLO1,R
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,"Trình bày được sinh lý thai kỳ, nguyên tắc quản lý một thai kỳ bình thường",PLO4,I
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày các nội dung chăm sóc một cuộc chuyển dạ sinh- cấp cứu sản khoa,PLO4,I
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,Trình bày được một số trường hợp bất thường trong thai kỳ,PLO5,R
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO4,Phân tích được nguyên nhân và cơ chế bệnh sinh của rối loạn kinh nguyệt thường gặp,PLO4,R
+C049,Phụ TY,Phụ sản YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO5,Mô tả các cách tiếp cận và tầm soát một số bệnh lý nội khoa lành tinh hoặc ác tính,PLO5,R
+C050,TH Phụ TY,Thực hành Phụ sản YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,Nhận diện được một thai kì đang là bình thường hay không còn bình thường bằng cách đọc thông tin từ sổ khám thai,PLO5,R
+C050,TH Phụ TY,Thực hành Phụ sản YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Tường thuật đầy đủ các sự kiện xảy ra trong một cuộc chuyển dạ dựa trên quan sát thực địa,PLO5,R
+C050,TH Phụ TY,Thực hành Phụ sản YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO3,"Trình bày được các kỹ năng chăm sóc thiết yếu cho sản phụ và sơ sinh ở các ngày đầu hậu sản, bao gồm hướng dẫn nuôi con bằng sữa mẹ",PLO8,R
+C050,TH Phụ TY,Thực hành Phụ sản YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO4,Tường thuật lại một buổi tư vấn về chọn lựa biện pháp tránh thai / xử lí vấn đề liên quan đến tránh thai dựa trên quan sát thực địa,PLO8,R
+C051,Nhi TY,Nhi khoa YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Vận dụng kiến thức khoa học y sinh để giải thích nguyên nhân và cơ chế bệnh sinh của các bệnh lý nhi khoa thường gặp,PLO4,R
+C051,Nhi TY,Nhi khoa YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được triệu chứng cần thiết để chẩn đoán bệnh theo YHHĐ,PLO5,R
+C051,Nhi TY,Nhi khoa YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,"Liệt kê được các nguyên tắc vệ sinh, phòng bệnh nhi theo YHHĐ",PLO8,R
+C051,Nhi TY,Nhi khoa YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO4,Phân tích được điều trị bệnh học Nhi theo lý luận YHHĐ.,PLO6,R
+C052,TH Nhi TY,Thực hành Nhi khoa YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,"Chẩn đoán các bệnh Nhi, và trình bày được lý luận trong chẩn đoán theo YHHĐ các bệnh Nhi ",PLO5,R
+C052,TH Nhi TY,Thực hành Nhi khoa YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Thực hiện được phương pháp điều trị YHHĐ các nhóm bệnh Nhi,PLO7,R
+C052,TH Nhi TY,Thực hành Nhi khoa YHHĐ  ,2,0,2,Tây y,Ngành,Clinical Methods,CLO3,Phân tích được cách vệ sinh phòng bệnh Nhi ,PLO8,R
+C053,Tâm thần,Tâm thần,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Vận dụng được cơ sở lý luận YHHĐ để Phân tích nguyên nhân và cơ chế bệnh sinh các bệnh lý tâm thần kinh thường gặp,PLO5,R
+C053,Tâm thần,Tâm thần,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được phương pháp sàng lọc và chẩn đoán trong tâm thần kinh và áp dụng được  tiêu chuẩn chẩn đoán (ICD và DSM) trong chẩn đoán các bệnh tâm thần kinh thường gặp,PLO5,R
+C053,Tâm thần,Tâm thần,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,Phân tích được nguyên tắc điều trị các bệnh tâm thần kinh thường gặp,PLO6,R
+C054,Lao,Lao,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Chẩn đoán xác định được các thể bệnh lao thường gặp dựa vào lâm sàng và cận lâm sàng,PLO5,R
+C054,Lao,Lao,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,"Chọn lựa đúng phác đồ điều trị lao theo Bộ Y tế Việt Nam và cách xử trí các phản ứng phụ thường gặp của thuốc kháng lao (Tăng men gan, phản ứng dị ứng da)",PLO6,R
+C054,Lao,Lao,1,1,0,Tây y,Ngành,Clinical Methods,CLO3,Phân tích được hình ảnh X-quang và/hoặc CT ngực trong bệnh lao phổi,PLO5,R
+C054,Lao,Lao,1,1,0,Tây y,Ngành,Clinical Methods,CLO4,"Giải thích được giá trị chẩn đoán của các xét nghiệm nhuộm soi AFB, cấy MGIT, Xpert MTB/RIF hoặc LPA và giải phẫu bệnh trong bệnh lao",PLO5,R
+C055,Da liễu,Da liễu YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Phân tích được các triệu chứng lâm sàng và cận lâm sàng một số bệnh lý da liễu thường gặp,PLO5,R
+C055,Da liễu,Da liễu YHHĐ ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được nguyên tắc xử trí với những bệnh da liễu thường gặp,PLO6,R
+C056,TH Da,Thực hành Da liễu YHHĐ  ,1,0,1,Tây y,Ngành,Clinical Methods,CLO1,Chẩn đoán được các bệnh da liễu thường gặp,PLO5,R
+C056,TH Da,Thực hành Da liễu YHHĐ  ,1,0,1,Tây y,Ngành,Clinical Methods,CLO2,Áp dụng được nguyên tắc điều trị để đưa ra hướng xử trí bệnh da liễu thường gặp,PLO6,R
+C057,YHCC,Y học chứng cứ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Phân tích và đánh giá được chất lượng các bằng chứng khoa học từ y văn để hỗ trợ quyết định lâm sàng và phát triển năng lực nghiên cứu khoa học.,PLO2,R
+C057,YHCC,Y học chứng cứ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,"Ứng dụng các nguyên tắc y học chứng cứ để tích hợp kiến thức y học cơ bản, y sinh học, y học cổ truyền và hiện đại trong chăm sóc sức khỏe ban đầu.",PLO4,M
+C058,PHCN,Phục hồi chức năng  ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Giải thích được cơ chế của các phương pháp vật lý trị liệu thông dụng,PLO7,R
+C058,PHCN,Phục hồi chức năng  ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Phân tích được vai trò của Phục hồi chức năng trong nâng cao chất lượng cuộc sống của người bệnh,PLO7,R
+C059,THPHCN,Thực hành Phục hồi chức năng  ,1,0,1,Tây y,Ngành,Clinical Methods,CLO1,Chẩn đoán các bệnh lý chấn thương và cơ quan vận động thường gặp trên người bệnh của cơ sở y tế dựa trên tiêu chuẩn chẩn đoán,PLO7,R
+C059,THPHCN,Thực hành Phục hồi chức năng  ,1,0,1,Tây y,Ngành,Clinical Methods,CLO2,Lập kế hoạch điều trị bằng các Phương pháp VLTL các chấn thương và cơ quan vận động thường gặp,PLO7,R
+C060,UT,Ung thư ,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Vận dụng các nguyên tắc chẩn đoán và các phương tiện cận lâm sàng vào chẩn đoán các ung thư thường gặp,PLO5,R
+C060,UT,Ung thư ,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Giải thích được nguyên lý của các mô thức điều trị ung thư,PLO6,R
+C061,THUT,Thực hành Ung thư ,1,0,1,Tây y,Ngành,Clinical Methods,CLO1,Khám lâm sàng và ra chỉ định xét nghiệm cận lâm sàng để chẩn đoán một số ung thư thường gặp,PLO5,R
+C061,THUT,Thực hành Ung thư ,1,0,1,Tây y,Ngành,Clinical Methods,CLO2,Áp dụng được nguyên tắc điều trị để đưa ra hướng xử trí một số ung thư thường gặp,PLO6,R
+C062,CĐ YHCT,Chẩn đoán YHCT ,2,2,0,Đông y,Ngành,Clinical Methods,CLO1,"Vận dụng các lý luận YHCT để biện chứng luận trị bệnh kinh lạc, khí huyết, tạng phủ, ngoại cảm",PLO5,R
+C063,TH CĐ YHCT,Thực hành Chẩn đoán YHCT,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Phân tích được các thông tin thu thập qua tứ chẩn để biện luận được chẩn đoán YHCT trên người bệnh,PLO5,R
+C063,TH CĐ YHCT,Thực hành Chẩn đoán YHCT,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,Thu thập được thông tin về tiền sử người bệnh và gia đình người bệnh liên quan đến vấn đề sức khỏe hiện tại theo YHCT,PLO5,R
+C063,TH CĐ YHCT,Thực hành Chẩn đoán YHCT,2,0,2,Đông y,Ngành,Clinical Methods,CLO3,"Thực hiện chính xác kỹ năng vọng, văn, vấn, thiết trên người mẫu và người bệnh",PLO5,R
+C064,BH YHCT,Bệnh học YHCT,2,2,0,Đông y,Ngành,Clinical Methods,CLO1,"Giải thích cơ chế sinh lý bệnh Tạng Phủ, Khí, Huyết, Ngoại cảm theo YHCT",PLO4,R
+C064,BH YHCT,Bệnh học YHCT,2,2,0,Đông y,Ngành,Clinical Methods,CLO2,"Phân tích các biểu hiện trong rối loạn tạng phủ, khí huyết, ngoại cảm",PLO4,M
+C065,Lão YHCT,Lão khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý Lão khoa thường gặp theo YHCT và YHHĐ,PLO4,R
+C065,Lão YHCT,Lão khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh Lão khoa thường gặp,PLO5,R
+C065,Lão YHCT,Lão khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích được phương pháp điều trị (dùng thuốc, không dùng thuốc) kết hợp YHCT và YHHĐ các bệnh Lão khoa thường gặp",PLO6,R
+C066,TH Lão YHCT,TH Lão khoa YHCT ,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý Lão khoa thường gặp,PLO4,M
+C066,TH Lão YHCT,TH Lão khoa YHCT ,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, phòng bệnh các bệnh Lão khoa thường gặp",PLO5,M
+C066,TH Lão YHCT,TH Lão khoa YHCT ,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý lão khoa thường gặp,PLO6,M
+C067,Nhiễm,Truyền nhiễm,1,1,0,Tây y,Ngành,Clinical Methods,CLO1,Phân tích được triệu chứng lâm sàng và cận lâm sàng để chẩn đoán các bệnh truyền nhiễm thường gặp,PLO5,R
+C067,Nhiễm,Truyền nhiễm,1,1,0,Tây y,Ngành,Clinical Methods,CLO2,Trình bày được nguyên tắc xử trí với những bệnh truyền nhiễm thường gặp,PLO6,R
+C068,TH Nhiễm,Thực hành Truyền nhiễm ,2,0,2,Tây y,Ngành,Clinical Methods,CLO1,Chẩn đoán được các bệnh truyền nhiễm thường gặp,PLO5,R
+C068,TH Nhiễm,Thực hành Truyền nhiễm ,2,0,2,Tây y,Ngành,Clinical Methods,CLO2,Áp dụng được nguyên tắc điều trị để đưa ra hướng xử trí bệnh truyền nhiễm thường gặp,PLO6,R
+C069,Phụ YHCT,Phụ sản YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,"Phân tích nguyên nhân, cơ chế bệnh sinh và triệu chứng lâm sàng để đưa ra chẩn đoán các bệnh lý Phụ sản thường gặp theo YHCT và YHHĐ",PLO5,R
+C069,Phụ YHCT,Phụ sản YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,"Phân tích được phương pháp điều trị (dùng thuốc, không dùng thuốc) kết hợp YHCT và YHHĐ các bệnh Phụ sản thường gặp",PLO6,R
+C070,TH Phụ YHCT,Thực hành Phụ sản YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý Phụ sản thường gặp,PLO5,M
+C070,TH Phụ YHCT,Thực hành Phụ sản YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, phòng bệnh các bệnh Phụ sản thường gặp",PLO6,M
+C070,TH Phụ YHCT,Thực hành Phụ sản YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO3,Thực hiện được các kỹ năng chăm sóc thiết yếu cho sản phụ và sơ sinh theo phương pháp YHCT kết hợp YHHĐ.,PLO7,M
+C071,TPKĐ,Tác phẩm kinh điển YHCT ,2,2,0,Đông y,Ngành,Clinical Methods,CLO1,"Giải thích được cơ sở lý luận liên quan đến bệnh lý, chẩn đoán, phòng bệnh và chữa bệnh được đề cập trong các tác phẩm kinh điển",PLO6,R
+C071,TPKĐ,Tác phẩm kinh điển YHCT ,2,2,0,Đông y,Ngành,Clinical Methods,CLO2,"Giải thích được công năng, tính vị, thu hái, bào chế, cách dùng … của các vị thuốc và phương pháp lập phương, phối ngũ của một số bài thuốc tiêu biểu trong các tác phẩm kinh điển",PLO4,R
+C072,Nhi YHCT,Nhi khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,"Phân tích được nguyên nhân, cơ chế bệnh sinh, và các triệu chứng lâm sàng để chẩn đoán bệnh các bệnh Nhi khoa thường gặp theo YHHĐ và YHCT",PLO5,R
+C072,Nhi YHCT,Nhi khoa YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các phương pháp điều trị được chỉ định cho các bệnh Nhi khoa thường gặp bằng YHHĐ kết hợp YHCT,PLO6,R
+C073,TH Nhi YHCT,Thực hành Nhi khoa YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá các thông tin trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý nhi khoa thường gặp,PLO5,M
+C073,TH Nhi YHCT,Thực hành Nhi khoa YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng YHCT trên nguyên tắc lý- pháp-  phương- dược và lý- pháp- phương- huyệt dựa trên chẩn đoán, mục tiêu điều trị, phòng bệnh các bệnh Nhi khoa thường gặp",PLO6,M
+C073,TH Nhi YHCT,Thực hành Nhi khoa YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO3,Hướng dẫn được các phương pháp chăm sóc trẻ và cách vệ sinh phòng bệnh một số bệnh lý Nhi khoa thường gặp,PLO7,R
+C074,DL YHCT,Da liễu YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,"Phân tích nguyên nhân, cơ chế bệnh sinh và các triệu chứng lâm sàng để đưa ra chẩn đoán các bệnh lý Da liễu thường gặp theo YHCT và YHHĐ",PLO5,R
+C074,DL YHCT,Da liễu YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,"Phân tích được phương pháp điều trị (dùng thuốc, không dùng thuốc) kết hợp YHCT và YHHĐ các bệnh Da liễu thường gặp",PLO6,R
+C075,TH DL YHCT,Thực hành Da liễu YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá các thông tin trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý da liễu thường gặp,PLO5,M
+C075,TH DL YHCT,Thực hành Da liễu YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, phòng bệnh các bệnh Da liễu thường gặp",PLO6,M
+C076,Ngoại YHCT,Ngoại YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,"Phân tích nguyên nhân, cơ chế bệnh sinh và các triệu chứng lâm sàng để đưa ra chẩn đoán các bệnh lý Ngoại thường gặp theo YHCT và YHHĐ",PLO5,R
+C076,Ngoại YHCT,Ngoại YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,"Phân tích được phương pháp điều trị (dùng thuốc, không dùng thuốc) kết hợp YHCT và YHHĐ các bệnh Ngoại thường gặp",PLO6,R
+C076,Ngoại YHCT,Ngoại YHCT ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO3,Giải thích được các chỉ định và các tác dụng không mong muốn của thuốc dùng ngoài,PLO7,R
+C077,TH Ngoại YHCT,Thực hành Ngoại YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý Ngoại thường gặp,PLO5,M
+C077,TH Ngoại YHCT,Thực hành Ngoại YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, phòng bệnh các bệnh Ngoại khoa thường gặp",PLO6,M
+C077,TH Ngoại YHCT,Thực hành Ngoại YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO3,Thực hiện được cách xử trí tai biến trên bệnh mẫu,PLO7,M
+C077,TH Ngoại YHCT,Thực hành Ngoại YHCT ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO4,"Thực hiện được kỹ thuật chườm, ngâm thuốc YHCT trên người mẫu",PLO7,M
+C078,Ngũ quan,Ngũ quan ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý Ngũ quan thường gặp theo YHCT và YHHĐ,PLO5,R
+C078,Ngũ quan,Ngũ quan ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh Ngũ quan thường gặp,PLO5,R
+C078,Ngũ quan,Ngũ quan ,1,1,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích được phương pháp điều trị (dùng thuốc, không dùng thuốc) kết hợp YHCT và YHHĐ các bệnh Ngũ quan thường gặp",PLO6,R
+C079,TH NQ,Thực hành Ngũ quan,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý Ngũ quan thường gặp,PLO5,M
+C079,TH NQ,Thực hành Ngũ quan,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, dự phòng các bệnh Ngũ quan thường gặp",PLO6,M
+C080,CBDL,Chế biến dược liệu ,1,1,0,Đông y,Ngành,Clinical Methods,CLO1,Phân tích được đặc điểm của các dạng bào chế thuốc cổ truyền và cơ sở lựa chọn dạng thuốc trong điều trị ,PLO6,R
+C080,CBDL,Chế biến dược liệu ,1,1,0,Đông y,Ngành,Clinical Methods,CLO2,Vận dụng các kiến thức YHHĐ và YHCT để phân tích các tác dụng của các phương pháp chế biến dược liệu,PLO6,R
+C081,TH CBDL,Thực hành Chế biến dược liệu  ,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Thực hiện đúng kỹ thuật chế biến các vị thuốc cổ truyền thông thường theo quy định của Bộ Y Tế,PLO6,R
+C081,TH CBDL,Thực hành Chế biến dược liệu  ,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,Thực hiện đúng quy trình bào chế một số dạng thành phẩm thuốc cổ truyền thường dùng ,PLO6,R
+C082,Thuốc YHCT,Thuốc YHCT ,3,3,0,Đông y,Ngành,Clinical Methods,CLO1,"Giải thích được nguồn gốc, tính năng, tương tác, tính vị, quy kinh, tác dụng, chỉ định, chống chỉ định, liều lượng của các vị thuốc y học cổ truyền và các vị thuốc YHCT thông dụng có nguồn gốc bản địa ở Việt Nam",PLO4,R
+C082,Thuốc YHCT,Thuốc YHCT ,3,3,0,Đông y,Ngành,Clinical Methods,CLO2,Phân tích được sự liên quan của các nhóm hoạt chất tự nhiên trong thuốc YHCT đến tác dụng dược lý của thuốc,PLO6,R
+C082,Thuốc YHCT,Thuốc YHCT ,3,3,0,Đông y,Ngành,Clinical Methods,CLO3,Ứng dụng các kiến thức về đặc điểm của vị thuốc phân biệt các vị thuốc y học cổ truyền và các vị thuốc YHCT thông dụng có nguồn gốc bản địa ở Việt Nam trong các nhóm thuốc,PLO6,R
+C083,TH Thuốc YHCT,Thực hành Thuốc YHCT ,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Xác định được các vị thuốc y học cổ truyền,PLO6,R
+C083,TH Thuốc YHCT,Thực hành Thuốc YHCT ,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,"Xác định được bộ phận dùng, tính vị, quy kinh, công năng, chủ trị của các vị thuốc y học cổ truyền",PLO6,R
+C084,Kinh mạch,Kinh mạch học,2,2,0,Đông y,Ngành,Clinical Methods,CLO1,"Phân tích được các triệu chứng bệnh lý của 12 kinh chính, 12 kinh cân, kỳ kinh bát mạch",PLO5,I
+C084,Kinh mạch,Kinh mạch học,2,2,0,Đông y,Ngành,Clinical Methods,CLO2,Vận dụng được lộ trình đường kinh trong chẩn đoán YHCT dựa trên tình huống cho sẵn,PLO7,I
+C085,TH Kinh mạch,Thực hành Kinh mạch học,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Xác định chính xác lộ trình 12 đường kinh và vị trí 160 huyệt thường dùng trên người mẫu,PLO7,R
+C085,TH Kinh mạch,Thực hành Kinh mạch học,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,Thực hiện được kỹ năng khám đường kinh trên người mẫu,PLO5,I
+C086,Châm 1,Châm cứu 1,1,1,0,Đông y,Ngành,Clinical Methods,CLO1,"Giải thích được cơ sở lý luận của hào châm, cứu, điện châm, mai hoa châm",PLO5,R
+C086,Châm 1,Châm cứu 1,1,1,0,Đông y,Ngành,Clinical Methods,CLO2,Giải thích được các nguyên tắc sử dụng châm cứu trong điều trị.,PLO6,R
+C086,Châm 1,Châm cứu 1,1,1,0,Đông y,Ngành,Clinical Methods,CLO3,"Phân tích được phạm vi ứng dụng và chống chỉ định của hào châm, cứu, điện châm, mai hoa châm và đề xuất được cách xử trí tai biến trong châm cứu.",PLO7,R
+C087,TH Châm 1,Thực hành Châm cứu 1,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Giải thích được các nguyên tắc sử dụng châm cứu trong điều trị,PLO6,R
+C087,TH Châm 1,Thực hành Châm cứu 1,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,"Thực hiện chính xác các kỹ thuật hào châm, cứu, điện châm, mai hoa châm theo phác đồ quy định của Bộ Y tế trên người mẫu.",PLO7,R
+C087,TH Châm 1,Thực hành Châm cứu 1,2,0,2,Đông y,Ngành,Clinical Methods,CLO3,"Thực hiện đúng quy trình kiểm soát nhiễm khuẩn và kiểm tra dụng cụ, thiết bị và phòng ngừa, xử trí một số tai biến",PLO8,R
+C088,Châm 2,Châm cứu 2,1,1,0,Đông y,Ngành,Clinical Methods,CLO1,"Giải thích cơ sở lý luận của các phương pháp: Nhĩ châm, Đầu châm, Laser châm, Chích lễ, Thủy châm",PLO4,R
+C088,Châm 2,Châm cứu 2,1,1,0,Đông y,Ngành,Clinical Methods,CLO2,"Phân tích được phạm vi ứng dụng Nhĩ châm, Đầu châm, Laser châm, Chích lể, Thủy châm vào việc chỉ định và chống chỉ định một số bệnh thường gặp",PLO6,M
+C088,Châm 2,Châm cứu 2,1,1,0,Đông y,Ngành,Clinical Methods,CLO3,"Phân tích được cách thực hiện các phương pháp châm cứu: Nhĩ châm, Đầu châm, Laser châm, Chích lể, Thủy châm",PLO7,M
+C089,TH Châm 2,Thực hành Châm cứu 2,2,0,2,Đông y,Ngành,Clinical Methods,CLO1,Ứng dụng được phương pháp châm cứu trong ca lâm sàng giả định,PLO6,M
+C089,TH Châm 2,Thực hành Châm cứu 2,2,0,2,Đông y,Ngành,Clinical Methods,CLO2,Phòng ngừa và xử trí được tai biến trên bệnh mẫu,PLO7,M
+C089,TH Châm 2,Thực hành Châm cứu 2,2,0,2,Đông y,Ngành,Clinical Methods,CLO3,"Thực hiện chính xác các kỹ thuật Nhĩ châm, Đầu châm, Thủy châm, Laser châm, Chích lể theo phác đồ quy định của Bộ Y tế trên người mẫu",PLO7,M
+C090,Thực dưỡng,Thực dưỡng,2,2,0,Đông y,Ngành,Health Promotion,CLO1,"Phân tích vai trò và nhu cầu dinh dưỡng, giá trị dinh dưỡng của thực phẩm theo YHCT và YHHĐ",PLO8,R
+C090,Thực dưỡng,Thực dưỡng,2,2,0,Đông y,Ngành,Health Promotion,CLO2,"Phân tích vai trò dinh dưỡng, thực dưỡng y học cổ truyền trong nâng cao sức khỏe cộng đồng",PLO8,R
+C090,Thực dưỡng,Thực dưỡng,2,2,0,Đông y,Ngành,Health Promotion,CLO3,Ứng dụng thực dưỡng phù hợp với một số tình trạng bệnh lý thường gặp theo nguyên lý YHCT kết hợp YHHĐ,PLO7,R
+C091,TH Thực dưỡng,Thực hành Thực dưỡng ,1,0,1,Đông y,Ngành,Health Promotion,CLO1,Xây dựng được nội dung tư vấn chế độ ăn cá thể hóa theo thực dưỡng YHCT kết hợp YHHĐ,PLO6,R
+C091,TH Thực dưỡng,Thực hành Thực dưỡng ,1,0,1,Đông y,Ngành,Health Promotion,CLO2,Xây dựng được nội dung tư vấn chế độ ăn phù hợp trong chăm sóc sức khỏe cộng đồng,PLO8,R
+C092,TT Cộng đồng,Thực tập cộng đồng ,1,0,1,Tây y,Ngành,Health Promotion,CLO1,Ứng dụng các nguyên tắc y tế công cộng và YHCT trong thực hành  chăm sóc các vấn đề sức khoẻ thường gặp,PLO8,M
+C092,TT Cộng đồng,Thực tập cộng đồng ,1,0,1,Tây y,Ngành,Health Promotion,CLO2,"Thực hiện tư vấn nội dung để cải thiện, duy trì sức khỏe, phòng bệnh bằng YHCT và YHHĐ",PLO8,M
+C092,TT Cộng đồng,Thực tập cộng đồng ,1,0,1,Tây y,Ngành,Health Promotion,CLO3,"Phân tích các yếu tố nguy cơ, mối liên quan giữa các yếu tố nguy cơ bệnh, dịch bệnh trên cơ sở kết hợp YHHĐ và YHCT",PLO8,M
+C093,Ôn bệnh,Ôn bệnh,1,1,0,Đông y,Ngành,Clinical Methods,CLO1,"Phân tích được nguyên nhân, cơ chế bệnh sinh, các triệu chứng lâm sàng và cận lâm sàng giúp định hướng chẩn đoán các bệnh lý Ôn bệnh thường gặp theo YHHĐ và các hội chứng bệnh theo YHCT",PLO5,R
+C093,Ôn bệnh,Ôn bệnh,1,1,0,Đông y,Ngành,Clinical Methods,CLO2,"Phân tích được nguyên tắc điều trị, điều trị cụ thể và phòng bệnh trong các bệnh lý Ôn bệnh thường gặp theo YHHĐ và trong hội chứng bệnh theo YHCT",PLO6,R
+C094,Dưỡng sinh,Dưỡng sinh ,1,1,0,Đông y,Ngành,Health Promotion,CLO1,"Phân tích được vai trò của Dưỡng sinh trong dự phòng, nâng cao sức khỏe",PLO8,R
+C094,Dưỡng sinh,Dưỡng sinh ,1,1,0,Đông y,Ngành,Health Promotion,CLO2,"Phân tích được cách thực hiện động tác, tác dụng, chỉ định và chống chỉ định của 60 động tác dưỡng sinh Nguyễn Văn Hưởng",PLO6,R
+C094,Dưỡng sinh,Dưỡng sinh ,1,1,0,Đông y,Ngành,Health Promotion,CLO3,Giải thích được cơ chế tác dụng của các nội dung phương pháp dưỡng sinh theo YHCT và YHHĐ,PLO8,R
+C094,Dưỡng sinh,Dưỡng sinh ,1,1,0,Đông y,Ngành,Health Promotion,CLO4,Ứng dụng bài tập dưỡng sinh phù hợp với các bệnh lý thường gặp,PLO6,R
+C095,TH DS,Thực hành Dưỡng sinh,1,0,1,Đông y,Ngành,Health Promotion,CLO1,"Ứng dụng được nguyên tắc của Dưỡng sinh trong dự phòng, nâng cao sức khỏe trong tình huống cụ thể",PLO8,M
+C095,TH DS,Thực hành Dưỡng sinh,1,0,1,Đông y,Ngành,Health Promotion,CLO2,"Thực hiện được kỹ thuật của các động tác dưỡng sinh phù hợp với các 
+bệnh lý thường gặp",PLO7,M
+C095,TH DS,Thực hành Dưỡng sinh,1,0,1,Đông y,Ngành,Health Promotion,CLO3,Chỉ định được các động tác dưỡng sinh phù hợp với các bệnh lý thường gặp,PLO6,M
+C095,TH DS,Thực hành Dưỡng sinh,1,0,1,Đông y,Ngành,Health Promotion,CLO4,Hướng dẫn được các động tác dưỡng sinh trong giảm đau và một số bệnh lý thường gặp,PLO7,M
+C096,XBBH,Xoa bóp – Bấm huyệt,1,1,0,Đông y,Ngành,Health Promotion,CLO1,"Giải thích được cơ chế tác dụng và vai trò của xoa bóp bấm huyệt, đánh gió, giác hơi theo YHCT, theo YHHĐ",PLO6,R
+C096,XBBH,Xoa bóp – Bấm huyệt,1,1,0,Đông y,Ngành,Health Promotion,CLO2,Phân tích được phạm vi ứng dụng và chống chỉ định của xoa bóp bấm huyệt,PLO7,R
+C096,XBBH,Xoa bóp – Bấm huyệt,1,1,0,Đông y,Ngành,Health Promotion,CLO3,"Ứng dụng được kiến thức về các kỹ thuật tác động da, cơ, huyệt, khớp để phân tích các phương pháp xoa bóp 7 vùng cơ thể, phương pháp đánh gió và giác hơi",PLO7,R
+C097,TH XBBH,Thực hành Xoa bóp – Bấm huyệt,2,0,2,Đông y,Ngành,Health Promotion,CLO1,"Giải thích được chỉ định các phương pháp xoa bóp bấm huyệt, đánh gió, giác hơi cụ thể phù hợp với các bệnh lý thường gặp",PLO6,M
+C097,TH XBBH,Thực hành Xoa bóp – Bấm huyệt,2,0,2,Đông y,Ngành,Health Promotion,CLO2,Nhận biết được nguy cơ xảy ra tác dụng không mong muốn và thực hiện được quy trình xử trí trên lâm sàng  ,PLO7,M
+C097,TH XBBH,Thực hành Xoa bóp – Bấm huyệt,2,0,2,Đông y,Ngành,Health Promotion,CLO3,"Thực hiện được kỹ thuật tác động lên da, cơ, huyệt, khớp; phương pháp xoa bóp bấm huyệt 7 vùng cơ thể; phương pháp đánh gió và giác hơi",PLO7,M
+C097,TH XBBH,Thực hành Xoa bóp – Bấm huyệt,2,0,2,Đông y,Ngành,Health Promotion,CLO4,"Lựa chọn và thực hiện được các kỹ thuật XBBH, đánh gió, giác hơi trong quản lý đau trên lâm sàng ",PLO7,M
+C098,Dược LS,Dược lâm sàng kết hợp ,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích được đặc điểm dược động học của thuốc,PLO6,R
+C098,Dược LS,Dược lâm sàng kết hợp ,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được cơ chế của các tương tác thuốc thường gặp theo YHCT và YHHĐ,PLO6,R
+C098,Dược LS,Dược lâm sàng kết hợp ,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,Ứng dụng được hiệu chỉnh liều dùng trên đối tượng đặc biệt,PLO6,R
+C099,TH Dược LS,Thực hành Dược lâm sàng kết hợp  ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO1,Thực hiện được kỹ năng thu thập thông tin về dược lâm sàng đảm bảo tính khoa học và tin cậy,PLO3,R
+C099,TH Dược LS,Thực hành Dược lâm sàng kết hợp  ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được nguyên nhân và hướng xử trí các tương tác trong các tình huống cụ thể,PLO6,R
+C099,TH Dược LS,Thực hành Dược lâm sàng kết hợp  ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO3,"Vận dụng được thông tin thuốc và nguyên tắc kê đơn thuốc để đánh giá tính an toàn, hợp lý của đơn thuốc ngoại trú",PLO6,R
+C099,TH Dược LS,Thực hành Dược lâm sàng kết hợp  ,1,0,1,Kết hợp,Ngành,Clinical Methods,CLO4,Ứng dụng được nguyên tắc sử dụng kháng sinh và các thuốc hoá dược vào tình huống cụ thể ,PLO6,R
+C100,PT 1,Phương tễ I,2,2,0,Đông y,Ngành,Clinical Methods,CLO1,"Trình bày được nguyên tắc cấu tạo cơ bản của 1 bài thuốc YHCT, các hình thức, cách sử dụng các dạng phương tễ thường dùng",PLO6,R
+C100,PT 1,Phương tễ I,2,2,0,Đông y,Ngành,Clinical Methods,CLO2,"Phân tích được nguyên tắc cấu tạo, thành phần, cơ chế, công dụng, chỉ định, chống chỉ định của các bài thuốc YHCT",PLO6,R
+C101,PT 2,Phương tễ II ,1,1,0,Đông y,Ngành,Clinical Methods,CLO1,"Trình bày được nguyên tắc cấu tạo cơ bản của 1 bài thuốc nam, các hình thức, cách sử dụng các bài thuốc nam thường dùng",PLO6,R
+C101,PT 2,Phương tễ II ,1,1,0,Đông y,Ngành,Clinical Methods,CLO2,"Phân tích được nguyên tắc cấu tạo, thành phần, cơ chế, công dụng, chỉ định, chống chỉ định của các bài thuốc Nam thường gặp",PLO6,R
+C102,TH PT,Thực hành Phương tễ ,1,0,1,Đông y,Ngành,Clinical Methods,CLO1,"Phân tích được tính vị quy kinh, sự phối ngũ của các vị thuốc YHCT, cấu trúc cơ bản bài thuốc cổ phương đáp ứng pháp trị của case lâm sàng cụ thể",PLO6,R
+C102,TH PT,Thực hành Phương tễ ,1,0,1,Đông y,Ngành,Clinical Methods,CLO2,"Xây dựng được phương thuốc phù hợp từ các bài thuốc cổ phương trong điều trị một số bệnh, hội chứng bệnh thường gặp",PLO6,R
+C103,TMHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý hệ thống Tim mạch-Hô hấp thường gặp theo YHCT và YHHĐ,PLO5,R
+C103,TMHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh hệ thống Tim mạch-Hô hấp thường gặp,PLO5,R
+C103,TMHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích kế hoạch điều trị theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý tim mạch, hô hấp thường gặp",PLO6,R
+C104,TH TMHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý hệ thống Tim mạch-Hô hấp,PLO7,M
+C104,TH TMHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý hệ thống Tim mạch-hô hấp thường gặp,PLO5,M
+C104,TH TMHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tim mạch-Hô hấp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,"Xây dựng được kế hoạch điều trị theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý tim mạch, hô hấp thường gặp",PLO6,M
+C105,TK,Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh hệ thống Thần kinh thường gặp ,PLO5,R
+C105,TK,Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý hệ thống Thần kinh thường gặp theo YHCT và YHHĐ,PLO5,R
+C105,TK,Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích kế hoạch điều trị theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Thần kinh thường gặp",PLO6,R
+C106,TH TK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý hệ thống Thần kinh,PLO7,M
+C106,TH TK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý hệ thống Thần kinh thường gặp,PLO5,M
+C106,TH TK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,"Xây dựng được kế hoạch điều trị theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Thần kinh thường gặp",PLO6,M
+C106,TH TK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thần kinh,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO4,Lập được hồ sơ quản lý sức khỏe YHCT kết hợp YHHĐ trong một số bệnh lý Thần kinh thường gặp,PLO6,M
+C107,CXK,Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý hệ thống Cơ xương khớp thường gặp theo YHCT và YHHĐ,PLO5,R
+C107,CXK,Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh lý thuộc hệ thống Cơ xương khớp thường gặp,PLO5,R
+C107,CXK,Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích kế hoạch điều trị theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Cơ xương khớp thường gặp",PLO6,R
+C108,TH CXK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý hệ thống Cơ xương khớp thường gặp,PLO5,M
+C108,TH CXK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,"Xây dựng được kế hoạch điều trị và dự phòng theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý cơ xương khớp thường gặp",PLO6,M
+C108,TH CXK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,Lập được hồ sơ quản lý sức khỏe YHCT kết hợp YHHĐ,PLO6,M
+C108,TH CXK,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Cơ xương khớp,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO4,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý hệ thống Cơ xương khớp,PLO7,M
+C109,NTHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý hệ thống Thận - Nội tiết - Huyết học thường gặp theo YHCT và YHHĐ,PLO5,R
+C109,NTHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh hệ thống Thận - Nội tiết-Huyết học thường gặp,PLO5,R
+C109,NTHH,Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích kế hoạch điều trị  theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Thận-Nội tiết-Huyết học thường gặp",PLO6,R
+C110,TH NTHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý hệ thống Thận-Nội tiết-Huyết học,PLO7,M
+C110,TH NTHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý hệ thống Thận-Nội tiết-Huyết học thường gặp,PLO5,M
+C110,TH NTHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,"Xây dựng được kế hoạch điều trị  theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Thận-Nội tiết-Huyết học thường gặp",PLO6,M
+C110,TH NTHH,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Thận – Nội tiết – Huyết học,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO4,Lập được hồ sơ quản lý sức khỏe YHCT kết hợp YHHĐ,PLO6,M
+C111,THGM,Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO1,Phân tích nguyên nhân và cơ chế bệnh sinh để đưa ra chẩn đoán các bệnh lý hệ thống Tiêu hóa-Gan mật thường gặp theo YHCT và YHHĐ,PLO5,R
+C111,THGM,Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO2,Phân tích được các triệu chứng lâm sàng để chẩn đoán bệnh theo YHHĐ và hội chứng bệnh theo YHCT các bệnh hệ thống Tiêu hóa - Gan mật thường gặp,PLO5,R
+C111,THGM,Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,2,0,Kết hợp,Ngành,Clinical Methods,CLO3,"Phân tích kế hoạch điều trị  theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Tiêu hóa-Gan mật thường gặp",PLO6,R
+C112,TH THGM,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO1,Đánh giá được các thông tin khám trên lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong một số bệnh lý hệ thống Tiêu hóa-Gan mật thường gặp,PLO5,M
+C112,TH THGM,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO2,Thực hiện được kỹ năng khám lâm sàng trong một số bệnh lý hệ thống Tiêu hóa - Gan mật,PLO7,M
+C112,TH THGM,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO3,"Xây dựng được kế hoạch điều trị  theo YHCT, YHCT kết hợp YHHĐ trong một số bệnh lý Tiêu hóa-Gan mật thường gặp",PLO6,M
+C112,TH THGM,Thực hành Bệnh học và điều trị nội khoa kết hợp hệ thống Tiêu hóa- Gan Mật,2,0,2,Kết hợp,Ngành,Clinical Methods,CLO4,Lập được hồ sơ quản lý sức khỏe YHCT kết hợp YHHĐ,PLO6,M
+C113,Khởi nghiệp,Tư duy khởi nghiệp và đổi mới sáng tạo ,1,0,1,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO1,Đề xuất được giải pháp khắc phục một số vấn đề trong thực hành nghề nghiệp,PLO2,M
+C113,Khởi nghiệp,Tư duy khởi nghiệp và đổi mới sáng tạo ,1,0,1,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO2,Ứng dụng tiến bộ khoa học - công nghệ phục vụ cho dự án khởi nghiệp,PLO2,M
+C113,Khởi nghiệp,Tư duy khởi nghiệp và đổi mới sáng tạo ,1,0,1,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO3,Lập được kế hoạch giải quyết các vấn đề sức khỏe ưu tiên thực hiện phát triển y học cổ truyền kết hợp y học hiện đại thông qua ý tưởng dự án khởi nghiệp,PLO8,R
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO1,"Sử dụng ngôn ngữ nói, viết, thuật ngữ y học hiện đại và y học cổ truyền thích hợp và hiệu quả",PLO1,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO2,Xây dựng được mục tiêu dự án dựa vào nhu cầu thực tế công việc và ngành nghề,PLO2,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO3,Đánh giá các nguồn thông tin thuộc lĩnh vực nghiên cứu một cách hệ thống và có cơ sở khoa học,PLO3,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO4,"Viết được một dự án nghiên cứu đảm bảo tính khoa học và đạo đức, thuộc lĩnh vực y dược cổ truyền; y dược cổ truyền kết hợp y dược hiện đại; phát triển giáo dục y khoa",PLO4,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO5,Thể hiện được khả năng tự học trong phát triển nghề nghiệp liên tục thông qua viết tổng quan nghiên cứu về vấn đề chuyên ngành,PLO5,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO6,Có khả năng truyền đạt thông tin và khả năng thuyết phục,PLO6,M
+C114,Dự án,Dự án nghiên cứu y dược học cổ truyền,4,1,3,Kết hợp,Định hướng chuyên ngành,Clinical Methods,CLO7,"Lập được kế hoạch cho công việc cụ thể đảm bảo tính khoa học, khả thi dựa trên mục tiêu",PLO7,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO1,"Có kiến thức cơ bản về luật Khám bệnh, chữa bệnh và các văn bản qui phạm pháp luật khác liên quan đến hành nghề Y học cổ truyền",PLO1,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO2,"Hiểu nguyên tắc, mô hình, hệ thống tổ chức, chức năng, nhiệm vụ mạng lưới y tế Việt Nam, mối quan hệ giữa ngành y tế với các ngành liên quan",PLO8,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO3,Trình bày được quy trình lập kế hoạch chung của đơn vị,PLO8,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO4,Giải thích được về các nội dung cơ bản về chứng nhận tử vong theo các quy định pháp luật,PLO1,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO5,"Trình bày được các quy định về an toàn lao động, phòng ngừa, cách ly, kiểm soát nhiễm khuẩn  ",PLO1,M
+C115,QLYT,Quản lý y tế,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO6,Vận dụng các nguyên tắc tổ chức và có khả năng xác định được các vấn đề về nhân lực theo vị trí việc làm tại nơi làm việc,PLO2,M
+C116,SKCĐ, Truyền thông sức khỏe cộng đồng,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO1,"Giải thích vai trò các phương pháp, phương tiện của truyền thông giáo dục và nâng cao sức khỏe",PLO8,M
+C116,SKCĐ, Truyền thông sức khỏe cộng đồng,1,1,0,Kết hợp,Định hướng chuyên ngành,Health Promotion,CLO2,"Trình bày được kiến thức cơ bản về dân số, sức khỏe sinh sản; mối liên quan giữa dân số - sức khỏe sinh sản và phát triển xã hội",PLO8,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO1,"Biện chứng luận trị thông tin thu thập theo bát cương, tạng phủ, khí huyết tân dịch, kinh lạc, nguyên nhân gây bệnh",PLO5,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO2,Đánh giá thông tin lâm sàng và cận lâm sàng để đưa ra được chẩn đoán phù hợp trong các bệnh lý thường gặp,PLO5,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO3,"Đề xuất được kế hoạch điều trị bằng y học cổ truyền trên nguyên tắc lý - pháp - phương - dược và lý - pháp - phương - huyệt dựa trên chẩn đoán, mục tiêu điều trị, hội chứng bệnh thường gặp",PLO6,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO4,Xác định được các vấn đề sức khỏe ưu tiên nhằm đánh giá và lập kế hoạch chăm sóc toàn diện phù hợp với người bệnh bằng phương pháp y học cổ truyền kết hợp y học hiện đại,PLO6,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO5,"Ứng dụng được các nguyên tắc cơ bản của châm cứu về kinh lạc, huyệt vị và xây dựng công thức huyệt theo nguyên tắc lý - pháp – phương - huyệt kết hợp với nguyên lý của y học hiện đại các bệnh lý thường gặp trên lâm sàng",PLO7,M
+C117,LS tổng hợp,Lâm sàng tổng hợp,4,0,4,Kết hợp,Tốt nghiệp,Internship,CLO6,"Ứng dụng kiến thức về phương pháp dưỡng sinh, xoa bóp, bấm huyệt và các phương pháp không dùng thuốc khác các bệnh lý thường gặp trên lâm sàng",PLO7,M
+C118,NTC1,HP ngành tự chọn 1,1,1,0,Kết hợp,Ngành,Clinical Methods,,,,
+C119,NTC2,HP ngành tự chọn 2,1,1,0,Kết hợp,Ngành,Clinical Methods,,,,
+C120,NTC3,HP ngành tự chọn 3,1,1,0,Kết hợp,Ngành,Clinical Methods,,,,
+C121,NTC4,HP ngành tự chọn 4,1,0,1,Kết hợp,Ngành,Clinical Methods,,,,
+C122,NTC5,HP ngành tự chọn 5,1,0,1,Kết hợp,Ngành,Clinical Methods,,,,
+C125,NTC6,HP ngành tự chọn 6,1,0,1,Kết hợp,Ngành,Clinical Methods,,,,
+C132,ĐHTC1,HP định hướng tự chọn 1,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods,,,,
+C133,ĐHTC2,HP định hướng tự chọn 2,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods,,,,
+C134,ĐHTC3,HP định hướng tự chọn 3,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods,,,,
+C135,ĐHTC4,HP định hướng tự chọn 4,1,0,1,Kết hợp,Định hướng chuyên ngành,Clinical Methods,,,,

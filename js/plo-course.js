@@ -71,7 +71,10 @@ function buildElements() {
 }
 
 function createCy(elements) {
-  if (cy) cy.destroy();
+  if (cy) {
+     cy.destroy();
+     window.cy = null;
+  }
   cy = cytoscape({
     container: document.getElementById('cy'),
     elements,
@@ -123,6 +126,7 @@ function createCy(elements) {
 
   wireCyEvents();
   refreshUIAfterGraphChange();
+   window.cy = cy;
 }
 
 // -------------------------- Events --------------------------

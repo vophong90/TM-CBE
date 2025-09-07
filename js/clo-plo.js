@@ -601,7 +601,46 @@
       (BLOOM_BY_LEVEL[level] = BLOOM_BY_LEVEL[level] || []).push(verb);
     });
     el('bloomStatus') && (el('bloomStatus').textContent = `Đã nạp Bloom verbs: ${BLOOM.length} động từ / ${Object.keys(BLOOM_BY_LEVEL).length} mức.`);
+    rebuildBloomFilters();
+    rebuildBloomTable();
   }
+
+  // ===== Bloom UI (filter + table) =====
+function rebuildBloomFilters(){
+  const sel = el('bloom-level-filter');
+  if (!sel) return;
+  const keep = sel.value || '';
+  const levels = Object.keys(BLOOM_BY_LEVEL).sort((a,b)=>a.localeCompare(b));
+  sel.innerHTML = '<option value="">— Tất cả level —</option>' +
+    levels.map(l => `<option value="${esc(l)}">${esc(l)}</option>`).join('');
+  if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
+}
+
+function rebuildBloomTable(){
+  const tbody = el('bloomTable')?.querySelector('tbody');
+  if (!tbody) return;
+  const f = (el('bloom-level-filter')?.value || '').trim();
+  const rows = (BLOOM || [])
+    .filter(r => !f || String(r.level).trim() === f)
+    .sort((a,b) => (String(a.level).localeCompare(String(b.level)) || String(a.verb).localeCompare(String(b.verb))));
+
+  tbody.innerHTML = '';
+  if (rows.length === 0){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="border p-2 text-gray-500" colspan="2"><i>Không có động từ phù hợp.</i></td>`;
+    tbody.appendChild(tr);
+  } else {
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="border p-2 align-top">${esc(r.level)}</td>
+        <td class="border p-2 align-top">${esc(r.verb)}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  const c = el('bloomCount');
+  if (c) c.textContent = rows.length ? `${rows.length} động từ` : '';
+}
 
   // =================== GPT TOOLS ===================
   async function gptCall(kind, payload){
@@ -783,6 +822,14 @@ Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom v�
       buildAndRender();
     });
 
+    // Bloom UI events
+    el('bloom-level-filter')?.addEventListener('change', rebuildBloomTable);
+    el('bloomClear')?.addEventListener('click', ()=>{
+      const sel = el('bloom-level-filter');
+      if (sel) sel.value = '';
+      rebuildBloomTable();
+    });
+
     // Filters
     ['filter-plo','filter-course','filter-clo'].forEach(id=>{
       el(id)?.addEventListener('change', ()=>{ createCy(); rebuildTable(); });
@@ -800,5 +847,7 @@ Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom v�
 
     // Khởi tạo rỗng UI (trước khi build)
     rebuildAll();
+    rebuildBloomFilters();
+    rebuildBloomTable();
   });
 })();

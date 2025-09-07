@@ -1,7 +1,7 @@
 // ./js/clo-plo.js
 // CLO–PLO (PLO → COURSE → CLO) — phiên bản gọn & đồng bộ brand
-// - Đọc 3 file bắt buộc: PLO.csv, COURSE.csv, PLO-COURSE.csv (plo,course,level)
-// - Đọc tuỳ chọn: COURSE–CLO.csv (label, fullname, tong, clo, content), Bloom verbs.csv (verb, level)
+// - Đọc 4 file bắt buộc: PLO.csv, COURSE.csv, PLO-COURSE.csv (plo,course,level), COURSE–CLO.csv (label, fullname, tong, clo, content)
+// - Tuỳ chọn: Bloom verbs.csv (verb, level)
 // - Vẽ đồ thị Cytoscape, bộ lọc, bảng PLO–COURSE–CLO
 // - GPT tools (gợi ý & đánh giá) có fallback offline
 (function(){
@@ -9,18 +9,32 @@
   const API_BASE = 'https://cm-gpt-service.onrender.com';
   const APP_TOKEN = ''; // nếu backend có token thì điền
 
-  // =================== STATE ===================
+  // =================== STATE HOẠT ĐỘNG (dataset đang hiển thị) ===================
   let PLO = {};                 // { "PLO1": "..." }
   let COURSES = {};             // { "C001": {id,label,fullname,group,tong}, ... }
-  let COURSE_BY_LABEL = {};     // { "Triết học Mác-Lênin": "C001", ... }
+  let COURSE_BY_LABEL = {};     // { "Mac": "C001", ... }
   let EDGES_PC = [];            // [{plo, courseId, level}, ...]
   let CLO_ITEMS = [];           // [{courseId, courseLabel, fullname, tong, clo, content}, ...]
   let BLOOM = [];               // [{verb, level}]
   let BLOOM_BY_LEVEL = {};      // { level: [verb, ...] }
 
-  let cy = null;                // cytoscape instance
+  // =================== RAW DATA (đã nạp, chưa lọc) ===================
+  const DATA = {
+    // bản thô đã normalize headers
+    ploRows: [],            // PLO.csv
+    courseRows: [],         // COURSE.csv
+    pcRows: [],             // PLO-COURSE.csv
+    cloRows: [],            // COURSE-CLO.csv
+    maps: {
+      courseById: {},       // từ courseRows
+      courseIdByLabel: {},  // từ courseRows
+    },
+    loaded: { plo:false, course:false, pc:false, clo:false }
+  };
 
-  // =================== DOM GETTERS (truy vấn TẠI THỜI ĐIỂM DÙNG) ===================
+  let cy = null; // cytoscape instance
+
+  // =================== DOM GETTERS ===================
   function el(id){ return document.getElementById(id); }
 
   // =================== HELPERS ===================
@@ -62,6 +76,40 @@
     }
   }
 
+  function rebuildCourseMapsFromRaw(){
+    DATA.maps.courseById = {};
+    DATA.maps.courseIdByLabel = {};
+    DATA.courseRows.forEach(r=>{
+      const id = (r.id || r.code || r.courseid || '').trim();
+      if (!id) return;
+      const label = (r.label || r.code || id).trim();
+      DATA.maps.courseById[id] = r;
+      if (label) DATA.maps.courseIdByLabel[label] = id;
+    });
+  }
+
+  function resolveCourseIdFlexible(key){
+    // Nhận vào id hoặc label; ưu tiên id trong COURSE master
+    if (!key) return '';
+    const k = String(key).trim();
+    if (!k) return '';
+    if (DATA.maps.courseById[k]) return k;
+    if (DATA.maps.courseIdByLabel[k]) return DATA.maps.courseIdByLabel[k];
+    return ''; // không ép dùng nếu không có trong COURSE master (quyết định ở bước build)
+  }
+
+  function updateBuildButton(){
+    const ready = DATA.loaded.plo && DATA.loaded.course && DATA.loaded.pc && DATA.loaded.clo;
+    const btn = el('btnBuild');
+    if (btn) btn.disabled = !ready;
+    if (!ready) {
+      el('buildStatus') && (el('buildStatus').textContent = 'Chưa đủ file: cần PLO, COURSE, PLO-COURSE, COURSE-CLO.');
+    } else {
+      el('buildStatus') && (el('buildStatus').textContent = 'Sẵn sàng: bấm “Xây đồ thị”.');
+    }
+  }
+
+  // =================== FILTERS ===================
   function rebuildFilters(){
     const selP = el('filter-plo');
     const selC = el('filter-course');
@@ -330,109 +378,149 @@
     });
   }
 
-  // =================== LOADERS ===================
-  // A) Build từ 3 CSV: PLO.csv, COURSE.csv, PLO-COURSE.csv
-  async function onBuildFromCsv(){
-    const fPlo    = el('csvPLO')?.files?.[0];
-    const fCourse = el('csvCOURSE')?.files?.[0];
-    const fEdges  = el('csvConnPloCourse')?.files?.[0];
-
-    if (!fPlo || !fCourse || !fEdges) {
-      el('buildStatus').textContent = 'Hãy chọn đủ 3 file: PLO.csv, COURSE.csv và PLO-COURSE.csv (plo,course,level)';
-      alert('Hãy chọn đủ 3 file: PLO.csv, COURSE.csv và PLO-COURSE.csv (plo,course,level)');
-      return;
-    }
-
-    // Parse
-    const [ploRows, courseRows, edgeRows] = await Promise.all([
-      parseCSV(fPlo),
-      parseCSV(fCourse),
-      parseCSV(fEdges)
-    ]);
-
-    // PLO: label, content (alias content|desc|description)
+  // =================== BUILD LOGIC (từ dữ liệu đã nạp) ===================
+  function materializeActiveDatasetFromRaw(){
+    // 1) PLO active
     PLO = {};
-    ploRows.forEach(r=>{
-      const label = (r.label || r.plo || r.PLO || '').trim();
+    DATA.ploRows.forEach(r=>{
+      const label = (r.label || r.plo || '').trim();
       const content = (r.content || r.desc || r.description || '').trim();
       if (label) PLO[label] = content;
     });
 
-    // COURSE: id bắt buộc; label/fullname/group/tong (alias tc)
-    COURSES = {}; COURSE_BY_LABEL = {};
-    courseRows.forEach(r=>{
+    // 2) COURSE master (để lấy metadata; chưa lọc theo CLO)
+    const masterById = {};
+    const masterIdByLabel = {};
+    DATA.courseRows.forEach(r=>{
       const id = (r.id || r.code || r.courseid || '').trim();
       if (!id) return;
       const label    = (r.label || r.code || id).trim();
       const fullname = (r.fullname || r.name || '').trim();
       const group    = (r.group || r.khoi || r.type || '').trim();
       const tong     = Number(r.tong ?? r.tc ?? 0) || 0;
-      COURSES[id] = { id, label, fullname, group, tong };
-      if (label) COURSE_BY_LABEL[label] = id;
+      masterById[id] = { id, label, fullname, group, tong };
+      masterIdByLabel[label] = id;
     });
 
-    // EDGES: cột chấp nhận (plo | plo_label), (course | course_id), level
+    // 3) Tập COURSE cuối cùng = những course xuất hiện trong COURSE-CLO.csv
+    // Cho phép CLO định nghĩa tối thiểu nếu không có trong master (tạo placeholder)
+    const allowedMap = {}; // id -> courseObj
+    const label2id   = {}; // label -> id (chuẩn hoá)
+    DATA.cloRows.forEach(r=>{
+      const rawKey = (r.label || r.course_id || r.id || r.code || '').trim();
+      if (!rawKey) return;
+      // Ưu tiên map sang id master; nếu không có thì dùng chính rawKey làm id
+      const idFromMaster = masterById[rawKey] ? rawKey : (masterIdByLabel[rawKey] || '');
+      const cid = idFromMaster || rawKey;
+      if (!allowedMap[cid]){
+        if (masterById[cid]) {
+          allowedMap[cid] = { ...masterById[cid] };
+        } else {
+          // tạo placeholder từ chính CLO
+          allowedMap[cid] = {
+            id: cid,
+            label: rawKey,
+            fullname: (r.fullname || '').trim(),
+            group: '',
+            tong: Number(r.tong || 0) || 0
+          };
+        }
+      }
+      // nếu CLO có fullname/tong cụ thể thì cập nhật (ưu tiên dữ liệu CLO)
+      if (r.fullname) allowedMap[cid].fullname = String(r.fullname).trim();
+      if (r.tong)     allowedMap[cid].tong = Number(r.tong) || allowedMap[cid].tong || 0;
+
+      label2id[rawKey] = cid; // cho phép map label → canonical id
+    });
+
+    // 4) CLO_ITEMS active: chỉ giữ các CLO thuộc allowedMap
+    CLO_ITEMS = [];
+    DATA.cloRows.forEach(r=>{
+      const rawKey = (r.label || r.course_id || r.id || r.code || '').trim();
+      const cid = label2id[rawKey];
+      if (!cid || !allowedMap[cid]) return; // bỏ im lặng
+      const clo = (r.clo || '').trim();
+      if (!clo) return;
+      const content = (r.content || '').trim();
+      CLO_ITEMS.push({
+        courseId: cid,
+        courseLabel: allowedMap[cid].label || cid,
+        fullname: allowedMap[cid].fullname || '',
+        tong: allowedMap[cid].tong || 0,
+        clo, content
+      });
+    });
+
+    // 5) COURSES active = allowedMap
+    COURSES = allowedMap;
+    COURSE_BY_LABEL = {};
+    Object.values(COURSES).forEach(c=>{
+      if (c.label) COURSE_BY_LABEL[c.label] = c.id;
+    });
+
+    // 6) EDGES_PC active: chỉ giữ cạnh có courseId thuộc COURSES active & PLO hợp lệ
     EDGES_PC = [];
-    let missPlo = 0, missCourse = 0, okEdge = 0;
-    edgeRows.forEach(r=>{
+    DATA.pcRows.forEach(r=>{
       const plo = (r.plo || r['plo_label'] || '').trim();
-      const cid = (r.course || r['course_id'] || '').trim();
+      if (!plo || !PLO[plo]) return; // PLO không tồn tại -> bỏ
+      const rawCourse = (r.course || r['course_id'] || '').trim();
+      // rawCourse có thể là id hoặc label; canonical:
+      let cid = '';
+      if (COURSES[rawCourse]) cid = rawCourse;
+      else if (COURSE_BY_LABEL[rawCourse]) cid = COURSE_BY_LABEL[rawCourse];
+      if (!cid) return; // không thuộc allowedMap -> bỏ im lặng
       let level = (r.level || '').trim().toUpperCase();
       if (!level) level = 'I';
-      if (!plo) return;
-      if (!cid) return;
-      if (!PLO[plo]) { missPlo++; return; }
-      if (!COURSES[cid]) { missCourse++; return; }
       EDGES_PC.push({ plo, courseId: cid, level });
-      okEdge++;
     });
+  }
 
-    // Build graph + UI
+  function buildAndRender(){
+    materializeActiveDatasetFromRaw();
     rebuildFilters();
     createCy();
     rebuildTable();
 
-    // Status
-    const status = `PLO: ${Object.keys(PLO).length} • Course: ${Object.keys(COURSES).length} • Liên kết PLO–COURSE hợp lệ: ${okEdge}` +
-                   (missPlo||missCourse ? ` (bỏ ${missPlo} do thiếu PLO, ${missCourse} do thiếu Course)` : '');
-    el('buildStatus').textContent = status;
+    // Tóm tắt trạng thái — không báo lỗi miss
+    const status = `PLO: ${Object.keys(PLO).length} • Course: ${Object.keys(COURSES).length} • Liên kết PLO–COURSE: ${EDGES_PC.length} • CLO: ${CLO_ITEMS.length}`;
+    el('buildStatus') && (el('buildStatus').textContent = status);
+    // CLO status đơn giản (không báo "bỏ X")
+    el('cloStatus') && (el('cloStatus').textContent = `Đã nạp COURSE–CLO: ${DATA.cloRows.length} dòng (đang dùng: ${CLO_ITEMS.length} CLO).`);
   }
 
-  // B) COURSE–CLO.csv: label, fullname, tong, clo, content
-  async function onLoadCourseCLO(file){
+  // =================== LOADERS (mỗi file nạp riêng, không build vội) ===================
+  async function onLoadPLO(file){
     const rows = await parseCSV(file);
-    CLO_ITEMS = [];
-    let ok = 0, miss = 0;
-
-    rows.forEach(r=>{
-      const label = (r.label || '').trim();          // mã học phần (label)
-      const fullname = (r.fullname || '').trim();
-      const tong = Number(r.tong || 0) || 0;
-      const clo = (r.clo || '').trim();
-      const content = (r.content || '').trim();
-      if (!label || !clo) return;
-
-      // Map label -> id (ưu tiên id trùng luôn label, sau đó map qua COURSE_BY_LABEL)
-      let courseId = '';
-      if (COURSES[label]) courseId = label;
-      else if (COURSE_BY_LABEL[label]) courseId = COURSE_BY_LABEL[label];
-
-      if (!courseId) { miss++; return; }
-      const courseLabel = COURSES[courseId]?.label || label;
-      const courseFull  = fullname || (COURSES[courseId]?.fullname || '');
-
-      CLO_ITEMS.push({ courseId, courseLabel, fullname: courseFull, tong, clo, content });
-      ok++;
-    });
-
-    el('cloStatus').textContent = `Đã nạp ${ok} CLO (bỏ ${miss} do không khớp Course).`;
-
-    rebuildFilters();
-    createCy();
-    rebuildTable();
+    DATA.ploRows = rows.map(normalizeRow);
+    DATA.loaded.plo = true;
+    updateBuildButton();
   }
 
-  // C) Bloom verbs
+  async function onLoadCOURSE(file){
+    const rows = await parseCSV(file);
+    DATA.courseRows = rows.map(normalizeRow);
+    rebuildCourseMapsFromRaw();
+    DATA.loaded.course = true;
+    updateBuildButton();
+  }
+
+  async function onLoadPLOCOURSE(file){
+    const rows = await parseCSV(file);
+    DATA.pcRows = rows.map(normalizeRow);
+    DATA.loaded.pc = true;
+    updateBuildButton();
+  }
+
+  async function onLoadCOURSECLO(file){
+    const rows = await parseCSV(file);
+    DATA.cloRows = rows.map(normalizeRow);
+    DATA.loaded.clo = true;
+    // Không build ở đây — theo yêu cầu đợi đủ 4 file
+    el('cloStatus') && (el('cloStatus').textContent = `Đã nạp COURSE–CLO: ${rows.length} dòng.`);
+    updateBuildButton();
+  }
+
+  // =================== Bloom verbs ===================
   async function onLoadBloom(file){
     const rows = await parseCSV(file);
     BLOOM = [];
@@ -444,7 +532,7 @@
       BLOOM.push({ verb, level });
       (BLOOM_BY_LEVEL[level] = BLOOM_BY_LEVEL[level] || []).push(verb);
     });
-    el('bloomStatus').textContent = `Đã nạp Bloom verbs: ${BLOOM.length} động từ / ${Object.keys(BLOOM_BY_LEVEL).length} mức.`;
+    el('bloomStatus') && (el('bloomStatus').textContent = `Đã nạp Bloom verbs: ${BLOOM.length} động từ / ${Object.keys(BLOOM_BY_LEVEL).length} mức.`);
   }
 
   // =================== GPT TOOLS ===================
@@ -590,24 +678,41 @@ Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom v�
 
   // =================== EVENTS ===================
   document.addEventListener('DOMContentLoaded', ()=>{
-    // A) Build từ 3 CSV
-    el('btnBuild')?.addEventListener('click', ()=>{
-      onBuildFromCsv().catch(err => {
-        console.error(err);
-        alert('Không đọc được CSV: ' + (err?.message || err));
-      });
-    });
+    // Disable nút build ngay từ đầu
+    updateBuildButton();
 
-    // B) COURSE–CLO.csv
-    el('csvCourseCLO')?.addEventListener('change', (e)=>{
+    // Nạp từng file (không build vội)
+    el('csvPLO')?.addEventListener('change', e=>{
       const f = e.target.files?.[0]; if (!f) return;
-      onLoadCourseCLO(f).catch(err => alert('Không đọc được CSV COURSE–CLO: ' + (err?.message || err)));
+      onLoadPLO(f).catch(err => alert('Không đọc được PLO.csv: ' + (err?.message || err)));
+    });
+    el('csvCOURSE')?.addEventListener('change', e=>{
+      const f = e.target.files?.[0]; if (!f) return;
+      onLoadCOURSE(f).catch(err => alert('Không đọc được COURSE.csv: ' + (err?.message || err)));
+    });
+    el('csvConnPloCourse')?.addEventListener('change', e=>{
+      const f = e.target.files?.[0]; if (!f) return;
+      onLoadPLOCOURSE(f).catch(err => alert('Không đọc được PLO-COURSE.csv: ' + (err?.message || err)));
+    });
+    el('csvCourseCLO')?.addEventListener('change', e=>{
+      const f = e.target.files?.[0]; if (!f) return;
+      onLoadCOURSECLO(f).catch(err => alert('Không đọc được COURSE–CLO.csv: ' + (err?.message || err)));
     });
 
-    // C) Bloom verbs.csv
-    el('csvBloom')?.addEventListener('change', (e)=>{
+    // Bloom verbs
+    el('csvBloom')?.addEventListener('change', e=>{
       const f = e.target.files?.[0]; if (!f) return;
       onLoadBloom(f).catch(err => alert('Không đọc được CSV Bloom: ' + (err?.message || err)));
+    });
+
+    // Build từ dữ liệu đã nạp (đã đủ 4 file)
+    el('btnBuild')?.addEventListener('click', ()=>{
+      const ready = DATA.loaded.plo && DATA.loaded.course && DATA.loaded.pc && DATA.loaded.clo;
+      if (!ready){
+        alert('Vui lòng nạp đủ 4 file (PLO, COURSE, PLO-COURSE, COURSE-CLO) trước khi xây.');
+        return;
+      }
+      buildAndRender();
     });
 
     // Filters
@@ -625,7 +730,7 @@ Gợi ý: nhấn mạnh từ khoá PLO trong CLO, làm rõ động từ Bloom v�
     el('btnAISuggest')?.addEventListener('click', suggestCLO);
     el('btnAIEval')?.addEventListener('click', evaluateCLO);
 
-    // Khởi tạo rỗng UI (trước khi load dữ liệu)
+    // Khởi tạo rỗng UI (trước khi build)
     rebuildAll();
   });
 })();

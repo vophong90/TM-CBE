@@ -1,10 +1,12 @@
 // ./js/clo-plo.js
 // CLO–PLO (PLO → COURSE → CLO) — phiên bản gọn & đồng bộ brand
-// - Đọc 4 file bắt buộc: PLO.csv, COURSE.csv, PLO-COURSE.csv (plo,course,level), COURSE–CLO.csv (label, fullname, tong, clo, content)
+// - Đọc 4 file: PLO.csv, COURSE.csv, PLO-COURSE.csv (plo,course,level), COURSE–CLO.csv (label, fullname, tong, clo, content)
 // - Tuỳ chọn: Bloom verbs.csv (verb, level)
 // - Vẽ đồ thị Cytoscape, bộ lọc, bảng PLO–COURSE–CLO
 // - GPT tools (gợi ý & đánh giá) có fallback offline
 (function(){
+  console.log('CLO-PLO build v2025-09-07b');
+
   // =================== CONFIG GPT (tuỳ chọn) ===================
   const API_BASE = 'https://cm-gpt-service.onrender.com';
   const APP_TOKEN = ''; // nếu backend có token thì điền
@@ -86,16 +88,6 @@
       DATA.maps.courseById[id] = r;
       if (label) DATA.maps.courseIdByLabel[label] = id;
     });
-  }
-
-  function resolveCourseIdFlexible(key){
-    // Nhận vào id hoặc label; ưu tiên id trong COURSE master
-    if (!key) return '';
-    const k = String(key).trim();
-    if (!k) return '';
-    if (DATA.maps.courseById[k]) return k;
-    if (DATA.maps.courseIdByLabel[k]) return DATA.maps.courseIdByLabel[k];
-    return ''; // không ép dùng nếu không có trong COURSE master (quyết định ở bước build)
   }
 
   function updateBuildButton(){
@@ -199,7 +191,7 @@
       });
 
       // Add CLOs for this course (filter by CLO nếu có)
-      const list = cloMap[course.id] || [];
+      const list = (cloMap[course.id] || []);
       list.forEach(ci=>{
         if (fL && ci.clo !== fL) return;
         addNode(`CLO::${course.id}::${ci.clo}`, { kind:'CLO', clo: ci.clo, content: ci.content || '' });
@@ -222,9 +214,42 @@
 
     const elements = buildElementsByFilters();
 
+    // NEW: lọc edge mồ côi để tránh Cytoscape crash & log chẩn đoán
+    const nodeIds = new Set(
+      elements
+        .filter(e => e && e.data && !e.data.source && !e.data.target)
+        .map(e => e.data.id)
+    );
+    const safeElements = [];
+    const badEdges = [];
+    for (const el of elements) {
+      if (el && el.data && el.data.source && el.data.target) {
+        if (!nodeIds.has(el.data.source) || !nodeIds.has(el.data.target)) {
+          badEdges.push(el.data.id || JSON.stringify(el.data));
+          continue; // bỏ edge mồ côi
+        }
+      }
+      safeElements.push(el);
+    }
+    if (badEdges.length) {
+      console.warn('[GRAPH] bỏ edge mồ côi:', badEdges.slice(0,10), '... tổng:', badEdges.length);
+    }
+
+    console.log('[GRAPH]', {
+      elements: safeElements.length,
+      edgesPC: EDGES_PC.length,
+      cloItems: CLO_ITEMS.length,
+      courses: Object.keys(COURSES).length,
+      filters: {
+        plo: el('filter-plo')?.value || '',
+        course: el('filter-course')?.value || '',
+        clo: el('filter-clo')?.value || ''
+      }
+    });
+
     cy = cytoscape({
       container,
-      elements,
+      elements: safeElements,
       style: [
         // PLO
         { selector: 'node[kind="PLO"]', style: {
@@ -311,8 +336,9 @@
 
   // =================== TABLE ===================
   function rebuildTable(){
-    const tbody = el('resultTable')?.querySelector('tbody');
-    if (!tbody) return;
+    let table = el('resultTable'); if (!table) return;
+    let tbody = table.querySelector('tbody');
+    if (!tbody) { tbody = document.createElement('tbody'); table.appendChild(tbody); }
     tbody.innerHTML = '';
 
     const fP = el('filter-plo')?.value || '';
@@ -321,9 +347,7 @@
 
     // Map CLO theo courseId
     const cloMap = {};
-    CLO_ITEMS.forEach(it => {
-      (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
-    });
+    CLO_ITEMS.forEach(it => { (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it); });
 
     const rows = [];
     EDGES_PC.forEach(e=>{
@@ -354,6 +378,12 @@
     );
 
     if (rows.length === 0){
+      console.log('[TABLE] empty', {
+        edgesPC: EDGES_PC.length,
+        cloItems: CLO_ITEMS.length,
+        courses: Object.keys(COURSES).length,
+        filter: { plo: fP, course: fC, clo: fL }
+      });
       const tr = document.createElement('tr');
       tr.innerHTML = `<td class="border p-2 text-gray-500" colspan="4"><i>Không có kết quả phù hợp bộ lọc.</i></td>`;
       tbody.appendChild(tr);
@@ -390,7 +420,7 @@
       if (label) PLO[label] = content;
     });
 
-    // 2) COURSE master (để lấy metadata; chưa lọc theo CLO)
+    // 2) COURSE master (để lấy metadata)
     const masterById = {};
     const masterIdByLabel = {};
     DATA.courseRows.forEach(r=>{
@@ -405,41 +435,60 @@
     });
 
     // 3) Tập COURSE cuối cùng = những course xuất hiện trong COURSE-CLO.csv
-    // Cho phép CLO định nghĩa tối thiểu nếu không có trong master (tạo placeholder)
+    //    Nếu chưa nạp CLO → fallback sang toàn bộ master để UI không trống
     const allowedMap = {}; // id -> courseObj
     const label2id   = {}; // label -> id (chuẩn hoá)
-    DATA.cloRows.forEach(r=>{
-      const rawKey = (r.label || r.course_id || r.id || r.code || '').trim();
-      if (!rawKey) return;
-      // Ưu tiên map sang id master; nếu không có thì dùng chính rawKey làm id
-      const idFromMaster = masterById[rawKey] ? rawKey : (masterIdByLabel[rawKey] || '');
-      const cid = idFromMaster || rawKey;
-      if (!allowedMap[cid]){
-        if (masterById[cid]) {
-          allowedMap[cid] = { ...masterById[cid] };
-        } else {
-          // tạo placeholder từ chính CLO
-          allowedMap[cid] = {
-            id: cid,
-            label: rawKey,
-            fullname: (r.fullname || '').trim(),
-            group: '',
-            tong: Number(r.tong || 0) || 0
-          };
-        }
-      }
-      // nếu CLO có fullname/tong cụ thể thì cập nhật (ưu tiên dữ liệu CLO)
-      if (r.fullname) allowedMap[cid].fullname = String(r.fullname).trim();
-      if (r.tong)     allowedMap[cid].tong = Number(r.tong) || allowedMap[cid].tong || 0;
+    if (DATA.cloRows.length > 0) {
+      DATA.cloRows.forEach(r=>{
+        const rawKey = (r.label || r.course_id || r.id || r.code || '').trim();
+        if (!rawKey) return;
 
-      label2id[rawKey] = cid; // cho phép map label → canonical id
-    });
+        // Ưu tiên map sang id master: id -> label -> fullname
+        let idFromMaster = '';
+        if (masterById[rawKey]) {
+          idFromMaster = rawKey;
+        } else if (masterIdByLabel[rawKey]) {
+          idFromMaster = masterIdByLabel[rawKey];
+        } else {
+          const full = (r.fullname || '').trim();
+          if (full) {
+            const found = Object.values(masterById)
+              .find(c => (c.fullname || '').trim() === full);
+            if (found) idFromMaster = found.id;
+          }
+        }
+
+        const cid = idFromMaster || rawKey;
+        if (!allowedMap[cid]){
+          if (masterById[cid]) {
+            allowedMap[cid] = { ...masterById[cid] };
+          } else {
+            // tạo placeholder từ dữ liệu CLO
+            allowedMap[cid] = {
+              id: cid,
+              label: rawKey,
+              fullname: (r.fullname || '').trim(),
+              group: '',
+              tong: Number(r.tong || 0) || 0
+            };
+          }
+        }
+        // CLO có fullname/tong → cập nhật
+        if (r.fullname) allowedMap[cid].fullname = String(r.fullname).trim();
+        if (r.tong)     allowedMap[cid].tong = Number(r.tong) || allowedMap[cid].tong || 0;
+
+        label2id[rawKey] = cid; // lưu map label → id
+      });
+    } else {
+      // Fallback: chưa có CLO thì dùng toàn bộ COURSE master
+      Object.values(masterById).forEach(c => { allowedMap[c.id] = { ...c }; });
+    }
 
     // 4) CLO_ITEMS active: chỉ giữ các CLO thuộc allowedMap
     CLO_ITEMS = [];
     DATA.cloRows.forEach(r=>{
       const rawKey = (r.label || r.course_id || r.id || r.code || '').trim();
-      const cid = label2id[rawKey];
+      const cid = label2id[rawKey] || ''; // khi có CLO rows, label2id sẽ có
       if (!cid || !allowedMap[cid]) return; // bỏ im lặng
       const clo = (r.clo || '').trim();
       if (!clo) return;
@@ -465,12 +514,21 @@
     DATA.pcRows.forEach(r=>{
       const plo = (r.plo || r['plo_label'] || '').trim();
       if (!plo || !PLO[plo]) return; // PLO không tồn tại -> bỏ
-      const rawCourse = (r.course || r['course_id'] || '').trim();
-      // rawCourse có thể là id hoặc label; canonical:
+
+      const rawCourse = (r.course || r['course_id'] || r.code || r.id || '').trim();
       let cid = '';
-      if (COURSES[rawCourse]) cid = rawCourse;
-      else if (COURSE_BY_LABEL[rawCourse]) cid = COURSE_BY_LABEL[rawCourse];
-      if (!cid) return; // không thuộc allowedMap -> bỏ im lặng
+      if (COURSES[rawCourse]) {
+        cid = rawCourse;                                    // id
+      } else if (COURSE_BY_LABEL[rawCourse]) {
+        cid = COURSE_BY_LABEL[rawCourse];                   // label
+      } else {
+        // NEW: thử map theo fullname đang có trong COURSES "tập cuối"
+        const hit = Object.values(COURSES)
+          .find(c => (c.fullname || '').trim() === rawCourse);
+        if (hit) cid = hit.id;
+      }
+      if (!cid) return; // không thuộc tập cuối → bỏ im lặng
+
       let level = (r.level || '').trim().toUpperCase();
       if (!level) level = 'I';
       EDGES_PC.push({ plo, courseId: cid, level });
@@ -486,7 +544,7 @@
     // Tóm tắt trạng thái — không báo lỗi miss
     const status = `PLO: ${Object.keys(PLO).length} • Course: ${Object.keys(COURSES).length} • Liên kết PLO–COURSE: ${EDGES_PC.length} • CLO: ${CLO_ITEMS.length}`;
     el('buildStatus') && (el('buildStatus').textContent = status);
-    // CLO status đơn giản (không báo "bỏ X")
+    // CLO status đơn giản
     el('cloStatus') && (el('cloStatus').textContent = `Đã nạp COURSE–CLO: ${DATA.cloRows.length} dòng (đang dùng: ${CLO_ITEMS.length} CLO).`);
   }
 

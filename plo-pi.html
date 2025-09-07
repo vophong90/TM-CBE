@@ -272,21 +272,6 @@
   <!-- Scripts -->
   <script src="./js/common.js"></script>
   <script src="./js/plo-pi.js"></script>
-  <script>
-    // Fit & Screenshot (tuỳ chọn)
-    document.getElementById('btnFit')?.addEventListener('click', ()=> {
-      if(window.cy) { window.cy.fit(); }
-    });
-    document.getElementById('btnScreenshot')?.addEventListener('click', ()=> {
-      if(window.cy){
-        const png64 = window.cy.png({bg:'white', full:true, scale:2});
-        const a = document.createElement('a');
-        a.href = png64;
-        a.download = 'PLO-PI-graph.png';
-        a.click();
-      }
-    });
-    window.__setActive && window.__setActive("plo-pi");
-  </script>
+  
 </body>
 </html>

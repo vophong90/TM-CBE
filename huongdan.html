@@ -411,14 +411,188 @@
         <h2 class="text-xl font-semibold">4. Dữ liệu mẫu</h2>
         <span class="badge bg-brand-50 text-brand-700">Samples</span>
       </div>
-      <p class="text-gray-700 mt-2">
-        (Placeholder) Sẽ bổ sung link tải các file mẫu: PLO.csv, COURSE.csv, CLO.csv, COURSE–CLO.csv, PLO–PI.csv…
-      </p>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <a class="underline text-brand-700" href="./samples/PLO.csv" download>Tải PLO.csv</a>
-        <a class="underline text-brand-700" href="./samples/COURSE.csv" download>Tải COURSE.csv</a>
-        <a class="underline text-brand-700" href="./samples/CLO.csv" download>Tải CLO.csv</a>
+      <div class="mt-3 space-y-4 text-gray-800">
+  <p class="text-gray-700">
+    Các tệp .csv dưới đây đã được đặt sẵn trong thư mục <code>/assets</code>. Nhấn để tải về.
+    <span class="text-xs text-gray-500">Lưu ý: GitHub Pages phân biệt chữ HOA/thường và khoảng trắng trong tên tệp. Các liên kết dưới đây đã mã hoá khoảng trắng nếu có.</span>
+  </p>
+
+  <ul role="list" class="grid gap-4 md:grid-cols-2">
+    <!-- PI.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">PI.csv</h3>
+          <p class="text-sm mt-1">
+            Các tiêu chuẩn và tiêu chí trong chuẩn năng lực bác sĩ YHCT (QĐ 3159/QĐ-BYT, 23/11/2022).
+          </p>
+        </div>
+        <a href="./assets/PI.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
       </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>label</code>: nhãn các tiêu chí</li>
+          <li><code>content</code>: nội dung tiêu chí</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- PLO.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">PLO.csv</h3>
+          <p class="text-sm mt-1">
+            Chuẩn đầu ra chương trình đào tạo Bác sĩ YHCT (UMP, năm 2025).
+          </p>
+        </div>
+        <a href="./assets/PLO.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>label</code>: nhãn các chuẩn đầu ra</li>
+          <li><code>content</code>: nội dung chuẩn đầu ra</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- PLO-PI.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">PLO-PI.csv</h3>
+          <p class="text-sm mt-1">Liên kết giữa PLO và PI.</p>
+        </div>
+        <a href="./assets/PLO-PI.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>plo</code>: nhãn các chuẩn đầu ra</li>
+          <li><code>pi</code>: nhãn các tiêu chí trong chuẩn năng lực</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- COURSE-INFO.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">COURSE-INFO.csv</h3>
+          <p class="text-sm mt-1">
+            Danh mục học phần trong khung CTĐT Bác sĩ YHCT (UMP 2025).
+          </p>
+        </div>
+        <a href="./assets/COURSE-INFO.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>id</code>: mã học phần</li>
+          <li><code>label</code>: nhãn học phần</li>
+          <li><code>fullname</code>: tên đầy đủ</li>
+          <li><code>tong</code>: tổng tín chỉ</li>
+          <li><code>lt</code>: tín chỉ lý thuyết</li>
+          <li><code>th</code>: tín chỉ thực hành</li>
+          <li><code>khoi</code>: nhóm kiến thức (Tây y/Đông y/Kết hợp)</li>
+          <li><code>group</code>: khối kiến thức (Đại cương/Cơ sở ngành/Ngành/Định hướng chuyên ngành)</li>
+          <li><code>type</code>: vai trò (Ethics/Health Promotion/Clinical Methods/Intership)</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- PLO-COURSE.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">PLO-COURSE.csv</h3>
+          <p class="text-sm mt-1">Liên kết PLO ↔ Học phần.</p>
+        </div>
+        <a href="./assets/PLO-COURSE.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>plo</code>: mã chuẩn đầu ra</li>
+          <li><code>fullname</code>: tên đầy đủ học phần</li>
+          <li><code>course</code>: mã học phần</li>
+          <li><code>label</code>: nhãn học phần</li>
+          <li><code>level</code>: mức liên kết I/R/M/A</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- COURSE-CLO.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">COURSE-CLO.csv</h3>
+          <p class="text-sm mt-1">Liên kết Học phần ↔ CLO và ánh xạ sang PLO.</p>
+        </div>
+        <a href="./assets/Course-CLO.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>id</code>, <code>label</code>, <code>fullname</code>, <code>tong</code>, <code>lt</code>, <code>th</code>, <code>khoi</code>, <code>group</code>, <code>type</code></li>
+          <li><code>clo</code>: mã chuẩn đầu ra học phần</li>
+          <li><code>content</code>: nội dung CLO</li>
+          <li><code>plo</code>: chuẩn đầu ra CTĐT được CLO đóng góp</li>
+          <li><code>level</code>: mức liên kết CLO–PLO theo I/R/M/A</li>
+        </ul>
+      </details>
+    </li>
+
+    <!-- PHAN BO KHUNG.csv -->
+    <li class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm md:col-span-2">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="font-semibold">PHAN BO KHUNG.csv</h3>
+          <p class="text-sm mt-1">Phân bố học phần vào 12 học kỳ.</p>
+        </div>
+        <a href="./assets/PHAN%20BO%20KHUNG.csv" download
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Tải về
+          <span aria-hidden>↓</span>
+        </a>
+      </div>
+      <details class="mt-3 group">
+        <summary class="cursor-pointer text-sm text-gray-700 hover:text-gray-900">Cấu trúc cột</summary>
+        <ul class="list-disc pl-5 text-sm mt-2">
+          <li><code>label</code>, <code>fullname</code>, <code>semester</code></li>
+          <li><code>tong</code>, <code>lt</code>, <code>th</code></li>
+          <li><code>khoi</code>, <code>group</code>, <code>type</code></li>
+        </ul>
+      </details>
+    </li>
+  </ul>
+</div>
     </section>
 
     <!-- 5. Tài liệu tham khảo -->

@@ -142,69 +142,76 @@
   }
 
   // =================== BUILD GRAPH ELEMENTS ===================
-  function buildElementsByFilters(){
-    const fP = el('filter-plo')?.value || '';
-    const fC = el('filter-course')?.value || '';
-    const fL = el('filter-clo')?.value || '';
+function buildElementsByFilters(){
+  const fP = el('filter-plo')?.value || '';
+  const fC = el('filter-course')?.value || '';
+  const fL = el('filter-clo')?.value || '';
 
-    // Lập map CLO theo courseId
-    const cloMap = {};
-    CLO_ITEMS.forEach(it => {
-      (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
-    });
+  // Lập map CLO theo courseId
+  const cloMap = {};
+  CLO_ITEMS.forEach(it => {
+    (cloMap[it.courseId] = cloMap[it.courseId] || []).push(it);
+  });
 
-    const elements = [];
-    const nodeSet = new Set();
-    const edgeSet = new Set();
+  const elements = [];
+  const nodeSet = new Set();
+  const edgeSet = new Set();
 
-    function addNode(id, data){
-      if (nodeSet.has(id)) return;
-      nodeSet.add(id);
-      elements.push({ data: { id, ...data } });
-    }
-    function addEdge(id, data){
-      if (edgeSet.has(id)) return;
-      edgeSet.add(id);
-      elements.push({ data: { id, ...data } });
-    }
-
-    // Với mỗi cạnh PLO–COURSE thoả bộ lọc
-    EDGES_PC.forEach(e=>{
-      if (fP && e.plo !== fP) return;
-      if (fC && e.courseId !== fC) return;
-
-      const course = COURSES[e.courseId];
-      if (!course) return;
-
-      // Add nodes
-      addNode(`PLO::${e.plo}`, {
-        kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
-      });
-      addNode(`COURSE::${course.id}`, {
-        kind: 'COURSE', id: course.id, label: course.label || course.id,
-        fullname: course.fullname || '', tong: course.tong || 0
-      });
-
-      // Add edge PLO -> COURSE
-      addEdge(`E_PC::${e.plo}__${course.id}`, {
-        kind: 'PC', source: `PLO::${e.plo}`, target: `COURSE::${course.id}`, level: e.level || 'I'
-      });
-
-      // Add CLOs for this course (filter by CLO nếu có)
-      const list = (cloMap[course.id] || []);
-      list.forEach(ci=>{
-        if (fL && ci.clo !== fL) return;
-        addNode(`CLO::${course.id}::${ci.clo}`, { kind:'CLO', clo: ci.clo, content: ci.content || '' });
-        addEdge(`E_CC::${course.id}__${ci.clo}`, {
-          kind: 'CC', source: `COURSE::${course.id}`, target: `CLO::${course.id}::${ci.clo}`
-        });
-      });
-    });
-
-    return elements;
+  function addNode(id, data){
+    if (nodeSet.has(id)) return;
+    nodeSet.add(id);
+    elements.push({ data: { id, ...data } });
+  }
+  function addEdge(id, data){
+    if (edgeSet.has(id)) return;
+    edgeSet.add(id);
+    elements.push({ data: { id, ...data } });
   }
 
-  // =================== CYTOSCAPE ===================
+  // Với mỗi cạnh PLO–COURSE thoả bộ lọc
+  EDGES_PC.forEach(e=>{
+    if (fP && e.plo !== fP) return;
+    if (fC && e.courseId !== fC) return;
+
+    const course = COURSES[e.courseId];
+    if (!course) return;
+
+    // Add nodes
+    addNode(`PLO::${e.plo}`, {
+      kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
+    });
+    addNode(`COURSE::${course.id}`, {
+      kind: 'COURSE', id: course.id, label: course.label || course.id,
+      fullname: course.fullname || '', tong: course.tong || 0
+    });
+
+    // Add edge PLO -> COURSE (đặt sẵn màu vào data để stylesheet lấy data(color))
+    const lvl = e.level || 'I';
+    addEdge(`E_PC::${e.plo}__${course.id}`, {
+      kind: 'PC',
+      source: `PLO::${e.plo}`,
+      target: `COURSE::${course.id}`,
+      level: lvl,
+      color: colorForLevel(lvl)
+    });
+
+    // Add CLOs for this course (filter by CLO nếu có)
+    const list = cloMap[course.id] || [];
+    list.forEach(ci=>{
+      if (fL && ci.clo !== fL) return;
+      addNode(`CLO::${course.id}::${ci.clo}`, { kind:'CLO', clo: ci.clo, content: ci.content || '' });
+      addEdge(`E_CC::${course.id}__${ci.clo}`, {
+        kind: 'CC',
+        source: `COURSE::${course.id}`,
+        target: `CLO::${course.id}::${ci.clo}`,
+        color: '#94A3B8'
+      });
+    });
+  });
+
+  return elements;
+}
+
   // =================== CYTOSCAPE ===================
 function createCy(){
   const container = el('cy');
@@ -215,48 +222,17 @@ function createCy(){
 
   const elements = buildElementsByFilters();
 
-  // FIX: tách node/edge rồi mới lọc edge mồ côi (tránh lọc nhầm toàn bộ)
-  const nodeIds = new Set();
-  const nodes = [];
-  const edges = [];
-  for (const el of elements) {
-    const d = el?.data || {};
-    if (typeof d.source === 'string' && typeof d.target === 'string') {
-      edges.push(el);                    // edge
-    } else if (d.id) {
-      nodes.push(el); nodeIds.add(d.id); // node
-    }
-  }
-  const safeElements = [...nodes];
-  const badEdges = [];
-  for (const e of edges) {
-    const s = e.data.source, t = e.data.target;
-    if (nodeIds.has(s) && nodeIds.has(t)) safeElements.push(e);
-    else badEdges.push(e.data.id || JSON.stringify(e.data));
-  }
-  if (badEdges.length) {
-    console.warn('[GRAPH] bỏ edge mồ côi:', badEdges.slice(0,10), '... tổng:', badEdges.length);
-  }
-
-  // log chẩn đoán
+  // Log chẩn đoán
+  const nodeCount = elements.filter(e => e.data && !e.data.source && !e.data.target).length;
+  const edgeCount = elements.length - nodeCount;
   console.log('[GRAPH]', {
-    elements: safeElements.length,
-    nodes: nodes.length,
-    edges: edges.length,
-    keptEdges: safeElements.length - nodes.length,
-    edgesPC: EDGES_PC.length,
-    cloItems: CLO_ITEMS.length,
-    courses: Object.keys(COURSES).length,
-    filters: {
-      plo: el('filter-plo')?.value || '',
-      course: el('filter-course')?.value || '',
-      clo: el('filter-clo')?.value || ''
-    }
+    elements: elements.length, nodes: nodeCount, edges: edgeCount,
+    edgesPC: EDGES_PC.length, cloItems: CLO_ITEMS.length, courses: Object.keys(COURSES).length
   });
 
   cy = cytoscape({
     container,
-    elements: safeElements,
+    elements,
     style: [
       // PLO
       { selector: 'node[kind="PLO"]', style: {
@@ -264,8 +240,7 @@ function createCy(){
         'background-color': '#CFE8FF',
         'border-color': '#0E7BD0', 'border-width': 1.2,
         'label': 'data(label)', 'font-size': 10, 'color': '#0B253A',
-        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 160,
-        'z-index-compare': 'manual', 'z-index': 1
+        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 160
       }},
       // COURSE
       { selector: 'node[kind="COURSE"]', style: {
@@ -273,30 +248,30 @@ function createCy(){
         'background-color': '#FFE7A8',
         'border-color': '#B7791F', 'border-width': 1.2,
         'label': 'data(label)', 'font-size': 10, 'color': '#3B2F0A',
-        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 180,
-        'z-index-compare': 'manual', 'z-index': 1
+        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 180
       }},
       // CLO
       { selector: 'node[kind="CLO"]', style: {
         'shape': 'ellipse',
         'background-color': '#E5E7EB',
         'border-color': '#6B7280', 'border-width': 1,
-        'label': 'data(clo)', 'font-size': 10, 'color': '#111827',
-        'z-index-compare': 'manual', 'z-index': 1
+        'label': 'data(clo)', 'font-size': 10, 'color': '#111827'
       }},
-      // Edge PLO–COURSE
+      // Edge PLO–COURSE (lấy màu từ data(color))
       { selector: 'edge[kind="PC"]', style: {
         'width': 3, 'curve-style': 'bezier',
-        'line-color': ele => colorForLevel(ele.data('level')),
-        'target-arrow-color': ele => colorForLevel(ele.data('level')),
+        'line-color': 'data(color)',
+        'target-arrow-color': 'data(color)',
         'target-arrow-shape': 'triangle',
-        'line-opacity': 1, 'z-index-compare': 'manual', 'z-index': 0
+        'line-opacity': 1
       }},
       // Edge COURSE–CLO
       { selector: 'edge[kind="CC"]', style: {
         'width': 2, 'curve-style': 'bezier',
-        'line-color': '#94A3B8', 'target-arrow-color': '#94A3B8', 'target-arrow-shape': 'triangle',
-        'line-opacity': 1, 'z-index-compare': 'manual', 'z-index': 0
+        'line-color': 'data(color)',
+        'target-arrow-color': 'data(color)',
+        'target-arrow-shape': 'triangle',
+        'line-opacity': 1
       }},
       { selector: '.dim', style: { 'opacity': 0.12 } },
       { selector: '.hl',  style: { 'border-width': 2, 'background-blacken': -0.1 } }
@@ -304,7 +279,7 @@ function createCy(){
     layout: { name: 'cose', animate: true, nodeRepulsion: 14000, idealEdgeLength: 120, padding: 30 }
   });
 
-  window.cy = cy; // expose
+  window.cy = cy;
   bindCyEvents();
 }
 

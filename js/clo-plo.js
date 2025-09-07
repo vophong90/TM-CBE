@@ -176,7 +176,7 @@
     const course = COURSES[e.courseId];
     if (!course) return;
 
-    // nodes
+    // Nodes
     addNode(`PLO::${e.plo}`, {
       kind: 'PLO', label: e.plo, content: PLO[e.plo] || ''
     });
@@ -185,7 +185,7 @@
       fullname: course.fullname || '', tong: course.tong || 0
     });
 
-    // edge PLO -> COURSE (đặt sẵn màu vào data)
+    // Edge PLO -> COURSE (gán màu ngay trong data)
     const lvl = (e.level || 'I').toUpperCase();
     addEdge(`E_PC::${e.plo}__${course.id}`, {
       kind: 'PC',
@@ -195,7 +195,7 @@
       color: colorForLevel(lvl)
     });
 
-    // CLO của course này
+    // Edges COURSE -> CLO
     const list = cloMap[course.id] || [];
     list.forEach(ci=>{
       if (fL && ci.clo !== fL) return;
@@ -206,7 +206,7 @@
         kind: 'CC',
         source: `COURSE::${course.id}`,
         target: `CLO::${course.id}::${ci.clo}`,
-        color: '#94A3B8'
+        color: '#94A3B8' // cố định
       });
     });
   });
@@ -224,47 +224,65 @@
 
   const elements = buildElementsByFilters();
 
-  // Chẩn đoán nhẹ (không lọc)
+  // Chẩn đoán nhẹ (không lọc gì thêm)
   const nodesCount = elements.filter(el => el.data && !('source' in el.data) && !('target' in el.data)).length;
   const edgesCount = elements.length - nodesCount;
   console.log('[GRAPH]', {
-    elements: elements.length, nodes: nodesCount, edges: edgesCount,
-    edgesPC: EDGES_PC.length, cloItems: CLO_ITEMS.length, courses: Object.keys(COURSES).length,
-    filters: { plo: el('filter-plo')?.value || '', course: el('filter-course')?.value || '', clo: el('filter-clo')?.value || '' }
+    elements: elements.length,
+    nodes: nodesCount,
+    edges: edgesCount,
+    edgesPC: EDGES_PC.length,
+    cloItems: CLO_ITEMS.length,
+    courses: Object.keys(COURSES).length,
+    filters: {
+      plo: el('filter-plo')?.value || '',
+      course: el('filter-course')?.value || '',
+      clo: el('filter-clo')?.value || ''
+    }
   });
 
   cy = cytoscape({
     container,
-    elements, // <— giữ nguyên, KHÔNG lọc
+    elements, // KHÔNG lọc orphan nữa
     style: [
+      // PLO
       { selector: 'node[kind="PLO"]', style: {
-        'shape':'round-rectangle','background-color':'#CFE8FF',
-        'border-color':'#0E7BD0','border-width':1.2,
-        'label':'data(label)','font-size':10,'color':'#0B253A',
-        'text-valign':'center','text-wrap':'wrap','text-max-width':160
+        'shape': 'round-rectangle',
+        'background-color': '#CFE8FF',
+        'border-color': '#0E7BD0', 'border-width': 1.2,
+        'label': 'data(label)', 'font-size': 10, 'color': '#0B253A',
+        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 160
       }},
+      // COURSE
       { selector: 'node[kind="COURSE"]', style: {
-        'shape':'round-rectangle','background-color':'#FFE7A8',
-        'border-color':'#B7791F','border-width':1.2,
-        'label':'data(label)','font-size':10,'color':'#3B2F0A',
-        'text-valign':'center','text-wrap':'wrap','text-max-width':180
+        'shape': 'round-rectangle',
+        'background-color': '#FFE7A8',
+        'border-color': '#B7791F', 'border-width': 1.2,
+        'label': 'data(label)', 'font-size': 10, 'color': '#3B2F0A',
+        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 180
       }},
+      // CLO
       { selector: 'node[kind="CLO"]', style: {
-        'shape':'ellipse','background-color':'#E5E7EB',
-        'border-color':'#6B7280','border-width':1,
-        'label':'data(clo)','font-size':10,'color':'#111827'
+        'shape': 'ellipse',
+        'background-color': '#E5E7EB',
+        'border-color': '#6B7280', 'border-width': 1,
+        'label': 'data(clo)', 'font-size': 10, 'color': '#111827'
       }},
-      // Edge PLO–COURSE: lấy màu từ data(color)
+      // Edge PLO–COURSE (lấy màu từ data(color))
       { selector: 'edge[kind="PC"]', style: {
-        'width':3,'curve-style':'bezier',
-        'line-color':'data(color)','target-arrow-color':'data(color)',
-        'target-arrow-shape':'triangle','line-opacity':1
+        'width': 3, 'curve-style': 'bezier',
+        'line-color': 'data(color)',
+        'target-arrow-color': 'data(color)',
+        'target-arrow-shape': 'triangle',
+        'line-opacity': 1
       }},
       // Edge COURSE–CLO
       { selector: 'edge[kind="CC"]', style: {
-        'width':2,'curve-style':'bezier',
-        'line-color':'data(color)','target-arrow-color':'data(color)',
-        'target-arrow-shape':'triangle','line-opacity':1
+        'width': 2, 'curve-style': 'bezier',
+        'line-color': 'data(color)',
+        'target-arrow-color': 'data(color)',
+        'target-arrow-shape': 'triangle',
+        'line-opacity': 1
       }},
       { selector: '.dim', style: { 'opacity': 0.12 } },
       { selector: '.hl',  style: { 'border-width': 2, 'background-blacken': -0.1 } }

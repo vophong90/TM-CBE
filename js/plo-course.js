@@ -316,17 +316,21 @@ async function bootFromCsvInputs() {
   });
 
   // COURSE
-  HP_INFO = {};
-  _courseRows.forEach(r => {
-    const id = (r.id || r.ID || '').trim();
-    if (!id) return;
-    HP_INFO[id] = {
-      label:    (r.label || r.LABEL || '').trim(),
-      fullname: (r.fullname || r.FULLNAME || '').trim(),
-      group:    (r.group || r.GROUP || '').trim(),
-      credit:   (r.credit || r.CREDIT || '').toString().trim() || undefined
-    };
-  });
+   HP_INFO = {};
+_courseRows.forEach(r => {
+  const id = (r.id || r.ID || '').trim();
+  if (!id) return;
+  // lấy credit từ cột credit hoặc tong
+  let credit = (r.credit || r.CREDIT || r.tong || r.TONG || '').toString().trim();
+  if (!credit) credit = undefined;   // nếu rỗng thì để undefined
+
+  HP_INFO[id] = {
+    label:    (r.label || r.LABEL || '').trim(),
+    fullname: (r.fullname || r.FULLNAME || '').trim(),
+    group:    (r.group || r.GROUP || '').trim(),
+    credit
+  };
+});
 
   // Create graph (nodes only, chưa có edges)
   createCy(buildElements());

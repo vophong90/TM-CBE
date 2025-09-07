@@ -1,0 +1,260 @@
+﻿plo,fullname,course,label,level
+PLO1,Triết học Mác-Lênin,C001,Mac,I
+PLO8,Triết học Mác-Lênin,C001,Mac,I
+PLO1,Chủ nghĩa xã hội khoa học,C003,CNXHKH,I
+PLO8,Chủ nghĩa xã hội khoa học,C003,CNXHKH,I
+PLO5,Hóa đại cương và hữu cơ,C009,Hóa,R
+PLO5,Vật lý – Lý sinh,C008,VLLS,R
+PLO8,Vật lý – Lý sinh,C008,VLLS,R
+PLO4,Giải phẫu I,C016,GPI,I
+PLO5,Giải phẫu I,C016,GPI,I
+PLO7,Giải phẫu I,C016,GPI,I
+PLO4,Thực hành Giải phẫu I,C017,THGP,R
+PLO5,Thực hành Giải phẫu I,C017,THGP,I
+PLO7,Thực hành Giải phẫu I,C017,THGP,I
+PLO1,Kinh tế chính trị Mác-Lênin,C002,KTCT,I
+PLO8,Kinh tế chính trị Mác-Lênin,C002,KTCT,I
+PLO1,Pháp luật,C006,PL,M
+PLO2,Xác suất Thống kê y học,C007,XSTK,I
+PLO4,Sinh học và di truyền,C010,Sinh,M
+PLO4,Giải phẫu II,C018,GPII,I
+PLO5,Giải phẫu II,C018,GPII,I
+PLO7,Giải phẫu II,C018,GPII,I
+PLO4,Thực hành Giải phẫu II,C019,THGPII,R
+PLO5,Thực hành Giải phẫu II,C019,THGPII,I
+PLO7,Thực hành Giải phẫu II,C019,THGPII,I
+PLO4,Y dịch,C034,Dịch,I
+PLO4,Sinh lý I,C024,SLI,I
+PLO5,Sinh lý I,C024,SLI,I
+PLO3,Tin học,C011,Tin,M
+PLO3,Tiếng Anh chuyên ngành 1,,,R
+PLO3,Tiếng Hoa chuyên ngành 1,,,R
+PLO4,Mô phôi,C020,Mô,I
+PLO5,Mô phôi,C020,Mô,I
+PLO6,Vi sinh,C022,VS,I
+PLO6,Ký sinh trùng,C023,KS,I
+PLO4,Thực vật dược,C032,TVD,R
+PLO4,Thực hành Thực vật dược,C033,THTVD,R
+PLO1,Đạo đức y học,C012,YĐ,R
+PLO8,Đạo đức y học,C012,YĐ,R
+PLO4,Sinh lý II,C025,SLII,I
+PLO5,Sinh lý II,C025,SLII,I
+PLO4,Thực hành Sinh lý,C026,THSL,R
+PLO5,Thực hành Sinh lý,C026,THSL,R
+PLO1,Tư tưởng Hồ Chí Minh,C004,TTHCM,I
+PLO1,Lịch sử Đảng Cộng sản Việt Nam,C005,LSĐ,I
+PLO3,Tiếng Anh chuyên ngành 2,,,R
+PLO3,Tiếng Hoa chuyên ngành 2,,,R
+PLO6,Hoá sinh lâm sàng,C021,HSLS,R
+PLO4,Giải phẫu bệnh,C027,GPB,R
+PLO5,Giải phẫu bệnh,C027,GPB,I
+PLO4,Sinh lý bệnh – Miễn dịch,C028,SLB,M
+PLO5,Sinh lý bệnh – Miễn dịch,C028,SLB,I
+PLO4,Lý luận cơ bản YHCT,C031,LLCB,R
+PLO5,Lý luận cơ bản YHCT,C031,LLCB,R
+PLO6,Lý luận cơ bản YHCT,C031,LLCB,I
+PLO7,Điều dưỡng cơ bản,C037,ĐDCB,R
+PLO8,Điều dưỡng cơ bản,C037,ĐDCB,I
+PLO7,Thực hành Điều dưỡng cơ bản,C038,THĐDCB,R
+PLO6,Ngoại YHHĐ,C047,Ngoại TY,R
+PLO7,Ngoại YHHĐ,C047,Ngoại TY,R
+PLO8,Ngoại YHHĐ,C047,Ngoại TY,R
+PLO6,Thực hành Ngoại YHHĐ,C048,TH Ngoại TY,R
+PLO7,Thực hành Ngoại YHHĐ,C048,TH Ngoại TY,R
+PLO6,Kinh mạch học,C084,Kinh mạch,I
+PLO8,Kinh mạch học,C084,Kinh mạch,I
+PLO6,Thực hành Kinh mạch học,C085,TH Kinh mạch,I
+PLO7,Thực hành Kinh mạch học,C085,TH Kinh mạch,I
+PLO8,Thực hành Kinh mạch học,C085,TH Kinh mạch,R
+PLO1,Tâm lý y học,C013,Tâm lý,R
+PLO8,Tâm lý y học,C013,Tâm lý,R
+PLO6,Chẩn đoán hình ảnh,C029,CDHA,R
+PLO6,Thực hành Chẩn đoán hình ảnh,C030,THCDHA,R
+PLO6,Kỹ năng khám lâm sàng YHHĐ,C045,Kỹ năng LS,R
+PLO8,Kỹ năng khám lâm sàng YHHĐ,C045,Kỹ năng LS,R
+PLO6,Nội YHHĐ,C043,Nội,R
+PLO7,Nội YHHĐ,C043,Nội,R
+PLO6,Thực hành Nội YHHĐ,C044,TH Nội,R
+PLO7,Thực hành Nội YHHĐ,C044,TH Nội,R
+PLO8,Thực hành Nội YHHĐ,C044,TH Nội,R
+PLO4,Bệnh học YHCT,C064,BH YHCT,M
+PLO5,Bệnh học YHCT,C064,BH YHCT,R
+PLO6,Bệnh học YHCT,C064,BH YHCT,R
+PLO7,Phương tễ I,C100,PT 1,R
+PLO7,Phương tễ II,C101,PT 2,R
+PLO7,Dược lý,C035,DL,R
+PLO7,Thực hành Dược lý,C036,THDL,R
+PLO1,Y học gia đình,C041,YHGĐ,R
+PLO8,Y học gia đình,C041,YHGĐ,R
+PLO1,Thực hành Y học gia đình,C042,THYHGĐ,R
+PLO2,Thực hành Y học gia đình,C042,THYHGĐ,R
+PLO6,Da liễu YHHĐ,C055,Da liễu,R
+PLO7,Da liễu YHHĐ,C055,Da liễu,R
+PLO6,Thực hành Da liễu YHHĐ,C056,TH Da,R
+PLO7,Thực hành Da liễu YHHĐ,C056,TH Da,R
+PLO6,Chẩn đoán YHCT,C062,CĐ YHCT,R
+PLO8,Chẩn đoán YHCT,C062,CĐ YHCT,M
+PLO6,Thực hành Chẩn đoán YHCT,C063,TH CĐ YHCT,R
+PLO8,Thực hành Chẩn đoán YHCT,C063,TH CĐ YHCT,M
+PLO7,Thực hành Phương tễ,C102,TH PT,R
+PLO4,Thuốc YHCT,C082,Thuốc YHCT,R
+PLO7,Thuốc YHCT,C082,Thuốc YHCT,R
+PLO4,Thực hành Thuốc YHCT,C083,TH Thuốc YHCT,R
+PLO7,Thực hành Thuốc YHCT,C083,TH Thuốc YHCT,R
+PLO6,Phụ sản YHHĐ,C049,Phụ TY,R
+PLO7,Phụ sản YHHĐ,C049,Phụ TY,R
+PLO6,Thực hành Phụ sản YHHĐ,C050,TH Phụ TY,R
+PLO7,Thực hành Phụ sản YHHĐ,C050,TH Phụ TY,R
+PLO8,Thực hành Phụ sản YHHĐ,C050,TH Phụ TY,R
+PLO6,Nhi khoa YHHĐ,C051,Nhi TY,R
+PLO7,Nhi khoa YHHĐ,C051,Nhi TY,R
+PLO6,Thực hành Nhi khoa YHHĐ,C052,TH Nhi TY,R
+PLO7,Thực hành Nhi khoa YHHĐ,C052,TH Nhi TY,R
+PLO8,Thực hành Nhi khoa YHHĐ,C052,TH Nhi TY,R
+PLO7,Dưỡng sinh,C094,Dưỡng sinh,R
+PLO8,Dưỡng sinh,C094,Dưỡng sinh,R
+PLO7,Thực hành Dưỡng sinh,C095,TH DS,M
+PLO8,Thực hành Dưỡng sinh,C095,TH DS,M
+PLO4,Châm cứu 1,C086,Châm 1,R
+PLO7,Châm cứu 1,C086,Châm 1,R
+PLO8,Châm cứu 1,C086,Châm 1,R
+PLO7,Thực hành Châm cứu 1,C087,TH Châm 1,R
+PLO8,Thực hành Châm cứu 1,C087,TH Châm 1,R
+PLO1,Dự án nghiên cứu y dược học cổ truyền,C114,Dự án,M
+PLO2,Dự án nghiên cứu y dược học cổ truyền,C114,Dự án,M
+PLO3,Dự án nghiên cứu y dược học cổ truyền,C114,Dự án,M
+PLO6,Ung thư,C060,UT,R
+PLO7,Ung thư,C060,UT,R
+PLO6,Thực hành Ung thư,C061,THUT,R
+PLO7,Thực hành Ung thư,C061,THUT,R
+PLO6,Truyền nhiễm,C067,Nhiễm,R
+PLO7,Truyền nhiễm,C067,Nhiễm,R
+PLO6,Thực hành Truyền nhiễm,C068,TH Nhiễm,R
+PLO7,Thực hành Truyền nhiễm,C068,TH Nhiễm,R
+PLO7,Xoa bóp – Bấm huyệt,C096,XBBH,R
+PLO8,Xoa bóp – Bấm huyệt,C096,XBBH,R
+PLO7,Thực hành Xoa bóp – Bấm huyệt,C097,TH XBBH,M
+PLO8,Thực hành Xoa bóp – Bấm huyệt,C097,TH XBBH,M
+PLO8,Thực dưỡng,C090,Thực dưỡng,R
+PLO7,Dược lâm sàng kết hợp,C098,Dược LS,R
+PLO3,Thực hành Dược lâm sàng kết hợp,C099,TH Dược LS,R
+PLO7,Thực hành Dược lâm sàng kết hợp,C099,TH Dược LS,R
+PLO2,Tư duy khởi nghiệp và định hướng nghề nghiệp,,,M
+PLO6,Nội tiết YHHĐ,C046,Nội tiết,R
+PLO7,Nội tiết YHHĐ,C046,Nội tiết,R
+PLO6,Cấp cứu ban đầu,C039,CCBĐ,R
+PLO8,Cấp cứu ban đầu,C039,CCBĐ,R
+PLO6,Thực hành Cấp cứu ban đầu,C040,THCCBĐ,R
+PLO8,Thực hành Cấp cứu ban đầu,C040,THCCBĐ,M
+PLO6,Tâm thần,C053,Tâm thần,R
+PLO7,Tâm thần,C053,Tâm thần,R
+PLO6,Lao,C054,Lao,R
+PLO7,Lao,C054,Lao,R
+PLO4,Châm cứu 2,C088,Châm 2,R
+PLO7,Châm cứu 2,C088,Châm 2,R
+PLO8,Châm cứu 2,C088,Châm 2,M
+PLO7,Thực hành Châm cứu 2,C089,TH Châm 2,M
+PLO8,Thực hành Châm cứu 2,C089,TH Châm 2,M
+PLO4,Tác phẩm kinh điển YHCT,C071,TPKĐ,M
+PLO6,Tác phẩm kinh điển YHCT,C071,TPKĐ,I
+PLO6,Nhi khoa YHCT,C072,Nhi YHCT,R
+PLO7,Nhi khoa YHCT,C072,Nhi YHCT,R
+PLO6,Thực hành Nhi khoa YHCT,C073,TH Nhi YHCT,M
+PLO7,Thực hành Nhi khoa YHCT,C073,TH Nhi YHCT,M
+PLO8,Thực hành Nhi khoa YHCT,C073,TH Nhi YHCT,R
+PLO6,Ngoại YHCT,C076,Ngoại YHCT,R
+PLO7,Ngoại YHCT,C076,Ngoại YHCT,R
+PLO8,Ngoại YHCT,C076,Ngoại YHCT,R
+PLO6,Thực hành Ngoại YHCT,C077,TH Ngoại YHCT,M
+PLO7,Thực hành Ngoại YHCT,C077,TH Ngoại YHCT,M
+PLO8,Thực hành Ngoại YHCT,C077,TH Ngoại YHCT,M
+PLO6,Ngũ quan,C078,Ngũ quan,R
+PLO7,Ngũ quan,C078,Ngũ quan,R
+PLO6,Thực hành Ngũ quan,C079,TH NQ,M
+PLO7,Thực hành Ngũ quan,C079,TH NQ,M
+PLO2,Y học chứng cứ,C057,YHCC,R
+PLO4,Y học chứng cứ,C057,YHCC,M
+PLO6,Lão khoa YHCT,C065,Lão YHCT,R
+PLO7,Lão khoa YHCT,C065,Lão YHCT,R
+PLO6,TH Lão khoa YHCT,C066,TH Lão YHCT,M
+PLO7,TH Lão khoa YHCT,C066,TH Lão YHCT,M
+PLO8,TH Lão khoa YHCT,C066,TH Lão YHCT,M
+PLO6,Ôn bệnh,C093,Ôn bệnh,R
+PLO7,Ôn bệnh,C093,Ôn bệnh,R
+PLO7,Phục hồi chức năng,C058,PHCN,R
+PLO7,Thực hành Phục hồi chức năng,C059,THPHCN,R
+PLO7,Chế biến dược liệu,C080,CBDL,R
+PLO8,Chế biến dược liệu,C080,CBDL,R
+PLO7,Thực hành Chế biến dược liệu,C081,TH CBDL,R
+PLO8,Thực hành Chế biến dược liệu,C081,TH CBDL,R
+PLO6,Da liễu YHCT,C074,DL YHCT,R
+PLO7,Da liễu YHCT,C074,DL YHCT,R
+PLO6,Thực hành Da liễu YHCT,C075,TH DL YHCT,M
+PLO7,Thực hành Da liễu YHCT,C075,TH DL YHCT,M
+PLO2,Quản lý y tế,C115,QLYT,M
+PLO6,Phụ sản YHCT,C069,Phụ YHCT,R
+PLO7,Phụ sản YHCT,C069,Phụ YHCT,R
+PLO6,Thực hành Phụ sản YHCT,C070,TH Phụ YHCT,M
+PLO7,Thực hành Phụ sản YHCT,C070,TH Phụ YHCT,M
+PLO8,Thực hành Phụ sản YHCT,C070,TH Phụ YHCT,R
+PLO6,Nội khoa kết hợp Tim mạch-Hô hấp,,,R
+PLO7,Nội khoa kết hợp Tim mạch-Hô hấp,,,R
+PLO6,Thực hành Nội khoa kết hợp Tim mạch-Hô hấp,,,M
+PLO7,Thực hành Nội khoa kết hợp Tim mạch-Hô hấp,,,M
+PLO8,Thực hành Nội khoa kết hợp Tim mạch-Hô hấp,,,M
+PLO6,Nội khoa kết hợp Cơ xương khớp,,,R
+PLO7,Nội khoa kết hợp Cơ xương khớp,,,R
+PLO6,Thực hành Nội khoa kết hợp Cơ xương khớp,,,M
+PLO7,Thực hành Nội khoa kết hợp Cơ xương khớp,,,M
+PLO8,Thực hành Nội khoa kết hợp Cơ xương khớp,,,M
+PLO6,Nội khoa kết hợp Thận – Nội tiết – Huyết học,,,R
+PLO7,Nội khoa kết hợp Thận – Nội tiết – Huyết học,,,R
+PLO6,Thực hành Nội khoa kết hợp Thận – Nội tiết – Huyết học,,,M
+PLO7,Thực hành Nội khoa kết hợp Thận – Nội tiết – Huyết học,,,M
+PLO8,Thực hành Nội khoa kết hợp Thận – Nội tiết – Huyết học,,,M
+PLO6,Nội khoa kết hợp Thần kinh,,,R
+PLO7,Nội khoa kết hợp Thần kinh,,,R
+PLO6,Thực hành Nội khoa kết hợp Thần kinh,,,M
+PLO7,Thực hành Nội khoa kết hợp Thần kinh,,,M
+PLO8,Thực hành Nội khoa kết hợp Thần kinh,,,M
+PLO6,Nội khoa kết hợp Tiêu hóa- Gan Mật,,,R
+PLO7,Nội khoa kết hợp Tiêu hóa- Gan Mật,,,R
+PLO6,Thực hành Nội khoa kết hợp Tiêu hóa- Gan Mật,,,M
+PLO7,Thực hành Nội khoa kết hợp Tiêu hóa- Gan Mật,,,M
+PLO8,Thực hành Nội khoa kết hợp Tiêu hóa- Gan Mật,,,M
+PLO6,Lâm sàng tổng hợp,C117,LS tổng hợp,M
+PLO7,Lâm sàng tổng hợp,C117,LS tổng hợp,M
+PLO8,Lâm sàng tổng hợp,C117,LS tổng hợp,M
+PLO7,Y học cổ truyền Ấn Độ,C118,NCT 1,R
+PLO7,Y học cổ truyền Đông Á,C119,NCT 2,R
+PLO7,Quản lý chất lượng Thuốc YHCT,C120,NCT 3,R
+PLO7,"Kỹ thuật trồng, thu hoạch cây thuốc",C121,NCT 4,R
+PLO7,Âm nhạc trị liệu,C122,NCT 5,R
+PLO7,Thiền và Y học,C125,NCT 6,R
+PLO7,Công nghệ bào chế Dược - Mỹ phẩm YHCT,C126,NCT 7,R
+PLO8,Công nghệ bào chế Dược - Mỹ phẩm YHCT,C126,NCT 7,R
+PLO7,Phương pháp điều trị không dùng thuốc theo ngũ hành,C129,NCT 10,R
+PLO8,Phương pháp điều trị không dùng thuốc theo ngũ hành,C129,NCT 10,R
+PLO7,Hương liệu pháp,C130,NCT 11,R
+PLO8,Hương liệu pháp,C130,NCT 11,R
+PLO1,Tài nguyên cây thuốc,C127,NCT 8,R
+PLO3,Tài nguyên cây thuốc,C127,NCT 8,R
+PLO1,Trí tuệ nhân tạo và Y tế thông minh trong YHCT,C131,NCT 12,R
+PLO3,Trí tuệ nhân tạo và Y tế thông minh trong YHCT,C131,NCT 12,R
+PLO2,Y gia và hệ tư tưởng y học kinh điển,C128,NCT 9,R
+PLO4,Y gia và hệ tư tưởng y học kinh điển,C128,NCT 9,R
+PLO2,Thương hàn luận trong thực hành lâm sàng,C132,ĐHTC 1,R
+PLO4,Thương hàn luận trong thực hành lâm sàng,C132,ĐHTC 1,R
+PLO2,Kim quỹ yếu lược trong thực hành lâm sàng,C133,ĐHTC 2,R
+PLO4,Kim quỹ yếu lược trong thực hành lâm sàng,C133,ĐHTC 2,R
+PLO2,Hoàng Đế Nội kinh trong thực hành lâm sàng,C134,ĐHTC 3,R
+PLO4,Hoàng Đế Nội kinh trong thực hành lâm sàng,C134,ĐHTC 3,R
+PLO8,Chăm sóc sức khỏe da bằng YHCT,C135,ĐHTC 4,R
+PLO7,Phục hồi chức năng trong YHCT,C136,ĐHTC 5,R
+PLO8,Phục hồi chức năng trong YHCT,C136,ĐHTC 5,R
+PLO4,Ứng dụng dược liệu trong lâm sàng,C137,ĐHTC 6,R
+PLO7,Ứng dụng dược liệu trong lâm sàng,C137,ĐHTC 6,R
+PLO6,Chuyên đề Nội Thần kinh YHHĐ,C138,ĐHTC 7,R
+PLO7,Chuyên đề Nội Thần kinh YHHĐ,C138,ĐHTC 7,R
+PLO6,Chuyên đề Bệnh lý Cơ xương khớp,C139,ĐHTC 8,R
+PLO7,Chuyên đề Bệnh lý Cơ xương khớp,C139,ĐHTC 8,R

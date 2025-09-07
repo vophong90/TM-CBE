@@ -159,10 +159,12 @@
   const nodeIds = new Set();
 
   function addNodeOnce(id, data){
-    if (nodeIds.has(id)) return;
-    nodeIds.add(id);
-    nodes.push({ data: { id, ...data } });
+  if (nodeIds.has(id)) return;
+  nodeIds.add(id);
+  const { id: _ignore, ...rest } = data || {};
+  nodes.push({ data: { id, ...rest } });
   }
+
   function ensureNode(id){
     if (nodeIds.has(id)) return;
 

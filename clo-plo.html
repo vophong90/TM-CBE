@@ -274,6 +274,14 @@
               <label>PLO
                 <select id="eval-plo" class="input w-full"></select>
               </label>
+              <label>Course
+                <select id="eval-course" class="input w-full"></select>
+              </label>
+              <label>Mức liên kết (I/R/M/A)
+                <select id="eval-level" class="input w-full">
+                  <option>I</option><option>R</option><option>M</option><option>A</option>
+                </select>
+              </label>
               <label>CLO (nhập nội dung)
                 <textarea id="eval-clo" rows="4" class="input w-full" placeholder="Nhập nội dung CLO cần đánh giá..."></textarea>
               </label>
@@ -282,8 +290,7 @@
             <div id="evalResult" class="text-sm mt-3 text-gray-800 whitespace-pre-wrap"></div>
           </div>
         </div>
-
-        <details class="text-xs text-gray-500">
+          <details class="text-xs text-gray-500">
           <summary class="cursor-pointer">Cấu hình GPT (tuỳ chọn)</summary>
           <p class="mt-2">
             Trang là static (GitHub Pages) nên không nên nhúng API key trên client. Hãy dùng backend riêng (Render/Vercel) và sửa hàm <code>gptCall()</code> trong <code>./js/clo-plo.js</code> trỏ về backend của bạn.

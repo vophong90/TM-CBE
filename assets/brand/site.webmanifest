@@ -8,7 +8,7 @@
   "scope": "/TM-CBE/",
   "icons": [
     {
-      "src": "assets/brand/favicon.png",
+      "src": "assets/brand/favicon.svg",
       "sizes": "192x192",
       "type": "image/png"
     },
